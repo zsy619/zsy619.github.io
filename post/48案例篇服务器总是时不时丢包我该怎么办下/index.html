@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    48|案例篇：服务器总是时不时丢包，我该怎么办？（下） | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">48|案例篇：服务器总是时不时丢包，我该怎么办？（下）</h2>
+    <div class="post_content">
+      <h3 id="iptables">iptables</h3>
+<p>更简单的方法，就是直接查询 DROP 和 REJECT 等规则的统计信息，看看是否为 0。如果统计值不是 0 ，再把相关的规则拎出来进行分析。</p>
+<p>可以通过 iptables -nvL 命令，查看各条规则的统计信息。比如，你可以执行下面的 docker exec 命令，进入容器终端；然后再执行下面的 iptables 命令，就可以看到 filter 表的统计数据了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#75715e"># 在主机中执行</span>
+$ docker exec -it nginx bash
+
+<span style="color:#75715e"># 在容器中执行</span>
+root@nginx:/# iptables -t filter -nvL
+Chain INPUT <span style="color:#f92672">(</span>policy ACCEPT <span style="color:#ae81ff">25</span> packets, <span style="color:#ae81ff">1000</span> bytes<span style="color:#f92672">)</span>
+ pkts bytes target     prot opt in     out     source               destination
+    <span style="color:#ae81ff">6</span>   <span style="color:#ae81ff">240</span> DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            statistic mode random probability 0.29999999981
+
+Chain FORWARD <span style="color:#f92672">(</span>policy ACCEPT <span style="color:#ae81ff">0</span> packets, <span style="color:#ae81ff">0</span> bytes<span style="color:#f92672">)</span>
+ pkts bytes target     prot opt in     out     source               destination
+
+Chain OUTPUT <span style="color:#f92672">(</span>policy ACCEPT <span style="color:#ae81ff">15</span> packets, <span style="color:#ae81ff">660</span> bytes<span style="color:#f92672">)</span>
+ pkts bytes target     prot opt in     out     source               destination
+    <span style="color:#ae81ff">6</span>   <span style="color:#ae81ff">264</span> DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            statistic mode random probability 0.29999999981
+
+</code></pre></div><p>从 iptables 的输出中，你可以看到，两条 DROP 规则的统计数值不是 0，它们分别在 INPUT 和 OUTPUT 链中。这两条规则实际上是一样的，指的是使用 statistic 模块，进行随机 30% 的丢包。</p>
+<h3 id="tcpdump">tcpdump</h3>
+<p>在容器终端中，执行下面的 tcpdump 命令，抓取 80 端口的包：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+root@nginx:/# tcpdump -i eth0 -nn port <span style="color:#ae81ff">80</span>
+tcpdump: verbose output suppressed, use -v or -vv <span style="color:#66d9ef">for</span> full protocol decode
+listening on eth0, link-type EN10MB <span style="color:#f92672">(</span>Ethernet<span style="color:#f92672">)</span>, capture size <span style="color:#ae81ff">262144</span> bytes
+
+</code></pre></div><p>切换到终端二中，再次执行前面的 curl 命令：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ curl --max-time <span style="color:#ae81ff">3</span> http://192.168.0.30/
+curl: <span style="color:#f92672">(</span>28<span style="color:#f92672">)</span> Operation timed out after <span style="color:#ae81ff">3000</span> milliseconds with <span style="color:#ae81ff">0</span> bytes received
+
+</code></pre></div><p>等到 curl 命令结束后，再次切换回终端一，查看 tcpdump 的输出：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+14:40:00.589235 IP 10.255.255.5.39058 &gt; 172.17.0.2.80: Flags <span style="color:#f92672">[</span>S<span style="color:#f92672">]</span>, seq 332257715, win 29200, options <span style="color:#f92672">[</span>mss 1418,sackOK,TS val <span style="color:#ae81ff">486800541</span> ecr 0,nop,wscale 7<span style="color:#f92672">]</span>, length <span style="color:#ae81ff">0</span>
+14:40:00.589277 IP 172.17.0.2.80 &gt; 10.255.255.5.39058: Flags <span style="color:#f92672">[</span>S.<span style="color:#f92672">]</span>, seq 1630206251, ack 332257716, win 4880, options <span style="color:#f92672">[</span>mss 256,sackOK,TS val <span style="color:#ae81ff">2509376001</span> ecr 486800541,nop,wscale 7<span style="color:#f92672">]</span>, length <span style="color:#ae81ff">0</span>
+14:40:00.589894 IP 10.255.255.5.39058 &gt; 172.17.0.2.80: Flags <span style="color:#f92672">[</span>.<span style="color:#f92672">]</span>, ack 1, win 229, options <span style="color:#f92672">[</span>nop,nop,TS val <span style="color:#ae81ff">486800541</span> ecr 2509376001<span style="color:#f92672">]</span>, length <span style="color:#ae81ff">0</span>
+14:40:03.589352 IP 10.255.255.5.39058 &gt; 172.17.0.2.80: Flags <span style="color:#f92672">[</span>F.<span style="color:#f92672">]</span>, seq 76, ack 1, win 229, options <span style="color:#f92672">[</span>nop,nop,TS val <span style="color:#ae81ff">486803541</span> ecr 2509376001<span style="color:#f92672">]</span>, length <span style="color:#ae81ff">0</span>
+14:40:03.589417 IP 172.17.0.2.80 &gt; 10.255.255.5.39058: Flags <span style="color:#f92672">[</span>.<span style="color:#f92672">]</span>, ack 1, win 40, options <span style="color:#f92672">[</span>nop,nop,TS val <span style="color:#ae81ff">2509379001</span> ecr 486800541,nop,nop,sack <span style="color:#ae81ff">1</span> <span style="color:#f92672">{</span>76:77<span style="color:#f92672">}]</span>, length <span style="color:#ae81ff">0</span>
+
+</code></pre></div><p>从 tcpdump 的输出中，我们就可以看到：</p>
+<ul>
+<li>前三个包是正常的 TCP 三次握手，这没问题；</li>
+<li>但第四个包却是在 3 秒以后了，并且还是客户端（VM2）发送过来的 FIN 包，也就说明，客户端的连接关闭了。</li>
+</ul>
+<p>根据 curl 设置的 3 秒超时选项，你应该能猜到，这是因为 curl 命令超时后退出了。</p>
+<ul>
+<li>hping3 实际上只发送了 SYN 包；</li>
+<li>而 curl 在发送 SYN 包后，还会发送 HTTP GET 请求。</li>
+</ul>
+<p>HTTP GET ，本质上也是一个 TCP 包，但跟 SYN 包相比，它还携带了 HTTP GET 的数据。</p>
+<p>MTU 问题是很好解决的，把它改成 1500 就可以了。我们继续在容器终端中，执行下面的命令，把容器 eth0 的 MTU 改成 1500：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+root@nginx:/# ifconfig eth0 mtu <span style="color:#ae81ff">1500</span>
+
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-07-09T15:51:03&#43;0800 class="date">Thursday, July 9, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/47%E6%A1%88%E4%BE%8B%E7%AF%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%BB%E6%98%AF%E6%97%B6%E4%B8%8D%E6%97%B6%E4%B8%A2%E5%8C%85%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E%E4%B8%8A/" class="prev">47|案例篇：服务器总是时不时丢包，我该怎么办？（上）</a>
+      
+      
+      <a href="https://zsy619.github.io/post/49%E6%A1%88%E4%BE%8B%E7%AF%87%E5%86%85%E6%A0%B8%E7%BA%BF%E7%A8%8B-cpu-%E5%88%A9%E7%94%A8%E7%8E%87%E5%A4%AA%E9%AB%98%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E/" class="next">49|案例篇：内核线程 CPU 利用率太高，我该怎么办？</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

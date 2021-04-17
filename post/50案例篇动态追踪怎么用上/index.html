@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    50|案例篇：动态追踪怎么用？（上） | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">50|案例篇：动态追踪怎么用？（上）</h2>
+    <div class="post_content">
+      <p><!-- raw HTML omitted -->动态追踪技术，通过探针机制，来采集内核或者应用程序的运行信息，从而可以不用修改内核和应用程序的代码，就获得丰富的信息，帮你分析、定位想要排查的问题。<!-- raw HTML omitted --></p>
+<p>以往，在排查和调试性能问题时，我们往往需要先为应用程序设置一系列的断点（比如使用 GDB），然后以手动或者脚本（比如 GDB 的 Python 扩展）的方式，在这些断点处分析应用程序的状态。或者，增加一系列的日志，从日志中寻找线索。</p>
+<p>相比以往的进程级跟踪方法（比如 ptrace），动态追踪往往只会带来很小的性能损耗（通常在 5% 或者更少）。</p>
+<h3 id="动态追踪">动态追踪</h3>
+<p>说到动态追踪（Dynamic Tracing），就不得不提源于 Solaris 系统的 DTrace。DTrace 是动态追踪技术的鼻祖，它提供了一个通用的观测框架，并可以使用 D 语言进行自由扩展。</p>
+<p>DTrace 的工作原理如下图所示。它的运行常驻在内核中，用户可以通过 dtrace 命令，把 D 语言编写的追踪脚本，提交到内核中的运行时来执行。DTrace 可以跟踪用户态和内核态的所有事件，并通过一些列的优化措施，保证最小的性能开销。</p>
+<p><img src="../../images/20200713-0839-45.png" alt=""></p>
+<p>虽然直到今天，DTrace 本身依然无法在 Linux 中运行，但它同样对 Linux 动态追踪产生了巨大的影响。很多工程师都尝试过把 DTrace 移植到 Linux 中，这其中，最著名的就是 RedHat 主推的 SystemTap。</p>
+<p>同 DTrace 一样，SystemTap 也定义了一种类似的脚本语言，方便用户根据需要自由扩展。不过，不同于 DTrace，SystemTap 并没有常驻内核的运行时，它需要先把脚本编译为内核模块，然后再插入到内核中执行。这也导致 SystemTap 启动比较缓慢，并且依赖于完整的调试符号表。</p>
+<p><img src="../../images/20200713-0841-42.png" alt=""></p>
+<p>总的来说，为了追踪内核或用户空间的事件，Dtrace 和 SystemTap 都会把用户传入的追踪处理函数（一般称为 Action），关联到被称为探针的检测点上。这些探针，实际上也就是各种动态追踪技术所依赖的事件源。</p>
+<h3 id="动态追踪的事件源">动态追踪的事件源</h3>
+<p>根据事件类型的不同，动态追踪所使用的事件源，可以分为静态探针、动态探针以及硬件事件等三类。它们的关系如下图所示：</p>
+<p><img src="../../images/20200713-0843-28.png" alt=""></p>
+<p>其中，硬件事件通常由性能监控计数器 PMC（Performance Monitoring Counter）产生，包括了各种硬件的性能情况，比如 CPU 的缓存、指令周期、分支预测等等。</p>
+<p>静态探针，是指事先在代码中定义好，并编译到应用程序或者内核中的探针。这些探针只有在开启探测功能时，才会被执行到；未开启时并不会执行。常见的静态探针包括内核中的跟踪点（tracepoints）和 USDT（Userland Statically Defined Tracing）探针。</p>
+<ul>
+<li>跟踪点（tracepoints），实际上就是在源码中插入的一些带有控制条件的探测点，这些探测点允许事后再添加处理函数。比如在内核中，最常见的静态跟踪方法就是 printk，即输出日志。Linux 内核定义了大量的跟踪点，可以通过内核编译选项，来开启或者关闭。</li>
+<li>USDT 探针，全称是用户级静态定义跟踪，需要在源码中插入 DTRACE_PROBE() 代码，并编译到应用程序中。不过，也有很多应用程序内置了 USDT 探针，比如 MySQL、PostgreSQL 等。</li>
+</ul>
+<p>动态探针，则是指没有事先在代码中定义，但却可以在运行时动态添加的探针，比如函数的调用和返回等。动态探针支持按需在内核或者应用程序中添加探测点，具有更高的灵活性。常见的动态探针有两种，即用于内核态的 kprobes 和用于用户态的 uprobes。</p>
+<ul>
+<li>kprobes 用来跟踪内核态的函数，包括用于函数调用的 kprobe 和用于函数返回的 kretprobe。</li>
+<li>uprobes 用来跟踪用户态的函数，包括用于函数调用的 uprobe 和用于函数返回的 uretprobe。</li>
+</ul>
+<p>注意，kprobes 需要内核编译时开启 CONFIG_KPROBE_EVENTS；而 uprobes 则需要内核编译时开启 CONFIG_UPROBE_EVENTS。</p>
+<h3 id="动态追踪机制">动态追踪机制</h3>
+<p>ftrace 最早用于函数跟踪，后来又扩展支持了各种事件跟踪功能。ftrace 的使用接口跟我们之前提到的 procfs 类似，它通过 debugfs（4.1 以后也支持 tracefs），以普通文件的形式，向用户空间提供访问接口。</p>
+<p>这样，不需要额外的工具，你就可以通过挂载点（通常为 /sys/kernel/debug/tracing 目录）内的文件读写，来跟 ftrace 交互，跟踪内核或者应用程序的运行事件。</p>
+<p>perf 是我们的老朋友了，我们在前面的好多案例中，都使用了它的事件记录和分析功能，这实际上只是一种最简单的静态跟踪机制。你也可以通过 perf ，来自定义动态事件（perf probe），只关注真正感兴趣的事件。</p>
+<p>eBPF 则在 BPF（Berkeley Packet Filter）的基础上扩展而来，不仅支持事件跟踪机制，还可以通过自定义的 BPF 代码（使用 C 语言）来自由扩展。所以，eBPF 实际上就是常驻于内核的运行时，可以说就是 Linux 版的 DTrace。</p>
+<p>而在分析大量事件时，使用我们上节课提到的火焰图，可以将大量数据可视化展示，让你更直观发现潜在的问题。</p>
+<h3 id="ftrace">ftrace</h3>
+<p>ftrace 通过 debugfs（或者 tracefs），为用户空间提供接口。所以使用 ftrace，往往是从切换到 debugfs 的挂载点开始。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ cd /sys/kernel/debug/tracing
+$ ls
+README                      instances            set_ftrace_notrace  trace_marker_raw
+available_events            kprobe_events        set_ftrace_pid      trace_options
+...
+
+</code></pre></div><p>如果这个目录不存在，则说明你的系统还没有挂载 debugfs，你可以执行下面的命令来挂载它：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ mount -t debugfs nodev /sys/kernel/debug
+
+</code></pre></div><p>ftrace 提供了多个跟踪器，用于跟踪不同类型的信息，比如函数调用、中断关闭、进程调度等。具体支持的跟踪器取决于系统配置，你可以执行下面的命令，来查询所有支持的跟踪器：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ cat available_tracers
+hwlat blk mmiotrace function_graph wakeup_dl wakeup_rt wakeup <span style="color:#66d9ef">function</span> nop
+
+</code></pre></div><p>这其中，function 表示跟踪函数的执行，function_graph 则是跟踪函数的调用关系，也就是生成直观的调用关系图。这便是最常用的两种跟踪器。</p>
+<p>除了跟踪器外，使用 ftrace 前，还需要确认跟踪目标，包括内核函数和内核事件。其中，</p>
+<ul>
+<li>函数就是内核中的函数名。</li>
+<li>而事件，则是内核源码中预先定义的跟踪点。</li>
+</ul>
+<p>同样地，你可以执行下面的命令，来查询支持的函数和事件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ cat available_filter_functions
+$ cat available_events
+
+</code></pre></div><p>为了列出文件，ls 命令会通过 open 系统调用打开目录文件，而 open 在内核中对应的函数名为 do_sys_open。 所以，我们要做的第一步，就是把要跟踪的函数设置为 do_sys_open：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ echo do_sys_open &gt; set_graph_function
+
+</code></pre></div><p>接下来，第二步，配置跟踪选项，开启函数调用跟踪，并跟踪调用进程：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ echo function_graph &gt; current_tracer
+$ echo funcgraph-proc &gt; trace_options
+
+</code></pre></div><p>接着，第三步，也就是开启跟踪：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ echo <span style="color:#ae81ff">1</span> &gt; tracing_on
+
+</code></pre></div><p>第四步，执行一个 ls 命令后，再关闭跟踪：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ ls
+$ echo <span style="color:#ae81ff">0</span> &gt; tracing_on
+
+</code></pre></div><p>第五步，也是最后一步，查看跟踪结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ cat trace
+<span style="color:#75715e"># tracer: function_graph</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e"># CPU  TASK/PID         DURATION                  FUNCTION CALLS</span>
+<span style="color:#75715e"># |     |    |           |   |                     |   |   |   |</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |               |  do_sys_open<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |               |    getname<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |               |      getname_flags<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |               |        kmem_cache_alloc<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |               |          _cond_resched<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |   0.049 us    |            rcu_all_qs<span style="color:#f92672">()</span>;
+ 0<span style="color:#f92672">)</span>    ls-12276    |   0.791 us    |          <span style="color:#f92672">}</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |   0.041 us    |          should_failslab<span style="color:#f92672">()</span>;
+ 0<span style="color:#f92672">)</span>    ls-12276    |   0.040 us    |          prefetch_freepointer<span style="color:#f92672">()</span>;
+ 0<span style="color:#f92672">)</span>    ls-12276    |   0.039 us    |          memcg_kmem_put_cache<span style="color:#f92672">()</span>;
+ 0<span style="color:#f92672">)</span>    ls-12276    |   2.895 us    |        <span style="color:#f92672">}</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |               |        __check_object_size<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |   0.067 us    |          __virt_addr_valid<span style="color:#f92672">()</span>;
+ 0<span style="color:#f92672">)</span>    ls-12276    |   0.044 us    |          __check_heap_object<span style="color:#f92672">()</span>;
+ 0<span style="color:#f92672">)</span>    ls-12276    |   0.039 us    |          check_stack_object<span style="color:#f92672">()</span>;
+ 0<span style="color:#f92672">)</span>    ls-12276    |   1.570 us    |        <span style="color:#f92672">}</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |   5.790 us    |      <span style="color:#f92672">}</span>
+ 0<span style="color:#f92672">)</span>    ls-12276    |   6.325 us    |    <span style="color:#f92672">}</span>
+...
+
+</code></pre></div><p>在最后得到的输出中：</p>
+<ul>
+<li>第一列表示运行的 CPU；</li>
+<li>第二列是任务名称和进程 PID；</li>
+<li>第三列是函数执行延迟；</li>
+<li>最后一列，则是函数调用关系图。</li>
+</ul>
+<p>当然，我想你应该也发现了 ftrace 的使用缺点——五个步骤实在是麻烦，用起来并不方便。不过，不用担心， trace-cmd 已经帮你把这些步骤给包装了起来。这样，你就可以在同一个命令行工具里，完成上述所有过程。你可以执行下面的命令，来安装 trace-cmd ：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#75715e"># Ubuntu</span>
+$ apt-get install trace-cmd
+<span style="color:#75715e"># CentOS</span>
+$ yum install trace-cmd
+
+</code></pre></div><p>安装好后，原本的五步跟踪过程，就可以简化为下面这两步：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ trace-cmd record -p function_graph -g do_sys_open -O funcgraph-proc ls
+$ trace-cmd report
+...
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075341: funcgraph_entry:                   |  do_sys_open<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075363: funcgraph_entry:                   |    getname<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075364: funcgraph_entry:                   |      getname_flags<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075364: funcgraph_entry:                   |        kmem_cache_alloc<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075365: funcgraph_entry:                   |          _cond_resched<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075365: funcgraph_entry:        0.074 us   |            rcu_all_qs<span style="color:#f92672">()</span>;
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075366: funcgraph_exit:         1.143 us   |          <span style="color:#f92672">}</span>
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075366: funcgraph_entry:        0.064 us   |          should_failslab<span style="color:#f92672">()</span>;
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075367: funcgraph_entry:        0.075 us   |          prefetch_freepointer<span style="color:#f92672">()</span>;
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075368: funcgraph_entry:        0.085 us   |          memcg_kmem_put_cache<span style="color:#f92672">()</span>;
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075369: funcgraph_exit:         4.447 us   |        <span style="color:#f92672">}</span>
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075369: funcgraph_entry:                   |        __check_object_size<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075370: funcgraph_entry:        0.132 us   |          __virt_addr_valid<span style="color:#f92672">()</span>;
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075370: funcgraph_entry:        0.093 us   |          __check_heap_object<span style="color:#f92672">()</span>;
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075371: funcgraph_entry:        0.059 us   |          check_stack_object<span style="color:#f92672">()</span>;
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075372: funcgraph_exit:         2.323 us   |        <span style="color:#f92672">}</span>
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075372: funcgraph_exit:         8.411 us   |      <span style="color:#f92672">}</span>
+              ls-12418 <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 85558.075373: funcgraph_exit:         9.195 us   |    <span style="color:#f92672">}</span>
+...
+
+</code></pre></div><h3 id="小结">小结</h3>
+<p>所谓动态追踪，就是在系统或应用程序正常运行时，通过内核中提供的探针来动态追踪它们的行为，从而辅助排查出性能瓶颈。</p>
+<p>而在 Linux 系统中，常见的动态追踪方法包括 ftrace、perf、eBPF 以及 SystemTap 等。当你已经定位了某个内核函数，但不清楚它的实现原理时，就可以用 ftrace 来跟踪它的执行过程。</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-07-13T08:35:13&#43;0800 class="date">Monday, July 13, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/49%E6%A1%88%E4%BE%8B%E7%AF%87%E5%86%85%E6%A0%B8%E7%BA%BF%E7%A8%8B-cpu-%E5%88%A9%E7%94%A8%E7%8E%87%E5%A4%AA%E9%AB%98%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E/" class="prev">49|案例篇：内核线程 CPU 利用率太高，我该怎么办？</a>
+      
+      
+      <a href="https://zsy619.github.io/post/51%E6%A1%88%E4%BE%8B%E7%AF%87%E5%8A%A8%E6%80%81%E8%BF%BD%E8%B8%AA%E6%80%8E%E4%B9%88%E7%94%A8%E4%B8%8B/" class="next">51|案例篇：动态追踪怎么用？（下）</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

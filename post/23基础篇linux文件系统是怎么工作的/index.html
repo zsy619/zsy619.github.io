@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    23|基础篇--Linux文件系统是怎么工作的？ | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">23|基础篇--Linux文件系统是怎么工作的？</h2>
+    <div class="post_content">
+      <h3 id="索引节点和目录项">索引节点和目录项</h3>
+<p>Linux 文件系统为每个文件都分配两个数据结构，索引节点（index node）和目录项（directory entry）。它们主要用来记录文件的元信息和目录结构。</p>
+<ul>
+<li>索引节点，简称为 inode，用来记录文件的元数据，比如 inode 编号、文件大小、访问权限、修改日期、数据的位置等。索引节点和文件一一对应，它跟文件内容一样，都会被持久化存储到磁盘中。所以记住，索引节点同样占用磁盘空间。</li>
+<li>目录项，简称为 dentry，用来记录文件的名字、索引节点指针以及与其他目录项的关联关系。多个关联的目录项，就构成了文件系统的目录结构。不过，不同于索引节点，目录项是由内核维护的一个内存数据结构，所以通常也被叫做目录项缓存。</li>
+</ul>
+<ul>
+<li>索引节点是每个文件的唯一标志，而目录项维护的正是文件系统的树状结构。目录项和索引节点的关系是多对一，可简单理解为，一个文件可以有多个别名。</li>
+<li>索引节点和目录项纪录了文件的元数据，以及文件间的目录关系</li>
+</ul>
+<ul>
+<li>磁盘读写的最小单位是扇区，然而扇区只有 512B 大小</li>
+<li>文件系统又把连续的扇区组成了逻辑块，然后每次都以逻辑块为最小单元，来管理数据。</li>
+<li>常见的逻辑块大小为 4KB，也就是由连续的 8 个扇区组成。</li>
+</ul>
+<p><img src="../../images/20200611-1006-13.png" alt=""></p>
+<ul>
+<li>第一，目录项本身就是一个内存缓存，而索引节点则是存储在磁盘中的数据。</li>
+<li>第二，磁盘在执行文件系统格式化时，会被分成三个存储区域，超级块、索引节点区和数据块区。其中，
+<ul>
+<li>超级块，存储整个文件系统的状态。</li>
+<li>索引节点区，用来存储索引节点。</li>
+<li>数据块区，则用来存储文件数据。</li>
+</ul>
+</li>
+</ul>
+<h3 id="虚拟文件系统">虚拟文件系统</h3>
+<p>linux文件系统四要素：目录项、索引节点、逻辑块以及超级块</p>
+<p>虚拟文件系统 VFS（Virtual File System）：Linux 内核在用户进程和文件系统的中间，引入了一个抽象层</p>
+<p><img src="../../images/20200611-1012-27.png" alt=""></p>
+<h3 id="文件系统-io">文件系统 I/O</h3>
+<p>cat命令示例：</p>
+<ul>
+<li>首先调用 open() ，打开一个文件</li>
+<li>然后调用 read() ，读取文件的内容</li>
+<li>最后再调用 write()  ，把文件内容输出到控制台的标准输出中</li>
+</ul>
+<p>文件读写方式的各种差异，导致 I/O 的分类多种多样：</p>
+<ul>
+<li>缓冲与非缓冲 I/O</li>
+<li>直接与非直接 I/O</li>
+<li>阻塞与非阻塞 I/O</li>
+<li>同步与异步 I/O</li>
+</ul>
+<p>根据是否利用标准库缓存，可以把文件 I/O 分为缓冲 I/O 与非缓冲 I/O</p>
+<ul>
+<li>缓冲 I/O，是指利用标准库缓存来加速文件的访问，而标准库内部再通过系统调度访问文件。</li>
+<li>非缓冲 I/O，是指直接通过系统调用来访问文件，不再经过标准库缓存。</li>
+</ul>
+<p>根据是否利用操作系统的页缓存，可以把文件 I/O 分为直接 I/O 与非直接 I/O</p>
+<ul>
+<li>直接 I/O，是指跳过操作系统的页缓存，直接跟文件系统交互来访问文件。</li>
+<li>非直接 I/O 正好相反，文件读写时，先要经过系统的页缓存，然后再由内核或额外的系统调用，真正写入磁盘。</li>
+</ul>
+<p>根据应用程序是否阻塞自身运行，可以把文件 I/O 分为阻塞 I/O 和非阻塞 I/O</p>
+<ul>
+<li>所谓阻塞 I/O，是指应用程序执行 I/O 操作后，如果没有获得响应，就会阻塞当前线程，自然就不能执行其他任务。</li>
+<li>所谓非阻塞 I/O，是指应用程序执行 I/O 操作后，不会阻塞当前的线程，可以继续执行其他的任务，随后再通过轮询或者事件通知的形式，获取调用的结果。</li>
+</ul>
+<p>根据是否等待响应结果，可以把文件 I/O 分为同步和异步 I/O</p>
+<ul>
+<li>所谓同步 I/O，是指应用程序执行 I/O 操作后，要一直等到整个 I/O 完成后，才能获得 I/O 响应。</li>
+<li>所谓异步 I/O，是指应用程序执行 I/O 操作后，不用等待完成和完成后的响应，而是继续执行就可以。等到这次 I/O 完成后，响应会用事件通知的方式，告诉应用程序。</li>
+</ul>
+<h3 id="性能观测">性能观测</h3>
+<ul>
+<li>容量</li>
+<li>缓存</li>
+</ul>
+<p>工具：/proc/slabinfo、slabtop</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-06-11T09:56:56&#43;0800 class="date">Thursday, June 11, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/%E7%AC%AC%E4%B8%89%E5%91%A815-22%E9%98%B6%E6%AE%B5%E5%B0%8F%E7%BB%93/" class="prev">第三周15-22阶段小结</a>
+      
+      
+      <a href="https://zsy619.github.io/post/24%E5%9F%BA%E7%A1%80%E7%AF%87linux%E7%A3%81%E7%9B%98io%E6%98%AF%E6%80%8E%E4%B9%88%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%B8%8A/" class="next">24|基础篇--Linux磁盘I/O是怎么工作的（上）</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    Mac下安装yarn可真难呀 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">Mac下安装yarn可真难呀</h2>
+    <div class="post_content">
+      <h3 id="shell命令行安装">shell命令行安装</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ brew install yarn
+
+Updating Homebrew...
+Warning: You are using macOS 11.0.
+We <span style="color:#66d9ef">do</span> not provide support <span style="color:#66d9ef">for</span> this pre-release version.
+You will encounter build failures with some formulae.
+Please create pull requests instead of asking <span style="color:#66d9ef">for</span> help on Homebrew<span style="color:#e6db74">&#39;s GitHub,
+</span><span style="color:#e6db74">Discourse, Twitter or IRC. You are responsible for resolving any issues you
+</span><span style="color:#e6db74">experience while you are running this pre-release version.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">==&gt; Downloading https://www.sqlite.org/2020/sqlite-autoconf-3330000.tar.gz
+</span><span style="color:#e6db74">Already downloaded: /Users/zhushuyan/Library/Caches/Homebrew/downloads/5e52b8b0330f34548b7eecfdac41259cbbf426fc52aba671aed35c19feebc11d--sqlite-autoconf-3330000.tar.gz
+</span><span style="color:#e6db74">==&gt; Downloading https://registry.npmjs.org/npm/-/npm-6.14.8.tgz
+</span><span style="color:#e6db74">Already downloaded: /Users/zhushuyan/Library/Caches/Homebrew/downloads/4a48120cdffaa95e1727d094049a3fc38ad57fee802218d430526e91d3b39e0d--npm-6.14.8.tgz
+</span><span style="color:#e6db74">==&gt; Downloading https://nodejs.org/dist/v14.11.0/node-v14.11.0.tar.gz
+</span><span style="color:#e6db74">Already downloaded: /Users/zhushuyan/Library/Caches/Homebrew/downloads/be4016d2d242d71f671e8dff9567d96677c9c67f17ddaa519b601be5b087d472--node-v14.11.0.tar.gz
+</span><span style="color:#e6db74">==&gt; Downloading https://yarnpkg.com/downloads/1.22.5/yarn-v1.22.5.tar.gz
+</span><span style="color:#e6db74">Already downloaded: /Users/zhushuyan/Library/Caches/Homebrew/downloads/b858a5ca4ade7c6cd0a5deeb77770019c86813d12fc8950d70af904e6ded8e17--yarn-v1.22.5.tar.gz
+</span><span style="color:#e6db74">==&gt; Installing dependencies for yarn: sqlite and node
+</span><span style="color:#e6db74">==&gt; Installing yarn dependency: sqlite
+</span><span style="color:#e6db74">==&gt; ./configure --prefix=/usr/local/Cellar/sqlite/3.33.0 --enable-dynamic-extensions --enable-readline --disable-editline --enable-session
+</span><span style="color:#e6db74">==&gt; make install
+</span><span style="color:#e6db74">==&gt; Caveats
+</span><span style="color:#e6db74">sqlite is keg-only, which means it was not symlinked into /usr/local,
+</span><span style="color:#e6db74">because macOS already provides this software and installing another version in
+</span><span style="color:#e6db74">parallel can cause all kinds of trouble.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">If you need to have sqlite first in your PATH run:
+</span><span style="color:#e6db74">  echo &#39;</span>export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/local/opt/sqlite/bin:</span>$PATH<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#39; &gt;&gt; ~/.zshrc
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">For compilers to find sqlite you may need to set:
+</span><span style="color:#e6db74">  export LDFLAGS=&#34;-L/usr/local/opt/sqlite/lib&#34;
+</span><span style="color:#e6db74">  export CPPFLAGS=&#34;-I/usr/local/opt/sqlite/include&#34;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">For pkg-config to find sqlite you may need to set:
+</span><span style="color:#e6db74">  export PKG_CONFIG_PATH=&#34;/usr/local/opt/sqlite/lib/pkgconfig&#34;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">==&gt; Summary
+</span><span style="color:#e6db74">🍺  /usr/local/Cellar/sqlite/3.33.0: 11 files, 4MB, built in 1 minute 25 seconds
+</span><span style="color:#e6db74">==&gt; Installing yarn dependency: node
+</span><span style="color:#e6db74">==&gt; ./configure --prefix=/usr/local/Cellar/node/14.11.0 --without-npm --with-intl=system-icu
+</span><span style="color:#e6db74">==&gt; make install
+</span><span style="color:#e6db74">==&gt; node /private/tmp/node-20200922-43938-860pp9/node-v14.11.0/npm_bootstrap/bin/npm-cli.js install -ddd --global --prefix=/usr/local/Cellar/node/14.11.0/libexe
+</span><span style="color:#e6db74">==&gt; Caveats
+</span><span style="color:#e6db74">Bash completion has been installed to:
+</span><span style="color:#e6db74">  /usr/local/etc/bash_completion.d
+</span><span style="color:#e6db74">==&gt; Summary
+</span><span style="color:#e6db74">🍺  /usr/local/Cellar/node/14.11.0: 4,728 files, 62.8MB, built in 23 minutes 23 seconds
+</span><span style="color:#e6db74">==&gt; Installing yarn
+</span><span style="color:#e6db74">🍺  /usr/local/Cellar/yarn/1.22.5: 14 files, 5MB, built in 3 seconds
+</span><span style="color:#e6db74">==&gt; Upgrading 1 dependent:
+</span><span style="color:#e6db74">vim 8.2.1300 -&gt; 8.2.1700
+</span><span style="color:#e6db74">==&gt; Upgrading vim 8.2.1300 -&gt; 8.2.1700
+</span><span style="color:#e6db74">==&gt; Downloading https://ftp.gnu.org/gnu/gettext/gettext-0.21.tar.xz
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">######################################################################## 100.0%
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">==&gt; Downloading https://github.com/vim/vim/archive/v8.2.1700.tar.gz
+</span><span style="color:#e6db74">==&gt; Downloading from https://codeload.github.com/vim/vim/tar.gz/v8.2.1700
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">######################################################################## 100.0%
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">==&gt; Installing dependencies for vim: gettext
+</span><span style="color:#e6db74">==&gt; Installing vim dependency: gettext
+</span><span style="color:#e6db74">==&gt; ./configure --prefix=/usr/local/Cellar/gettext/0.21 --with-included-gettext gl_cv_func_ftello_works=yes --with-included-glib --with-included-libcroco --with
+</span><span style="color:#e6db74">==&gt; make
+</span><span style="color:#e6db74">==&gt; make install
+</span><span style="color:#e6db74">🍺  /usr/local/Cellar/gettext/0.21: 1,953 files, 19.8MB, built in 10 minutes 27 seconds
+</span><span style="color:#e6db74">==&gt; Installing vim
+</span><span style="color:#e6db74">==&gt; ./configure --prefix=/usr/local --mandir=/usr/local/Cellar/vim/8.2.1700/share/man --enable-multibyte --with-tlib=ncurses --with-compiledby=Homebrew --enable
+</span><span style="color:#e6db74">==&gt; make
+</span><span style="color:#e6db74">==&gt; make install prefix=/usr/local/Cellar/vim/8.2.1700 STRIP=/usr/bin/true
+</span><span style="color:#e6db74">🍺  /usr/local/Cellar/vim/8.2.1700: 1,952 files, 33.2MB, built in 1 minute 31 seconds
+</span><span style="color:#e6db74">Removing: /usr/local/Cellar/vim/8.2.1300... (1,923 files, 32.7MB)
+</span><span style="color:#e6db74">==&gt; Checking for dependents of upgraded formulae...
+</span><span style="color:#e6db74">==&gt; No broken dependents found!
+</span><span style="color:#e6db74">==&gt; Caveats
+</span><span style="color:#e6db74">==&gt; sqlite
+</span><span style="color:#e6db74">sqlite is keg-only, which means it was not symlinked into /usr/local,
+</span><span style="color:#e6db74">because macOS already provides this software and installing another version in
+</span><span style="color:#e6db74">parallel can cause all kinds of trouble.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">If you need to have sqlite first in your PATH run:
+</span><span style="color:#e6db74">  echo &#39;</span>export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/local/opt/sqlite/bin:</span>$PATH<span style="color:#e6db74">&#34;</span><span style="color:#960050;background-color:#1e0010">&#39;</span> &gt;&gt; ~/.zshrc
+
+For compilers to find sqlite you may need to set:
+  export LDFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-L/usr/local/opt/sqlite/lib&#34;</span>
+  export CPPFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-I/usr/local/opt/sqlite/include&#34;</span>
+
+For pkg-config to find sqlite you may need to set:
+  export PKG_CONFIG_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/local/opt/sqlite/lib/pkgconfig&#34;</span>
+
+<span style="color:#f92672">==</span>&gt; node
+Bash completion has been installed to:
+  /usr/local/etc/bash_completion.d
+
+</code></pre></div><h3 id="host文件配置">host文件配置</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">##
+
+# Host Database
+
+#
+
+# localhost is used to configure the loopback interface
+
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	    localhost
+255.255.255.255	broadcasthost
+::1             localhost
+
+# Added by Docker Desktop
+
+# To allow the same kube context to work on the host and the container:
+127.0.0.1 kubernetes.docker.internal
+
+# End of section
+
+171.15.16.222           tx.1086sms.com
+36.99.196.217           goproxy.cn
+199.232.68.133          raw.githubusercontent.com
+209.51.188.200          ftpmirror.gnu.org
+
+# 2001:470:142:5::200   ftpmirror.gnu.org
+
+101.6.8.193             mirrors.tuna.tsinghua.edu.cn
+140.82.113.10           codeload.github.com
+52.216.177.243          github-production-release-asset-2e65be.s3.amazonaws.com
+
+# github.com
+
+140.82.113.4    github.com
+140.82.113.3    github.com
+140.82.112.4    github.com
+140.82.121.4    github.com
+140.82.121.3    github.com
+140.82.118.3    github.com
+192.30.255.112  github.com
+140.82.114.4    github.com # (美国弗吉尼亚州阿什本 github.com)	
+203.208.39.99   google.com # (中国北京 google.com 电信)
+54.169.195.247  api.github.com
+13.250.94.254   api.github.com
+13.250.168.23   api.github.com
+203.208.39.99	api.github.com
+
+# flutter
+
+183.60.83.19    storage.flutter-io.cn
+104.18.156.100  storage.flutter-io.cn
+202.120.58.155  dart-pub.mirrors.sjtug.sjtu.edu.cn
+172.217.24.19   pub.dartlang.org
+
+# sqlite
+
+45.33.6.223     www.sqlite.org
+
+209.51.188.20   ftp.gnu.org
+130.242.124.102 gmplib.org
+151.101.110.133 deb.debian.org
+151.101.78.133  deb.debian.org
+151.101.230.133 deb.debian.org
+128.93.193.15   isl.gforge.inria.fr
+
+104.16.17.35    registry.npmjs.org
+104.16.18.35    registry.npmjs.org
+104.16.25.35    registry.npmjs.org
+104.16.27.35    registry.npmjs.org
+104.16.16.35    registry.npmjs.org
+104.16.21.35    registry.npmjs.org
+104.16.19.35    registry.npmjs.org
+104.16.26.35    registry.npmjs.org
+104.16.20.35    registry.npmjs.org
+104.16.22.35    registry.npmjs.org
+104.16.24.35    registry.npmjs.org
+104.16.23.35    registry.npmjs.org
+
+104.20.23.46    nodejs.org
+104.20.22.46    nodejs.org
+
+104.248.78.23   yarnpkg.com
+165.227.12.111  yarnpkg.com
+165.227.0.164   yarnpkg.com
+138.68.244.143	yarnpkg.com
+167.172.221.254 yarnpkg.com
+104.248.78.24   yarnpkg.com
+167.172.215.127 yarnpkg.com
+206.189.73.52   yarnpkg.com
+157.230.35.153  yarnpkg.com
+157.230.37.202  yarnpkg.com
+128.199.185.38  yarnpkg.com
+206.189.89.118  yarnpkg.com
+178.128.17.49   yarnpkg.com
+
+134.209.106.40  classic.yarnpkg.com
+178.128.17.49   classic.yarnpkg.com
+157.230.35.153  classic.yarnpkg.com
+157.230.45.115  classic.yarnpkg.com
+128.199.185.38  classic.yarnpkg.com
+157.230.37.202  classic.yarnpkg.com
+157.230.43.191  classic.yarnpkg.com
+206.189.89.118  classic.yarnpkg.com
+
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-09-22T16:38:51&#43;0800 class="date">Tuesday, September 22, 2020</time>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/know/jwt%E5%92%8Coauth2%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/" class="prev">JWT和Oauth2的区别和联系</a>
+      
+      
+      <a href="https://zsy619.github.io/know/git-stats%E5%AE%89%E8%A3%85/" class="next">Git Stats安装</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

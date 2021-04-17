@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    第三章程序的机器表示 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">第三章程序的机器表示</h2>
+    <div class="post_content">
+      <h2 id="1历史观点">1、历史观点</h2>
+<h3 id="晶体管数量表示">晶体管数量表示</h3>
+<blockquote>
+<p>K 表示 1,000
+M 表示 1,000,000
+G 表示 1,000,000,000</p>
+</blockquote>
+<h3 id="摩尔定律moore-定律">摩尔定律（Moore 定律）</h3>
+<p>摩尔定律是英特尔创始人之一戈登·摩尔的经验之谈，其核心内容为：集成电路上可以容纳的晶体管数目在大约每经过 24 个月便会增加一倍。换言之，处理器的性能每隔两年翻一倍。</p>
+<p>被称为计算机第一定律的摩尔定律是指 IC 上可容纳的晶体管数目，约每隔 24 个月便会增加一倍，性能也将提升一倍。摩尔定律是由英特尔(lnte)名誉董事长戈登·摩尔( Gordon moore)经过长期观察总结的经验。</p>
+<p>归纳起来，“摩尔定律”主要有以下 3 种“版本”：
+1、集成电路芯片上所集成的电路的数目，每隔 18 个月就翻一番；
+2、微处理器的性能每隔 18 个月提高一倍，而价格下降一半；
+3、用一美元所能买到的计算机性能，每隔 18 个月翻两番。</p>
+<h2 id="2程序编码">2、程序编码</h2>
+<h2 id="3数据格式">3、数据格式</h2>
+<p>字：word 表示 16 位数据类型
+双字：double words，表示 32 位数据类型</p>
+<h2 id="4访问信息">4、访问信息</h2>
+<h2 id="5算术和逻辑运算">5、算术和逻辑运算</h2>
+<ul>
+<li>加载有效地址</li>
+<li>一元操作</li>
+<li>二元操作</li>
+<li>移位</li>
+</ul>
+<p><img src="../../images/20201003-2212-24.png" alt=""></p>
+<h2 id="6控制">6、控制</h2>
+<h3 id="条件码">条件码</h3>
+<p>常用条件码：</p>
+<blockquote>
+<p>CF:进位标识
+ZF:零标识
+SF:符号标识
+OF:溢出标识</p>
+</blockquote>
+<p><img src="../../images/20201003-2218-10.png" alt=""></p>
+<h3 id="访问条件码">访问条件码</h3>
+<blockquote>
+<ol>
+<li>可以根据 条 件码的某种组 合 将 一 个字节 设置为 0 或 者 1</li>
+<li>可以 条 件 跳转到程序的某个其他的部分</li>
+<li>可以 有 条 件 地 传送数据。</li>
+</ol>
+</blockquote>
+<h3 id="跳转指令">跳转指令</h3>
+<p>jump：会导致</p>
+<h3 id="跳转指令编码">跳转指令编码</h3>
+<h3 id="循环">循环</h3>
+<p>c 语言：do-while、while 和 for</p>
+<h2 id="7过程">7、过程</h2>
+<p>函数：function
+方法：method
+子例程：subroutine
+处理函数：handler</p>
+<p>包含机制：</p>
+<ul>
+<li>1 传递控制</li>
+<li>2 传递数据</li>
+<li>3 分配和释放内存</li>
+</ul>
+<h2 id="8数组的分配与访问">8、数组的分配与访问</h2>
+<h2 id="9异质的数据结构">9、异质的数据结构</h2>
+<p>c 语言：结构（struct）、联合（union）</p>
+<h3 id="结构">结构</h3>
+<h3 id="数据对齐">数据对齐</h3>
+<p>强制对齐</p>
+<h2 id="10在机器程序中将控制与数据结合起来">10、在机器程序中将控制与数据结合起来</h2>
+<h3 id="理解指针">理解指针</h3>
+<ul>
+<li>每个指针都对应一个类型</li>
+<li>每个指针都有一个值</li>
+<li>指针用&amp;运算符创建</li>
+<li>*操作符用于间接引用指针</li>
+<li>数组与指针紧密联系</li>
+<li>将指针从一种类型强制转换成另一种类型，只改变他的类型，而不改变他的值</li>
+<li>指针也可以指向函数</li>
+</ul>
+<p>函数指针</p>
+<p>内存越界引用和缓冲区溢出</p>
+<h2 id="11浮点代码">11、浮点代码</h2>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-10-03T21:55:42&#43;0800 class="date">Saturday, October 3, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F">深入理解计算机系统</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/csapp/20200921%E5%88%B020200927%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB-%E7%AC%AC%E4%BA%8C%E5%91%A8/" class="prev">第二周20200921到20200927日读书汇总</a>
+      
+      
+      <a href="https://zsy619.github.io/csapp/20200928%E5%88%B020201011%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB-%E7%AC%AC%E4%B8%89%E5%91%A8/" class="next">第三周20200928到20201011日读书汇总</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

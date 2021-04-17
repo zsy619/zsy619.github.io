@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<meta name="generator" content="Hugo 0.75.1" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+    <link rel="alternate" type="application/rss+xml" href="https://zsy619.github.io/index.xml" title="迪克猪的博客" />
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main" class="index">
+  <div class="post_list container">
+    
+    
+    <article class="post content">
+      <time datetime="2020-09-11T09:33:30&#43;0800" class="date">Fri, Sep 11, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/csapp/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/" title="第二章信息的表示和处理">第二章信息的表示和处理</a>
+      </h3>
+      <div class="post_content summary">
+        位 bit  二进制数字：0、1
+无符号编码基于基于传统的二进制表示法
+补码编码是表示有符号整数最常见的方式
+浮点数编码表示实数的科学计数法的以 2 为基数的版本
+ 溢出 overflow 用有限数量的位为一个数编码，会产生某些计算溢出  信息存储  大多数计算机用 8 位的块，表示一个字节（byte），作为最小的可寻址的内存单位，而不是访问内存中单独的位。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-09-10T11:28:17&#43;0800" class="date">Thu, Sep 10, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/csapp/%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8-amdahl%E5%AE%9A%E5%BE%8B/" title="第一章计算机系统漫游 Amdahl定律">第一章计算机系统漫游 Amdahl定律</a>
+      </h3>
+      <div class="post_content summary">
+        定义 Amdahl 定律：阿姆达尔定律
+阿姆达尔定律是计算机系统设计的重要定量原理之一，于 1967 年由 IBM360 系列机的主要设计者阿姆达尔首先提出。该定律是指：系统中对某一部件采用更快执行方式所能获得的系统性能改进程度，取决于这种执行方式被使用的频率，或所占总执行时间的比例。阿姆达尔定律实际上定义了采取增强（加速）某部分功能处理的措施后可获得的性能改进或执行时间的加速比。简单来说是通过更快的处理器来获得加速是由慢的系统组件所限制。、
+出发点 基本出发点：
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-09-10T10:43:28&#43;0800" class="date">Thu, Sep 10, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/csapp/%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/" title="第一章 计算机系统漫游">第一章 计算机系统漫游</a>
+      </h3>
+      <div class="post_content summary">
+        信息就是位+上下文 位一样，在不同上下文中表示不同；   比如，人际关系，你就是位，在家里你是父亲或母亲，到单位你是老总或下属
+  比如，在不同的上下文中，一个同样的字节序列可能表示 一个整数、浮点数、字符串或者机器指令。
+ 系统中所有信息都是由一串比特表示的 文本文件 与 二进制文件  程序被其他程序翻译成不同的格式 注意：是翻译而不是编译 编译系统构成的四部分：预处理器、编译器、汇编器和链接器 预处理阶段：预处理器 编译阶段：编译器 汇编阶段：汇编器翻译成机器语言指令，把这些指令打包成一种叫做可重定位目标程序&lt;的格式。 链接阶段：链接器负责合并，生成一个可执行目标文件（简称：可执行文件）。  了解编译系统  优化程序性能 理解链接时出现的错误 避免安全漏洞  处理器读取并解释存储在内存中的指令  系统的硬件组成  总线 IO 设备 主存：  从物理上来说，主存是由一组动态随机存取存储器(DRAM)芯片组成的。 从逻辑上来说，存储器是一个线性的字节数组，每个字节都有其唯一的地址数组索 引），这些地址是从零开始的。   处理器    高速缓存至关重要 看图知道 高速缓存存储器 所处的位置吗？
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-09-09T14:48:24&#43;0800" class="date">Wed, Sep 9, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/golang/go2go/" title="go2go命令">go2go命令</a>
+      </h3>
+      <div class="post_content summary">
+        链接地址：https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/doc.go
+// go2go is a command for trying out generic Go code.
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-09-08T22:17:08&#43;0800" class="date">Tue, Sep 8, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/golang/%E5%AE%98%E6%96%B9golang%E6%B3%9B%E5%9E%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" title="官方golang泛型阅读笔记">官方golang泛型阅读笔记</a>
+      </h3>
+      <div class="post_content summary">
+        常量定义 链接地址： https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/constraints/constraints.go2
+// Ordered permits any ordered type: any type that supports // the operations &lt;, &lt;=, &gt;=, &gt;, as well as == and !
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-09-08T22:02:06&#43;0800" class="date">Tue, Sep 8, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/csapp/%E5%BA%8F%E8%A8%80/" title="序言">序言</a>
+      </h3>
+      <div class="post_content summary">
+        内容概述  第一章 计算机系统漫游
+  第二章 信息的表示和处理
+  第三章 程序的机器级表示
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-16T15:50:00&#43;0800" class="date">Thu, Jul 16, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/58%E7%AD%94%E7%96%91%E5%85%AD%E5%AE%B9%E5%99%A8%E5%86%B7%E5%90%AF%E5%8A%A8%E5%A6%82%E4%BD%95%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/" title="58|答疑（六）：容器冷启动如何性能分析？">58|答疑（六）：容器冷启动如何性能分析？</a>
+      </h3>
+      <div class="post_content summary">
+        问题 1：容器冷启动性能分析 容器为应用程序的管理带来了巨大的便捷，诸如 Serverless（只关注应用的运行，而无需关注服务器）、FaaS（Function as a Service）等新型的软件架构，也都基于容器技术来构建。不过，虽然容器启动已经很快了，但在启动新容器，也就是冷启动的时候，启动时间相对于应用程序的性能要求来说，还是过长了。
+针对耗时最多的流程，我们可以通过应用程序监控或者动态追踪的方法，定位出耗时最多的字模块，这样也就找出了要优化的瓶颈点。
+比如，镜像拉取流程，可以通过缓存热点镜像来减少镜像拉取时间；网络配置流程，可以通过网络资源预分配进行加速；而资源调度和容器启动，也可以通过复用预先创建好的容器来进行优化。
+问题 2：CPU 火焰图和内存火焰图有什么不同？  对 CPU 火焰图来说，采集的数据主要是消耗 CPU 的函数； 而对内存火焰图来说，采集的数据主要是内存分配、释放、换页等内存管理函数。  问题 3：perf probe 失败怎么办？ 使用动态追踪工具时，由于十六进制格式的函数地址并不容易理解，就需要我们借助调试信息，将它们转换为更直观的函数名。对于内核来说，我已经多次提到过，需要安装 debuginfo。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-16T15:43:55&#43;0800" class="date">Thu, Jul 16, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/57%E5%A5%97%E8%B7%AF%E7%AF%87linux-%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7%E9%80%9F%E6%9F%A5/" title="57|套路篇：Linux 性能工具速查">57|套路篇：Linux 性能工具速查</a>
+      </h3>
+      <div class="post_content summary">
+        性能工具速查 info 可以理解为 man 的详细版本，提供了诸如节点跳转等更强大的功能。相对来说，man 的输出比较简洁，而 info 的输出更详细。所以，我们通常使用 man 来查询工具的使用方法，只有在 man 的输出不太好理解时，才会再去参考 info 文档。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-16T15:34:48&#43;0800" class="date">Thu, Jul 16, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/56%E5%A5%97%E8%B7%AF%E7%AF%87%E4%BC%98%E5%8C%96%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E7%9A%84%E4%B8%80%E8%88%AC%E6%96%B9%E6%B3%95/" title="56|套路篇：优化性能问题的一般方法">56|套路篇：优化性能问题的一般方法</a>
+      </h3>
+      <div class="post_content summary">
+        CPU 优化 CPU 性能优化的核心，在于排除所有不必要的工作、充分利用 CPU 缓存并减少进程调度对性能的影响。
+ 第一种，把进程绑定到一个或者多个 CPU 上，充分利用 CPU 缓存的本地性，并减少进程间的相互影响。 第二种，为中断处理程序开启多 CPU 负载均衡，以便在发生大量中断时，可以充分利用多 CPU 的优势分摊负载。 第三种，使用 Cgroups 等方法，为进程设置资源限制，避免个别进程消耗过多的 CPU。同时，为核心应用程序设置更高的优先级，减少低优先级任务的影响。  内存优化 第一种，除非有必要，Swap 应该禁止掉。这样就可以避免 Swap 的额外 I/O ，带来内存访问变慢的问题。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-16T15:25:49&#43;0800" class="date">Thu, Jul 16, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/55%E5%A5%97%E8%B7%AF%E7%AF%87%E5%88%86%E6%9E%90%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E7%9A%84%E4%B8%80%E8%88%AC%E6%AD%A5%E9%AA%A4/" title="55|套路篇：分析性能问题的一般步骤">55|套路篇：分析性能问题的一般步骤</a>
+      </h3>
+      <div class="post_content summary">
+        系统资源瓶颈 系统资源的瓶颈，可以通过 USE 法，即使用率、饱和度以及错误数这三类指标来衡量。系统的资源，可以分为硬件资源和软件资源两类。
+ 如 CPU、内存、磁盘和文件系统以及网络等，都是最常见的硬件资源。 而文件描述符数、连接跟踪数、套接字缓冲区大小等，则是典型的软件资源。  CPU 性能分析 利用 top、vmstat、pidstat、strace 以及 perf 等几个最常见的工具，获取 CPU 性能指标后，再结合进程与 CPU 的工作原理，就可以迅速定位出 CPU 性能瓶颈的来源。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    
+
+
+<div class="pagination">
+  <ul class="pagination_container">
+      
+        
+          <li class="page-item prev to-left">
+            <a href="/page/2/" aria-label="Previous" class="page-link">
+              <span aria-hidden="true">❮ Prev</span>
+            </a>
+          </li>
+        
+        
+          <li class="page-item next to-right">
+            <a href="/page/4/" aria-label="Next" class="page-link">
+              <span aria-hidden="true">Next ❯</span>
+            </a>
+          </li>
+        
+      
+  </ul>
+</div>
+
+
+  </div>
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    020201102到20201108日读书汇总--第七周 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">020201102到20201108日读书汇总--第七周</h2>
+    <div class="post_content">
+      <h3 id="第八章-异常控制流85信号">第八章 异常控制流(8.5信号)</h3>
+<p>一种更高层次的软件形式的异常，称为unix信号，它允许进程中断其他进程。</p>
+<p>低层的硬件异常是由内核异常处理程序处理的，正常情况下，对用户进程而言是不可见的。信号提供了一种机制，通知用户进程发生了这些异常。</p>
+<h4 id="852发送信号">8.5.2发送信号</h4>
+<p>进程组：每个进程都只属于一个进程组，进程组是由一个进程组ID来标识的。默认的，一个子进程和它的父进程同属于一个进程组。
+在任何时刻，至多只有一个前台作业和0个或多个后台作业。外壳为每个作业创建一个独立的进程组，一个作业对应一个进程组。</p>
+<p><img src="../../images/20201108-1816-39.png" alt=""></p>
+<h4 id="853接收信号">8.5.3接收信号</h4>
+<p>进程可以通过使用signal函数来修改和信号相关的默认行为。唯一的例外是SIGSTOP和SIGKILL，它们的默认行为不能被修改。</p>
+<h4 id="854信号处理问题">8.5.4信号处理问题</h4>
+<p>当一个程序捕获多个信号时，容易有一些细问问题：</p>
+<p><img src="../../images/20201108-1817-25.png" alt=""></p>
+<h3 id="第九章-虚拟存储器9195">第九章 虚拟存储器（9.1~9.5）</h3>
+<p>需要知道:</p>
+<ul>
+<li>虚拟存储器是硬件异常,硬件地址翻译,主存和磁盘文件,内核软件的完美交互</li>
+<li>为每一个进程提供一个大的,一致的和私有的地址空间</li>
+<li>将主存作为磁盘地址空间的高速缓存</li>
+<li>保护每个进程的地址空间不被其他进程破坏</li>
+</ul>
+<p>虚拟存储器遍布在计算机系统所有层次,硬件异常,汇编器,链接器,加载器,共享对象,文件和进程中扮演重要角色</p>
+<p>虚拟存储器是危险的:</p>
+<p>引用变量,间接引用指针,调用malloc动态分配程序,就会和虚拟存储器交互</p>
+<p>如果使用不当,将遇到危险复杂的与存储器有关的错误:段错误,保护错误</p>
+<p>物理寻址:</p>
+<p>计算机主存被组成为m个连续的字节大小的单元数组,每个字节地址叫做物理地址;</p>
+<p>cpu访问存储器最自然方式是使用物理地址,该方式成为物理寻址</p>
+<p>虚拟寻址</p>
+<p>cpu生成一个虚拟地址,来访问主存</p>
+<p>地址翻译</p>
+<p>将虚拟地址转为物理地址就叫做地址翻译</p>
+<p>地址翻译需要cpu和操作系统之间的合作</p>
+<p>​ 主要利用储存在主存中的查询表来动态翻译虚拟地址
+​ 查询表则由操作系统进行管理</p>
+<p>地址空间</p>
+<p>地址空间就是一个非负整数地址的有序集合</p>
+<p>如果地址空间中整数连续,则成为线性地址空间</p>
+<p>一个地址空间大小由表示最大地址需要的位数来描述</p>
+<p>虚拟地址空间就是在一个带虚拟存储器的系统中,cpu从一个有N=2^n个地址的地址空间中生成虚拟地址,这个地址空间成为虚拟地址空间</p>
+<p>那当然也有物理地址空间,与系统中物理存储器的M=2^m个字节对应</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-11-08T18:12:16&#43;0800 class="date">Sunday, November 8, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F">深入理解计算机系统</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/csapp/20201026%E5%88%B020201101%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB-%E7%AC%AC%E5%85%AD%E5%91%A8/" class="prev">20201026到20201101日读书汇总--第六周</a>
+      
+      
+      <a href="https://zsy619.github.io/csapp/20201109%E5%88%B020201115%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB-%E7%AC%AC%E5%85%AB%E5%91%A8/" class="next">20201109到20201115日读书汇总--第八周</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

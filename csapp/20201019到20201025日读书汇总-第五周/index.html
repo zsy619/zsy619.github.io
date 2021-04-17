@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    20201019到20201025日读书汇总--第五周 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">20201019到20201025日读书汇总--第五周</h2>
+    <div class="post_content">
+      <p>存储器系统是一个具有不同容量、成本和访问时间的存储设备的层次结构。CPU寄存器保存着最常用的数据。靠近CPU的小的、快速的高速缓存（SRAM）作为一部分存储在相对慢速的主存储器（DRAM）中数据和指令的缓冲区域。主存储器（DRAM）缓存存储在容量较大的、慢速磁盘（本地磁盘）上的数据，而这些磁盘常常又作为存储在通过网络连接的其他机器的磁盘或磁带（分布式文件系统，Web服务器）上的数据的缓存区域。</p>
+<p><img src="../../images/20201025-1759-02.png" alt=""></p>
+<p>局部性是计算机程序的一个基本属性。具有良好局部性的程序倾向于一次又一次地访问相同的数据项集合，或是倾向于访问邻近的数据项集合。具有良好局部性的程序比局部性差的程序更多地倾向于从存储器层次结构中较高层次处访问数据项，因此运行得更快。</p>
+<h3 id="一存储技术">一、存储技术</h3>
+<h3 id="11随机访问存储器">1.1、随机访问存储器</h3>
+<p>随机访问存储器（RAM）分为两类：静态RAM（SRAM）和动态RAM（DRAM）。</p>
+<h4 id="1静态ram">1、静态RAM</h4>
+<p>SRAM将每个位存储在一个双稳态的存储器单元里，每个单元用六个晶体管电路实现（成本相对高）。双稳态就是电路可以无限期地保持在两个不同的电压配置或状态之一。其他任何状态都是不稳定的——从不稳定状态开始，电路会迅速地转移到两个稳定状态中的一个。</p>
+<p>由于双稳态特性，SRAM只要有电，它就会永远保持它的值（抗干扰性强）。</p>
+<h4 id="2动态ram">2、动态RAM</h4>
+<p>DRAM将每个位存储为对一个电容的充电，每个单元由一个电容和一个访问晶体管组成（成本相对低）。与SRAM不同，DRAM存储器单元对干扰非常敏感（抗干扰性弱）。当电容的电压被扰乱之后，它就永远不会恢复了。暴露在光线下会导致电容电压改变。</p>
+<p>内存系统必须周期性地通过对DRAM读出，然后重写来刷新内存每一位。</p>
+<p>SRAM和DRAM的对比：</p>
+<p><img src="../../images/20201025-1800-26.png" alt=""></p>
+<h4 id="3传统的dram">3、传统的DRAM</h4>
+<p>DRAM芯片中的单元（位）被分成d个超单元，每个超单元由 [w] 个DRAM单元组成。一个d * [公w] 的DRAM总共存储了d [w] 位信息。</p>
+<p>超单元被组织成一个r行c列的长方形矩阵，其中r * c = d。</p>
+<p>每个超单元有形如(i, j)的地址，i表示行，j表示列。</p>
+<p>信息通过称为引脚的外部连接器流入和流出芯片。每个引脚携带一个1位的信号。</p>
+<p>有两种引脚：</p>
+<ul>
+<li>addr引脚 —— 携带行和列超单元地址</li>
+<li>data引脚 —— 传送字节到芯片，或从芯片传出字节</li>
+</ul>
+<p><img src="../../images/20201025-1801-46.png" alt=""></p>
+<p>每个DRAM芯片被连接到某个称为&quot;内存控制器&quot;的电路，内存控制器通过addr引脚和data引脚与DRAM进行数据的交互。</p>
+<h4 id="4内存模块">4、内存模块</h4>
+<p>DRAM芯片封装在内存模块中，它插到主板的扩展槽上。</p>
+<p>Core i7系统使用240个引脚的双列直插内存模块。</p>
+<p><img src="../../images/20201025-1802-16.png" alt=""></p>
+<p>下图展示了用8个8M（超单元数） * 8（每个超单元存储一个字节）的DRAM芯片构成的内存模块，总共存储64MB（8 * 8M * 8B）。</p>
+<p><img src="../../images/20201025-1802-29.png" alt=""></p>
+<p>用各个DRAM芯片中相应超单元地址都为(i, j)的8个超单元来表示主存中字节地址A处的64位字。DRAM 0存储第一个（低位）字节，DRAM 1存储下一个字节，依次类推。</p>
+<p>要取出内存地址A处的一个字，内存控制器将A转换成一个超单元地址（i, j)，并将它发送到内存模块，然后内存模块再将i和j广播到每个DRAM。作为响应，每个DRAM输出它的(i, j)超单元的8位内容。模块中的电路收集这些输出，并把它们合并成一个64位字，再返回给内存控制器。</p>
+<h4 id="5增强的dram">5、增强的DRAM</h4>
+<p>一些后来发展并增强DRAM：</p>
+<ul>
+<li>块页模式DRAM（Fast Page Mode DRAM， FPM DRAM）</li>
+<li>扩展数据输出DRAM（Extended Data Out DRAM，EDO DRAM）</li>
+<li>同步DRAM（Synchronous DRAM, SDRAM）</li>
+<li>双倍数据速率同步DRAM（Double Data-Rate Synchronous DRAM, DDR SDRAM）</li>
+<li>视频RAM（Video RAM，VRAM）</li>
+</ul>
+<h4 id="6非易失性存储器">6、非易失性存储器</h4>
+<p>如果断电，DRAM和SRAM会丢失它们的信息，它们是易失的。</p>
+<p>而非易失性存储器即使是在关电后，仍然保存着它们的信息。</p>
+<p>只读存储器（ROM）以它们能够被重编程（写)的次数和对它们进行重编程所用的机制来区分的：</p>
+<ul>
+<li>可编程ROM（Programmable ROM, PROM） —— 只能被编程一次</li>
+<li>可擦写可编程ROM（Erasable Programmable ROM，EPROM） —— 被擦除和重编程的次数的数量级可以达到1000次</li>
+<li>电子可擦除PROM（Electrically Erasable PROM， EEPROM） —— 能够被编程的次数的数量级可以达到 [10的5次方]</li>
+</ul>
+<h4 id="7访问主存">7、访问主存</h4>
+<p>数据流通过总线在CPU和DRAM主存之间传输。这些传输的过程称为总线事务。</p>
+<p>读事务从主存传送数据到CPU，写事务从CPU传送数据到主存。</p>
+<p>下图是总线结构的示例图：</p>
+<p><img src="../../images/20201025-1804-11.png" alt=""></p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-10-25T17:52:41&#43;0800 class="date">Sunday, October 25, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F">深入理解计算机系统</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/csapp/20201012%E5%88%B020201018%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB-%E7%AC%AC%E5%9B%9B%E5%91%A8/" class="prev">第四周20201012到20201018日读书汇总</a>
+      
+      
+      <a href="https://zsy619.github.io/csapp/20201026%E5%88%B020201101%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB-%E7%AC%AC%E5%85%AD%E5%91%A8/" class="next">20201026到20201101日读书汇总--第六周</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

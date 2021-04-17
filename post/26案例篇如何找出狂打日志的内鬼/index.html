@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    26|案例篇--如何找出狂打日志的“内鬼”？ | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">26|案例篇--如何找出狂打日志的“内鬼”？</h2>
+    <div class="post_content">
+      <ul>
+<li>
+<p>文件系统、通用块层以及设备层，就构成了 Linux 的存储 I/O 栈。</p>
+</li>
+<li>
+<p>为了优化文件访问的性能，采用页缓存、索引节点缓存、目录项缓存等多种缓存机制，减少对下层块设备的直接调用。</p>
+</li>
+<li>
+<p>同样的，为了优化块设备的访问效率，使用缓冲区来缓存块设备的数据。</p>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ strace -p <span style="color:#ae81ff">18940</span> 
+strace: Process <span style="color:#ae81ff">18940</span> attached 
+...
+mmap<span style="color:#f92672">(</span>NULL, 314576896, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> 0x7f0f7aee9000 
+mmap<span style="color:#f92672">(</span>NULL, 314576896, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> 0x7f0f682e8000 
+write<span style="color:#f92672">(</span>3, <span style="color:#e6db74">&#34;2018-12-05 15:23:01,709 - __main&#34;</span>..., <span style="color:#ae81ff">314572844</span> 
+<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">314572844</span> 
+munmap<span style="color:#f92672">(</span>0x7f0f682e8000, 314576896<span style="color:#f92672">)</span>       <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> 
+write<span style="color:#f92672">(</span>3, <span style="color:#e6db74">&#34;\n&#34;</span>, 1<span style="color:#f92672">)</span>                       <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> 
+munmap<span style="color:#f92672">(</span>0x7f0f7aee9000, 314576896<span style="color:#f92672">)</span>       <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> 
+close<span style="color:#f92672">(</span>3<span style="color:#f92672">)</span>                                <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> 
+stat<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/tmp/logtest.txt.1&#34;</span>, <span style="color:#f92672">{</span>st_mode<span style="color:#f92672">=</span>S_IFREG|0644, st_size<span style="color:#f92672">=</span>943718535, ...<span style="color:#f92672">})</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> 
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ lsof -p <span style="color:#ae81ff">18940</span> 
+COMMAND   PID USER   FD   TYPE DEVICE  SIZE/OFF    NODE NAME 
+python  <span style="color:#ae81ff">18940</span> root  cwd    DIR   0,50      <span style="color:#ae81ff">4096</span> <span style="color:#ae81ff">1549389</span> / 
+python  <span style="color:#ae81ff">18940</span> root  rtd    DIR   0,50      <span style="color:#ae81ff">4096</span> <span style="color:#ae81ff">1549389</span> / 
+… 
+python  <span style="color:#ae81ff">18940</span> root    2u   CHR  136,0       0t0       <span style="color:#ae81ff">3</span> /dev/pts/0 
+python  <span style="color:#ae81ff">18940</span> root    3w   REG    8,1 <span style="color:#ae81ff">117944320</span>     <span style="color:#ae81ff">303</span> /tmp/logtest.txt 
+
+</code></pre></div><p>日志，是了解应用程序内部运行情况，最常用、也最有效的工具。无论是操作系统，还是应用程序，都会记录大量的运行日志，以便事后查看历史记录。这些日志一般按照不同级别来开启，比如，开发环境通常打开调试级别的日志，而线上环境则只记录警告和错误日志。</p>
+<p>今后，在碰到这种“狂打日志”的场景时，你可以用 iostat、strace、lsof 等工具来定位狂打日志的进程，找出相应的日志文件，再通过应用程序的接口，调整日志级别来解决问题。</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-06-17T08:36:15&#43;0800 class="date">Wednesday, June 17, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/25%E5%9F%BA%E7%A1%80%E7%AF%87linux%E7%A3%81%E7%9B%98io%E6%98%AF%E6%80%8E%E4%B9%88%E5%B7%A5%E4%BD%9C%E7%9A%84%E4%B8%8B/" class="prev">25|基础篇--Linux磁盘I/O是怎么工作的（下）</a>
+      
+      
+      <a href="https://zsy619.github.io/post/27%E6%A1%88%E4%BE%8B%E7%AF%87%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E7%9A%84%E7%A3%81%E7%9B%98io%E5%BB%B6%E8%BF%9F%E5%BE%88%E9%AB%98/" class="next">27|案例篇--为什么我的磁盘I/O延迟很高？</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

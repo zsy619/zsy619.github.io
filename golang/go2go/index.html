@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    go2go命令 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">go2go命令</h2>
+    <div class="post_content">
+      <p>链接地址：<a href="https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/doc.go">https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/doc.go</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// go2go is a command for trying out generic Go code.
+</span><span style="color:#75715e">// It supports a small number of commands similar to cmd/go.
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// Usage:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// go2go [options] &lt;command&gt; [arguments]
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// The only option is -brackets, which requires square brackets rather
+</span><span style="color:#75715e">// than parentheses for generic code. This is temporarily useful when
+</span><span style="color:#75715e">// translating code that uses square brackets to pass type arguments
+</span><span style="color:#75715e">// to generic function and types while not defining any generic
+</span><span style="color:#75715e">// functions or types itself.
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// The commands are:
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// build translate and then run &#34;go build packages&#34;
+</span><span style="color:#75715e">// run translate and then run a list of files
+</span><span style="color:#75715e">// test translate and then run &#34;go test packages&#34;
+</span><span style="color:#75715e">// translate translate .go2 files into .go files for listed packages
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// A package is expected to contain .go2 files but no .go files.
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// Non-local imported packages will be first looked up using the GO2PATH
+</span><span style="color:#75715e">// environment variable, which should point to a GOPATH-like directory.
+</span><span style="color:#75715e">// For example, import &#34;x&#34; will first look for GO2PATHDIR/src/x,
+</span><span style="color:#75715e">// for each colon-separated component in GO2PATH. If not found in GO2PATH,
+</span><span style="color:#75715e">// imports will be looked up in the usual way. If an import includes
+</span><span style="color:#75715e">// .go2 files, they will be translated into .go files.
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// There is a sample GO2PATH in cmd/go2go/testdata/go2path. It provides
+</span><span style="color:#75715e">// several packages that serve as examples of using generics, and may
+</span><span style="color:#75715e">// be useful in experimenting with your own generic code.
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// Translation into standard Go requires generating Go code with mangled names.
+</span><span style="color:#75715e">// The mangled names will always include Odia (Oriya) digits, such as ୦ and ୮.
+</span><span style="color:#75715e">// Do not use Oriya digits in identifiers in your own code.
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// Because this tool generates Go files, and because instantiated types
+</span><span style="color:#75715e">// and functions need to refer to the types with which they are instantiated,
+</span><span style="color:#75715e">// using function-local types as type arguments is not supported.
+</span><span style="color:#75715e">// Similarly, function-local parameterized types do not work.
+</span><span style="color:#75715e">// These are deficiencies of the tool, they will work as expected in
+</span><span style="color:#75715e">// any complete implementation.
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// Similarly, generic function and type bodies that refer to unexported,
+</span><span style="color:#75715e">// non-generic, names can&#39;t be instantiated by different packages.
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// Because this tool generates Go files, and because it generates type
+</span><span style="color:#75715e">// and function instantiations alongside other code in the package that
+</span><span style="color:#75715e">// instantiates those functions and types, and because those instantiatations
+</span><span style="color:#75715e">// may refer to names in packages imported by the original generic code,
+</span><span style="color:#75715e">// this tool will add imports as necessary to support the instantiations.
+</span><span style="color:#75715e">// Therefore, packages that use generic code must not use top level
+</span><span style="color:#75715e">// definitions whose names are the same as the names of packages imported
+</span><span style="color:#75715e">// by the generic code. For example, don&#39;t write, in package scope,
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// var strings = []string{&#34;a&#34;, &#34;b&#34;}
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">// because if the generic code imports &#34;strings&#34;, the variable name will
+</span><span style="color:#75715e">// conflict with the package name, even if your code doesn&#39;t import &#34;strings&#34;.
+</span><span style="color:#75715e">// This is a deficiency of the tool, it will not be a deficiency in
+</span><span style="color:#75715e">// any complete implementation.
+</span><span style="color:#75715e"></span>
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-09-09T14:48:24&#43;0800 class="date">Wednesday, September 9, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/golang">golang</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/%E6%B3%9B%E5%9E%8B">泛型</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/golang/%E5%AE%98%E6%96%B9golang%E6%B3%9B%E5%9E%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="prev">官方golang泛型阅读笔记</a>
+      
+      
+      <a href="https://zsy619.github.io/golang/go1.15.2%E6%BA%90%E7%A0%81%E5%8F%98%E5%8C%96/" class="next">Go1.15.2更新记录 (released 2020/09/09) </a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

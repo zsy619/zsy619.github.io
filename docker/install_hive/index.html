@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    Docker 安装 Hive | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">Docker 安装 Hive</h2>
+    <div class="post_content">
+      <p><img src="https://tool.lu/netcard/" alt="IP签名"></p>
+<h3 id="hive-是什么">Hive 是什么</h3>
+<blockquote>
+<p>Hive 是一个数据仓库基础工具在 Hadoop 中用来处理结构化数据。它架构在 Hadoop 之上，总归为大数据，并使得查询和分析方便。</p>
+</blockquote>
+<blockquote>
+<p>最初，Hive 是由 Facebook 开发，后来由 Apache 软件基金会开发，并作为进一步将它作为名义下 Apache Hive 为一个开源项目。它用在好多不同的公司。例如，亚马逊使用它在 Amazon Elastic MapReduce。</p>
+</blockquote>
+<p><img src="../../images/20200912-1105-08.png" alt=""></p>
+<h3 id="hive-不是">Hive 不是</h3>
+<ul>
+<li>一个关系数据库</li>
+<li>一个设计用于联机事务处理（OLTP）</li>
+<li>实时查询和行级更新的语言</li>
+</ul>
+<h3 id="hive-特点">Hive 特点</h3>
+<ul>
+<li>它存储架构在一个数据库中并处理数据到 HDFS。</li>
+<li>它是专为 OLAP 设计。</li>
+<li>它提供 SQL 类型语言查询叫 HiveQL 或 HQL。</li>
+<li>它是熟知，快速，可扩展和可扩展的。</li>
+</ul>
+<h3 id="hive-架构">Hive 架构</h3>
+<p><img src="../../images/20200912-1107-21.png" alt=""></p>
+<p>该组件图包含不同的单元。下表描述每个单元：</p>
+<p><img src="../../images/20200912-1108-07.png" alt=""></p>
+<h3 id="hive-工作原理">Hive 工作原理</h3>
+<p>下图描述了 Hive 和 Hadoop 之间的工作流程。
+<img src="../../images/20200912-1108-32.png" alt=""></p>
+<p>下表定义 Hive 和 Hadoop 框架的交互方式：</p>
+<p><img src="../../images/20200912-1109-01.png" alt=""></p>
+<p>执行过程就是：</p>
+<p>HiveQL 通过 CLI/web UI 或者 thrift 、 odbc 或 jdbc 接口的外部接口提交，经过 complier 编译器，运用 Metastore 中的元数据进行类型检测和语法分析，生成一个逻辑方案(logical plan), 然后通过简单的优化处理，产生一个以有向无环图 DAG 数据结构形式展现的 map-reduce 任务。
+Hive 构建在 Hadoop 之上，Hive 的执行原理：</p>
+<p>HQL 中对查询语句的解释、优化、生成查询计划是由 Hive 完成的</p>
+<p>所有的数据都是存储在 Hadoop 中</p>
+<p>查询计划被转化为 MapReduce 任务，在 Hadoop 中执行（有些查询没有 MR 任务，如：select * from table）</p>
+<p>Hadoop 和 Hive 都是用 UTF-8 编码的</p>
+<p>查询编译器(query complier), 用云存储中的元数据来生成执行计划，步骤如下：</p>
+<p>解析（parse）-anlr 解析其生成语法树 AST(hibernate 也是这个)：将 HQL 转化为抽象语法树 AST</p>
+<p>类型检查和语法分析(type checking and semantic analysis): 将抽象语法树转换此查询块(query block tree), 并将查询块转换成逻辑查询计划(logic plan Generator);</p>
+<p>优化(optimization): 重写查询计划(logical optimizer)–&gt;将逻辑查询计划转成物理计划(physical plan generator)–&gt;选择最佳的 join 策略(physical optimizer)</p>
+<h3 id="hive-环境安装">Hive 环境安装</h3>
+<p>注意：Hive 需要运行在 hadoop-master 节点才可以！</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-09-11T20:51:12&#43;0800 class="date">Friday, September 11, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/docker">docker</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/hive">Hive</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      
+      <a href="https://zsy619.github.io/docker/install_redis/" class="next">Docker 安装 Redis</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

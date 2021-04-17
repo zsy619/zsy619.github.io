@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    49|案例篇：内核线程 CPU 利用率太高，我该怎么办？ | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">49|案例篇：内核线程 CPU 利用率太高，我该怎么办？</h2>
+    <div class="post_content">
+      <h3 id="内核线程">内核线程</h3>
+<p>在 Linux 中，用户态进程的“祖先”，都是 PID 号为 1 的 init 进程。比如，现在主流的 Linux 发行版中，init 都是 systemd 进程；而其他的用户态进程，会通过 systemd 来进行管理。</p>
+<p>实际上，Linux 在启动过程中，有三个特殊的进程，也就是 PID 号最小的三个进程。</p>
+<ul>
+<li>0 号进程为 idle 进程，这也是系统创建的第一个进程，它在初始化 1 号和 2 号进程后，演变为空闲任务。当 CPU 上没有其他任务执行时，就会运行它。</li>
+<li>1 号进程为 init 进程，通常是 systemd 进程，在用户态运行，用来管理其他用户态进程。</li>
+<li>2 号进程为 kthreadd 进程，在内核态运行，用来管理内核线程。</li>
+</ul>
+<p>所以，要查找内核线程，我们只需要从 2 号进程开始，查找它的子孙进程即可。比如，你可以使用 ps 命令，来查找 kthreadd 的子进程：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ ps -f --ppid <span style="color:#ae81ff">2</span> -p <span style="color:#ae81ff">2</span>
+UID         PID   PPID  C STIME TTY          TIME CMD
+root          <span style="color:#ae81ff">2</span>      <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span> 12:02 ?        00:00:01 <span style="color:#f92672">[</span>kthreadd<span style="color:#f92672">]</span>
+root          <span style="color:#ae81ff">9</span>      <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">0</span> 12:02 ?        00:00:21 <span style="color:#f92672">[</span>ksoftirqd/0<span style="color:#f92672">]</span>
+root         <span style="color:#ae81ff">10</span>      <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">0</span> 12:02 ?        00:11:47 <span style="color:#f92672">[</span>rcu_sched<span style="color:#f92672">]</span>
+root         <span style="color:#ae81ff">11</span>      <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">0</span> 12:02 ?        00:00:18 <span style="color:#f92672">[</span>migration/0<span style="color:#f92672">]</span>
+...
+root      <span style="color:#ae81ff">11094</span>      <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">0</span> 14:20 ?        00:00:00 <span style="color:#f92672">[</span>kworker/1:0-eve<span style="color:#f92672">]</span>
+root      <span style="color:#ae81ff">11647</span>      <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">0</span> 14:27 ?        00:00:00 <span style="color:#f92672">[</span>kworker/0:2-cgr<span style="color:#f92672">]</span>
+
+</code></pre></div><p>内核线程的名称（CMD）都在中括号里。所以，更简单的方法，就是直接查找名称包含中括号的进程。比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ ps -ef | grep <span style="color:#e6db74">&#34;\[.*\]&#34;</span>
+root         <span style="color:#ae81ff">2</span>     <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span> 08:14 ?        00:00:00 <span style="color:#f92672">[</span>kthreadd<span style="color:#f92672">]</span>
+root         <span style="color:#ae81ff">3</span>     <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">0</span> 08:14 ?        00:00:00 <span style="color:#f92672">[</span>rcu_gp<span style="color:#f92672">]</span>
+root         <span style="color:#ae81ff">4</span>     <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">0</span> 08:14 ?        00:00:00 <span style="color:#f92672">[</span>rcu_par_gp<span style="color:#f92672">]</span>
+...
+
+</code></pre></div><p><!-- raw HTML omitted -->了解内核线程的基本功能，对我们排查问题有非常大的帮助。比如，我们曾经在软中断案例中提到过 ksoftirqd。它是一个用来处理软中断的内核线程，并且每个 CPU 上都有一个。<!-- raw HTML omitted --></p>
+<p>如果你知道了这一点，那么，以后遇到 ksoftirqd 的 CPU 使用高的情况，就会首先怀疑是软中断的问题，然后从软中断的角度来进一步分析。</p>
+<p>其实，除了刚才看到的 kthreadd 和 ksoftirqd 外，还有很多常见的内核线程，我们在性能分析中都经常会碰到，比如下面这几个内核线程。</p>
+<ul>
+<li>kswapd0：用于内存回收。在 Swap 变高 案例中，我曾介绍过它的工作原理。</li>
+<li>kworker：用于执行内核工作队列，分为绑定 CPU （名称格式为 kworker/CPU86330）和未绑定 CPU（名称格式为 kworker/uPOOL86330）两类。</li>
+<li>migration：在负载均衡过程中，把进程迁移到 CPU 上。每个 CPU 都有一个 migration 内核线程。</li>
+<li>jbd2/sda1-8：jbd 是 Journaling Block Device 的缩写，用来为文件系统提供日志功能，以保证数据的完整性；名称中的 sda1-8，表示磁盘分区名称和设备号。每个使用了 ext4 文件系统的磁盘分区，都会有一个 jbd2 内核线程。</li>
+<li>pdflush：用于将内存中的脏页（被修改过，但还未写入磁盘的文件页）写入磁盘（已经在 3.10 中合并入了 kworker 中）。</li>
+</ul>
+<p><img src="../../images/20200709-1616-06.png" alt=""></p>
+<p>这张图看起来像是跳动的火焰，因此也就被称为火焰图。要理解火焰图，我们最重要的是区分清楚横轴和纵轴的含义。</p>
+<ul>
+<li>横轴表示采样数和采样比例。一个函数占用的横轴越宽，就代表它的执行时间越长。同一层的多个函数，则是按照字母来排序。</li>
+<li>纵轴表示调用栈，由下往上根据调用关系逐个展开。换句话说，上下相邻的两个函数中，下面的函数，是上面函数的父函数。这样，调用栈越深，纵轴就越高。</li>
+</ul>
+<p>要注意图中的颜色，并没有特殊含义，只是用来区分不同的函数。</p>
+<p>火焰图是动态的矢量图格式，所以它还支持一些动态特性。比如，鼠标悬停到某个函数上时，就会自动显示这个函数的采样数和采样比例。而当你用鼠标点击函数时，火焰图就会把该层及其上的各层放大，方便你观察这些处于火焰图顶部的调用栈的细节。</p>
+<p>上面 mysql 火焰图的示例，就表示了 CPU 的繁忙情况，这种火焰图也被称为 on-CPU 火焰图。如果我们根据性能分析的目标来划分，火焰图可以分为下面这几种。</p>
+<ul>
+<li>on-CPU 火焰图：表示 CPU 的繁忙情况，用在 CPU 使用率比较高的场景中。</li>
+<li>off-CPU 火焰图：表示 CPU 等待 I/O、锁等各种资源的阻塞情况。</li>
+<li>内存火焰图：表示内存的分配和释放情况。</li>
+<li>热 / 冷火焰图：表示将 on-CPU 和 off-CPU 结合在一起综合展示。</li>
+<li>差分火焰图：表示两个火焰图的差分情况，红色表示增长，蓝色表示衰减。差分火焰图常用来比较不同场景和不同时期的火焰图，以便分析系统变化前后对性能的影响情况。</li>
+</ul>
+<h3 id="火焰图分析">火焰图分析</h3>
+<p>首先，我们需要生成火焰图。我们先下载几个能从 perf record 记录生成火焰图的工具，这些工具都放在 <a href="https://github.com/brendangregg/FlameGraph">https://github.com/brendangregg/FlameGraph</a> 上面。你可以执行下面的命令来下载：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ git clone https://github.com/brendangregg/FlameGraph
+$ cd FlameGraph
+
+</code></pre></div><p>安装好工具后，要生成火焰图，其实主要需要三个步骤：</p>
+<ul>
+<li>执行 perf script ，将 perf record 的记录转换成可读的采样记录；</li>
+<li>执行 stackcollapse-perf.pl 脚本，合并调用栈信息；</li>
+<li>执行 flamegraph.pl 脚本，生成火焰图。</li>
+</ul>
+<p>不过，在 Linux 中，我们可以使用管道，来简化这三个步骤的执行过程。假设刚才用 perf record 生成的文件路径为 /root/perf.data，执行下面的命令，你就可以直接生成火焰图：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ perf script -i /root/perf.data | ./stackcollapse-perf.pl --all |  ./flamegraph.pl &gt; ksoftirqd.svg
+
+</code></pre></div><p>执行成功后，使用浏览器打开 ksoftirqd.svg ，你就可以看到生成的火焰图了。如下图所示：</p>
+<p><img src="../../images/20200709-1620-25.png" alt=""></p>
+<p>根据刚刚讲过的火焰图原理，这个图应该从下往上看，沿着调用栈中最宽的函数来分析执行次数最多的函数。这儿看到的结果，其实跟刚才的 perf report 类似，但直观了很多，中间这一团火，很明显就是最需要我们关注的地方。</p>
+<p>我们顺着调用栈由下往上看（顺着图中蓝色箭头），就可以得到跟刚才 perf report 中一样的结果：</p>
+<ul>
+<li>最开始，还是 net_rx_action 到 netif_receive_skb 处理网络收包；</li>
+<li>然后， br_handle_frame 到 br_nf_pre_routing ，在网桥中接收并执行 netfilter 钩子函数；</li>
+<li>再向上， br_pass_frame_up 到 netif_receive_skb ，从网桥转到其他网络设备又一次接收。</li>
+</ul>
+<p>不过最后，到了 ip_forward 这里，已经看不清函数名称了。所以我们需要点击 ip_forward，展开最上面这一块调用栈：</p>
+<p><img src="../../images/20200709-1622-02.png" alt=""></p>
+<h3 id="小结">小结</h3>
+<p>从软中断 CPU 使用率的角度入手，用网络抓包的方法找出了瓶颈来源，确认是测试机器发送的大量 SYN 包导致的。而通过今天的 perf 和火焰图方法，我们进一步找出了软中断内核线程的热点函数，其实也就找出了潜在的瓶颈和优化方向。</p>
+<p>其实，如果遇到的是内核线程的资源使用异常，很多常用的进程级性能工具并不能帮上忙。这时，你就可以用内核自带的 perf 来观察它们的行为，找出热点函数，进一步定位性能瓶。当然，perf 产生的汇总报告并不够直观，所以我也推荐你用火焰图来协助排查。</p>
+<p>实际上，火焰图方法同样适用于普通进程。比如，在分析 Nginx、MySQL 等各种应用场景的性能问题时，火焰图也能帮你更快定位热点函数，找出潜在性能问题。</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-07-09T16:05:27&#43;0800 class="date">Thursday, July 9, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/48%E6%A1%88%E4%BE%8B%E7%AF%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%BB%E6%98%AF%E6%97%B6%E4%B8%8D%E6%97%B6%E4%B8%A2%E5%8C%85%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E%E4%B8%8B/" class="prev">48|案例篇：服务器总是时不时丢包，我该怎么办？（下）</a>
+      
+      
+      <a href="https://zsy619.github.io/post/50%E6%A1%88%E4%BE%8B%E7%AF%87%E5%8A%A8%E6%80%81%E8%BF%BD%E8%B8%AA%E6%80%8E%E4%B9%88%E7%94%A8%E4%B8%8A/" class="next">50|案例篇：动态追踪怎么用？（上）</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

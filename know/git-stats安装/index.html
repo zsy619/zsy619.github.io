@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    Git Stats安装 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.f7761d111b74dd5c07f0111decee92938c12abc42e0fd319e1a07483e248b54e.css" integrity="sha256-93YdERt03VwH8BEd7O6Sk4wSq8QuD9MZ4aB0g&#43;JItU4=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">Git Stats安装</h2>
+    <div class="post_content">
+      <h3 id="git-stats">git-stats</h3>
+<p>Local git statistics including GitHub-like contributions calendars.</p>
+<p>remark：<a href="https://www.npmjs.com/package/git-stats#what-about-the-github-contributions-calendar">https://www.npmjs.com/package/git-stats#what-about-the-github-contributions-calendar</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ git-stats --help
+Usage: git-stats <span style="color:#f92672">[</span>options<span style="color:#f92672">]</span>
+
+Local git statistics including GitHub-like contributions calendars.
+
+Options:
+  -r, --raw              Outputs a dump of the raw JSON data.
+  -g, --global-activity  Shows global activity calendar in the current
+                         repository.
+  -d, --data &lt;path&gt;      Sets a custom data store file.
+  -l, --light            Enables the light theme.
+  -n, --disable-ansi     Forces the tool not to use ANSI styles.
+  -a, --authors          Shows a pie chart with the author related
+                         contributions in the current repository.
+  -u, --until &lt;date&gt;     Optional end date.
+  -s, --since &lt;date&gt;     Optional start date.
+  --record &lt;data&gt;        Records a new commit. Don<span style="color:#e6db74">&#39;t use this unless you are
+</span><span style="color:#e6db74">                         a mad scientist. If you are a developer just use
+</span><span style="color:#e6db74">                         this option as part of the module.
+</span><span style="color:#e6db74">  -h, --help             Displays this help.
+</span><span style="color:#e6db74">  -v, --version          Displays version information.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">Examples:
+</span><span style="color:#e6db74">  $ git-stats # Default behavior (stats in the last year)
+</span><span style="color:#e6db74">  $ git-stats -l # Light mode
+</span><span style="color:#e6db74">  $ git-stats -s &#39;</span><span style="color:#ae81ff">1</span> January 2012<span style="color:#e6db74">&#39; # All the commits from 1 January 2012 to now
+</span><span style="color:#e6db74">  $ git-stats -s &#39;</span><span style="color:#ae81ff">1</span> January 2012<span style="color:#e6db74">&#39; -u &#39;</span><span style="color:#ae81ff">31</span> December 2012<span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#75715e"># All the commits from 2012</span>
+
+Your commit history is kept in ~/.git-stats by default. You can create
+~/.git-stats-config.js to specify different defaults.
+
+Documentation can be found at https://github.com/IonicaBizau/git-stats.
+
+</code></pre></div><h3 id="usage">usage</h3>
+<p><img src="../../images/20200922-1645-43.png" alt=""></p>
+<p><img src="../../images/20200922-1646-03.png" alt=""></p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-09-22T16:41:50&#43;0800 class="date">Tuesday, September 22, 2020</time>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/know/mac%E4%B8%8B%E5%AE%89%E8%A3%85yarn%E5%8F%AF%E7%9C%9F%E9%9A%BE%E5%91%80/" class="prev">Mac下安装yarn可真难呀</a>
+      
+      
+      <a href="https://zsy619.github.io/know/brew-update-error/" class="next">brew update error</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.8b182175f5874aeed0acc0979345c98d4bde22208ec4f36cc1d6e3102acb4b10.js" integrity="sha256-ixghdfWHSu7QrMCXk0XJjUveIiCOxPNswdbjECrLSxA=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>
