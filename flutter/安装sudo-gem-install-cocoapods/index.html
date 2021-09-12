@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    安装sudo gem install cocoapods | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">安装sudo gem install cocoapods</h2>
+    <div class="post_content">
+      <h2 id="安装sudo-gem-install-cocoapods">安装sudo gem install cocoapods</h2>
+<h3 id="1-更改源">1 更改源</h3>
+<p>终端执行命令：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">gem sources --add &lt;https://gems.ruby-china.com/&gt; --remove &lt;https://rubygems.org/&gt;
+</code></pre></div><blockquote>
+<p>[注]需要用ruby-china.org由于备案问题, 所以需要改成.com访问了</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#75715e"># 出现的异常，及解决方法</span>
+$ gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
+
+Error fetching https://gems.ruby-china.org/:
+	Errno::ECONNREFUSED: Failed to open TCP connection to gems.ruby-china.org:443 <span style="color:#f92672">(</span>Connection refused - connect<span style="color:#f92672">(</span>2<span style="color:#f92672">)</span> <span style="color:#66d9ef">for</span> <span style="color:#e6db74">&#34;gems.ruby-china.org&#34;</span> port 443<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>https://gems.ruby-china.org/specs.4.8.gz<span style="color:#f92672">)</span>
+
+<span style="color:#75715e"># 正确安装</span>
+$ gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+
+https://gems.ruby-china.com/ added to sources
+https://rubygems.org/ removed from sources
+
+</code></pre></div><h3 id="2-查看源是否设置成功">2 查看源是否设置成功</h3>
+<p>接下来查看源路径是否替换成功，执行命令：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ gem sources -l
+*** CURRENT SOURCES ***
+
+https://gems.ruby-china.com/
+
+</code></pre></div><h3 id="3-安装cocoapods">3 安装Cocoapods</h3>
+<h4 id="31-安装命令">3.1 安装命令</h4>
+<p>开始安装Cocoapods，执行命令：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ sudo gem install cocoapods
+Password:
+Fetching i18n-0.9.5.gem
+Fetching thread_safe-0.3.6.gem
+Fetching tzinfo-1.2.7.gem
+Fetching activesupport-4.2.11.3.gem
+Fetching nap-1.1.0.gem
+Fetching fuzzy_match-2.0.4.gem
+Fetching concurrent-ruby-1.1.7.gem
+Fetching httpclient-2.8.3.gem
+Fetching algoliasearch-1.27.4.gem
+Fetching ffi-1.13.1.gem
+Fetching ethon-0.12.0.gem
+Fetching typhoeus-1.4.0.gem
+Fetching netrc-0.11.0.gem
+Fetching cocoapods-core-1.9.3.gem
+Fetching claide-1.0.3.gem
+Fetching cocoapods-deintegrate-1.0.4.gem
+Fetching cocoapods-downloader-1.4.0.gem
+Fetching cocoapods-plugins-1.0.0.gem
+Fetching cocoapods-search-1.0.0.gem
+Fetching cocoapods-stats-1.1.0.gem
+Fetching cocoapods-trunk-1.5.0.gem
+Fetching cocoapods-try-1.2.0.gem
+Fetching molinillo-0.6.6.gem
+Fetching atomos-0.1.3.gem
+Fetching CFPropertyList-3.0.2.gem
+Fetching colored2-3.1.2.gem
+Fetching nanaimo-0.3.0.gem
+Fetching xcodeproj-1.18.0.gem
+Fetching escape-0.0.4.gem
+Fetching fourflusher-2.3.1.gem
+Fetching gh_inspector-1.1.3.gem
+Fetching ruby-macho-1.4.0.gem
+Fetching cocoapods-1.9.3.gem
+Successfully installed concurrent-ruby-1.1.7
+Successfully installed i18n-0.9.5
+Successfully installed thread_safe-0.3.6
+Successfully installed tzinfo-1.2.7
+Successfully installed activesupport-4.2.11.3
+Successfully installed nap-1.1.0
+Successfully installed fuzzy_match-2.0.4
+Successfully installed httpclient-2.8.3
+Successfully installed algoliasearch-1.27.4
+Building native extensions. This could take a <span style="color:#66d9ef">while</span>...
+Successfully installed ffi-1.13.1
+Successfully installed ethon-0.12.0
+Successfully installed typhoeus-1.4.0
+Successfully installed netrc-0.11.0
+Successfully installed cocoapods-core-1.9.3
+Successfully installed claide-1.0.3
+Successfully installed cocoapods-deintegrate-1.0.4
+Successfully installed cocoapods-downloader-1.4.0
+Successfully installed cocoapods-plugins-1.0.0
+Successfully installed cocoapods-search-1.0.0
+Successfully installed cocoapods-stats-1.1.0
+Successfully installed cocoapods-trunk-1.5.0
+Successfully installed cocoapods-try-1.2.0
+Successfully installed molinillo-0.6.6
+Successfully installed atomos-0.1.3
+Successfully installed CFPropertyList-3.0.2
+Successfully installed colored2-3.1.2
+Successfully installed nanaimo-0.3.0
+Successfully installed xcodeproj-1.18.0
+Successfully installed escape-0.0.4
+Successfully installed fourflusher-2.3.1
+Successfully installed gh_inspector-1.1.3
+Successfully installed ruby-macho-1.4.0
+Successfully installed cocoapods-1.9.3
+Parsing documentation <span style="color:#66d9ef">for</span> concurrent-ruby-1.1.7
+Installing ri documentation <span style="color:#66d9ef">for</span> concurrent-ruby-1.1.7
+Parsing documentation <span style="color:#66d9ef">for</span> i18n-0.9.5
+Installing ri documentation <span style="color:#66d9ef">for</span> i18n-0.9.5
+Parsing documentation <span style="color:#66d9ef">for</span> thread_safe-0.3.6
+Installing ri documentation <span style="color:#66d9ef">for</span> thread_safe-0.3.6
+Parsing documentation <span style="color:#66d9ef">for</span> tzinfo-1.2.7
+Installing ri documentation <span style="color:#66d9ef">for</span> tzinfo-1.2.7
+Parsing documentation <span style="color:#66d9ef">for</span> activesupport-4.2.11.3
+Installing ri documentation <span style="color:#66d9ef">for</span> activesupport-4.2.11.3
+Parsing documentation <span style="color:#66d9ef">for</span> nap-1.1.0
+Installing ri documentation <span style="color:#66d9ef">for</span> nap-1.1.0
+Parsing documentation <span style="color:#66d9ef">for</span> fuzzy_match-2.0.4
+Installing ri documentation <span style="color:#66d9ef">for</span> fuzzy_match-2.0.4
+Parsing documentation <span style="color:#66d9ef">for</span> httpclient-2.8.3
+Installing ri documentation <span style="color:#66d9ef">for</span> httpclient-2.8.3
+Parsing documentation <span style="color:#66d9ef">for</span> algoliasearch-1.27.4
+Installing ri documentation <span style="color:#66d9ef">for</span> algoliasearch-1.27.4
+Parsing documentation <span style="color:#66d9ef">for</span> ffi-1.13.1
+Installing ri documentation <span style="color:#66d9ef">for</span> ffi-1.13.1
+Parsing documentation <span style="color:#66d9ef">for</span> ethon-0.12.0
+Installing ri documentation <span style="color:#66d9ef">for</span> ethon-0.12.0
+Parsing documentation <span style="color:#66d9ef">for</span> typhoeus-1.4.0
+Installing ri documentation <span style="color:#66d9ef">for</span> typhoeus-1.4.0
+Parsing documentation <span style="color:#66d9ef">for</span> netrc-0.11.0
+Installing ri documentation <span style="color:#66d9ef">for</span> netrc-0.11.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-core-1.9.3
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-core-1.9.3
+Parsing documentation <span style="color:#66d9ef">for</span> claide-1.0.3
+Installing ri documentation <span style="color:#66d9ef">for</span> claide-1.0.3
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-deintegrate-1.0.4
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-deintegrate-1.0.4
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-downloader-1.4.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-downloader-1.4.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-plugins-1.0.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-plugins-1.0.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-search-1.0.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-search-1.0.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-stats-1.1.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-stats-1.1.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-trunk-1.5.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-trunk-1.5.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-try-1.2.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-try-1.2.0
+Parsing documentation <span style="color:#66d9ef">for</span> molinillo-0.6.6
+Installing ri documentation <span style="color:#66d9ef">for</span> molinillo-0.6.6
+Parsing documentation <span style="color:#66d9ef">for</span> atomos-0.1.3
+Installing ri documentation <span style="color:#66d9ef">for</span> atomos-0.1.3
+Parsing documentation <span style="color:#66d9ef">for</span> CFPropertyList-3.0.2
+Installing ri documentation <span style="color:#66d9ef">for</span> CFPropertyList-3.0.2
+Parsing documentation <span style="color:#66d9ef">for</span> colored2-3.1.2
+Installing ri documentation <span style="color:#66d9ef">for</span> colored2-3.1.2
+Parsing documentation <span style="color:#66d9ef">for</span> nanaimo-0.3.0
+Installing ri documentation <span style="color:#66d9ef">for</span> nanaimo-0.3.0
+Parsing documentation <span style="color:#66d9ef">for</span> xcodeproj-1.18.0
+Installing ri documentation <span style="color:#66d9ef">for</span> xcodeproj-1.18.0
+Parsing documentation <span style="color:#66d9ef">for</span> escape-0.0.4
+Installing ri documentation <span style="color:#66d9ef">for</span> escape-0.0.4
+Parsing documentation <span style="color:#66d9ef">for</span> fourflusher-2.3.1
+Installing ri documentation <span style="color:#66d9ef">for</span> fourflusher-2.3.1
+Parsing documentation <span style="color:#66d9ef">for</span> gh_inspector-1.1.3
+Installing ri documentation <span style="color:#66d9ef">for</span> gh_inspector-1.1.3
+Parsing documentation <span style="color:#66d9ef">for</span> ruby-macho-1.4.0
+Installing ri documentation <span style="color:#66d9ef">for</span> ruby-macho-1.4.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-1.9.3
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-1.9.3
+Done installing documentation <span style="color:#66d9ef">for</span> concurrent-ruby, i18n, thread_safe, tzinfo, activesupport, nap, fuzzy_match, httpclient, algoliasearch, ffi, ethon, typhoeus, netrc, cocoapods-core, claide, cocoapods-deintegrate, cocoapods-downloader, cocoapods-plugins, cocoapods-search, cocoapods-stats, cocoapods-trunk, cocoapods-try, molinillo, atomos, CFPropertyList, colored2, nanaimo, xcodeproj, escape, fourflusher, gh_inspector, ruby-macho, cocoapods after <span style="color:#ae81ff">23</span> seconds
+<span style="color:#ae81ff">33</span> gems installed
+
+</code></pre></div><h4 id="32-安装cocoapods出现异常">3.2 安装cocoapods出现异常</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ sudo gem install cocoapods
+Password:
+Building native extensions. This could take a <span style="color:#66d9ef">while</span>...
+ERROR:  Error installing cocoapods:
+	ERROR: Failed to build gem native extension.
+
+    current directory: /Library/Ruby/Gems/2.6.0/gems/ffi-1.13.1/ext/ffi_c
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby -I /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0 -r ./siteconf20200926-19030-14rm5d4.rb extconf.rb
+*** extconf.rb failed ***
+Could not create Makefile due to some reason, probably lack of necessary
+libraries and/or headers.  Check the mkmf.log file <span style="color:#66d9ef">for</span> more details.  You may
+need configuration options.
+
+Provided configuration options:
+	--with-opt-dir
+	--without-opt-dir
+	--with-opt-include
+	--without-opt-include<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>opt-dir<span style="color:#e6db74">}</span>/include
+	--with-opt-lib
+	--without-opt-lib<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>opt-dir<span style="color:#e6db74">}</span>/lib
+	--with-make-prog
+	--without-make-prog
+	--srcdir<span style="color:#f92672">=</span>.
+	--curdir
+	--ruby<span style="color:#f92672">=</span>/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/<span style="color:#66d9ef">$(</span>RUBY_BASE_NAME<span style="color:#66d9ef">)</span>
+	--with-ffi_c-dir
+	--without-ffi_c-dir
+	--with-ffi_c-include
+	--without-ffi_c-include<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>ffi_c-dir<span style="color:#e6db74">}</span>/include
+	--with-ffi_c-lib
+	--without-ffi_c-lib<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>ffi_c-dir<span style="color:#e6db74">}</span>/lib
+	--enable-system-libffi
+	--disable-system-libffi
+	--with-libffi-config
+	--without-libffi-config
+	--with-pkg-config
+	--without-pkg-config
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/mkmf.rb:467:in <span style="color:#e6db74">`</span>try_do<span style="color:#e6db74">&#39;: The compiler failed to generate an executable file. (RuntimeError)
+</span><span style="color:#e6db74">You have to install development tools first.
+</span><span style="color:#e6db74">	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/mkmf.rb:546:in `block in try_link0&#39;</span>
+	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/tmpdir.rb:93:in <span style="color:#e6db74">`</span>mktmpdir<span style="color:#e6db74">&#39;
+</span><span style="color:#e6db74">	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/mkmf.rb:543:in `try_link0&#39;</span>
+	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/mkmf.rb:570:in <span style="color:#e6db74">`</span>try_link<span style="color:#e6db74">&#39;
+</span><span style="color:#e6db74">	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/mkmf.rb:672:in `try_ldflags&#39;</span>
+	from /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/mkmf.rb:1832:in <span style="color:#e6db74">`</span>pkg_config<span style="color:#e6db74">&#39;
+</span><span style="color:#e6db74">	from extconf.rb:9:in `system_libffi_usable?&#39;</span>
+	from extconf.rb:42:in <span style="color:#e6db74">`</span>&lt;main&gt;<span style="color:#960050;background-color:#1e0010">&#39;</span>
+
+To see why this extension failed to compile, please check the mkmf.log which can be found here:
+
+  /Library/Ruby/Gems/2.6.0/extensions/universal-darwin-20/2.6.0/ffi-1.13.1/mkmf.log
+
+extconf failed, exit code <span style="color:#ae81ff">1</span>
+
+Gem files will remain installed in /Library/Ruby/Gems/2.6.0/gems/ffi-1.13.1 <span style="color:#66d9ef">for</span> inspection.
+Results logged to /Library/Ruby/Gems/2.6.0/extensions/universal-darwin-20/2.6.0/ffi-1.13.1/gem_make.out
+
+</code></pre></div><h4 id="33-解决安装cocoapods异常">3.3 解决安装cocoapods异常</h4>
+<p>从新安装rvm , 安装地址如下
+<a href="https://rvm.io/rvm/install">https://rvm.io/rvm/install</a></p>
+<p>Install RVM stable with ruby:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ curl -sSL https://get.rvm.io | bash -s stable --ruby   
+Downloading https://github.com/rvm/rvm/archive/1.29.10.tar.gz
+Downloading https://github.com/rvm/rvm/releases/download/1.29.10/1.29.10.tar.gz.asc
+Found PGP signature at: <span style="color:#e6db74">&#39;https://github.com/rvm/rvm/releases/download/1.29.10/1.29.10.tar.gz.asc&#39;</span>,
+but no GPG software exists to validate it, skipping.
+Upgrading the RVM installation in /Users/zhushuyan/.rvm/
+    RVM PATH line found in /Users/zhushuyan/.mkshrc /Users/zhushuyan/.profile /Users/zhushuyan/.bashrc /Users/zhushuyan/.zshrc.
+    RVM sourcing line found in /Users/zhushuyan/.profile /Users/zhushuyan/.bash_profile /Users/zhushuyan/.zlogin.
+Upgrade of RVM in /Users/zhushuyan/.rvm/ is complete.
+
+Thanks <span style="color:#66d9ef">for</span> installing RVM 🙏
+Please consider donating to our open collective to help us maintain RVM.
+
+👉  Donate: https://opencollective.com/rvm/donate
+
+Ruby enVironment Manager 1.29.10 <span style="color:#f92672">(</span>latest<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2009-2017 Michal Papis, Piotr Kuczynski, Wayne E. Seguin
+
+Searching <span style="color:#66d9ef">for</span> binary rubies, this might take some time.
+No binary rubies available <span style="color:#66d9ef">for</span>: osx/11.0/x86_64/ruby-2.7.0.
+Continuing with compilation. Please read <span style="color:#e6db74">&#39;rvm help mount&#39;</span> to get more information on binary rubies.
+Checking requirements <span style="color:#66d9ef">for</span> osx.
+Installing requirements <span style="color:#66d9ef">for</span> osx.
+Updating system..........
+Installing required packages: coreutils, libksba, zlib.......
+Updating certificates bundle <span style="color:#e6db74">&#39;/usr/local/etc/openssl@1.1/cert.pem&#39;</span>
+Requirements installation successful.
+Installing Ruby from source to: /Users/zhushuyan/.rvm/rubies/ruby-2.7.0, this may take a <span style="color:#66d9ef">while</span> depending on your cpu<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>...
+ruby-2.7.0 - <span style="color:#75715e">#downloading ruby-2.7.0, this may take a while depending on your connection...</span>
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+<span style="color:#ae81ff">100</span> 14.0M  <span style="color:#ae81ff">100</span> 14.0M    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>  5359k      <span style="color:#ae81ff">0</span>  0:00:02  0:00:02 --:--:-- 5359k
+ruby-2.7.0 - <span style="color:#75715e">#extracting ruby-2.7.0 to /Users/zhushuyan/.rvm/src/ruby-2.7.0.....</span>
+ruby-2.7.0 - <span style="color:#75715e">#configuring.........................................................................</span>
+ruby-2.7.0 - <span style="color:#75715e">#post-configuration.</span>
+ruby-2.7.0 - <span style="color:#75715e">#compiling........................................................................</span>
+ruby-2.7.0 - <span style="color:#75715e">#installing............</span>
+ruby-2.7.0 - <span style="color:#75715e">#making binaries executable...</span>
+Installed rubygems 3.1.2 is newer than 3.0.8 provided with installed ruby, skipping installation, use --force to force installation.
+ruby-2.7.0 - <span style="color:#75715e">#gemset created /Users/zhushuyan/.rvm/gems/ruby-2.7.0@global</span>
+ruby-2.7.0 - <span style="color:#75715e">#importing gemset /Users/zhushuyan/.rvm/gemsets/global.gems......................................-</span>
+ruby-2.7.0 - <span style="color:#75715e">#generating global wrappers.......</span>
+ruby-2.7.0 - <span style="color:#75715e">#gemset created /Users/zhushuyan/.rvm/gems/ruby-2.7.0</span>
+ruby-2.7.0 - <span style="color:#75715e">#importing gemsetfile /Users/zhushuyan/.rvm/gemsets/default.gems evaluated to empty gem list</span>
+ruby-2.7.0 - <span style="color:#75715e">#generating default wrappers.......</span>
+ruby-2.7.0 - <span style="color:#75715e">#adjusting #shebangs for (gem irb erb ri rdoc testrb rake).</span>
+Install of ruby-2.7.0 - <span style="color:#75715e">#complete </span>
+Ruby was built without documentation, to build it run: rvm docs generate-ri
+Creating alias default <span style="color:#66d9ef">for</span> ruby-2.7.0....
+
+  + To start using RVM you need to run <span style="color:#e6db74">`</span>source /Users/zhushuyan/.rvm/scripts/rvm<span style="color:#e6db74">`</span>
+    in all your open shell windows, in rare cases you need to reopen all shell windows.
+
+</code></pre></div><p>启动rvm</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ source /Users/zhushuyan/.rvm/scripts/rvm
+
+<span style="color:#75715e"># zhushuyan @ bogon in /Volumes/E/JYW/zsy619.github.io/blog on git:master x [7:12:56] </span>
+$ rvm use ruby-2.7.0
+Using /Users/zhushuyan/.rvm/gems/ruby-2.7.0
+
+</code></pre></div><p>使用ruby</p>
+<h4 id="解决error-failed-to-build-gem-native-extension">解决：ERROR: Failed to build gem native extension</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">
+Try to switch ruby to homebrew version.
+
+brew install ruby
+brew link --overwrite ruby
+
+If you need to have ruby first in your PATH run:
+echo &#39;export PATH=&#34;/usr/local/opt/ruby/bin:$PATH&#34;&#39; &gt;&gt; ~/.bash_profile
+
+For compilers to find ruby you may need to set:
+export LDFLAGS=&#34;-L/usr/local/opt/ruby/lib&#34;
+export CPPFLAGS=&#34;-I/usr/local/opt/ruby/include&#34;
+
+For pkg-config to find ruby you may need to set:
+export PKG_CONFIG_PATH=&#34;/usr/local/opt/ruby/lib/pkgconfig&#34;
+
+</code></pre></div><h4 id="安装成功">安装成功</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ sudo gem install cocoapods
+Fetching thread_safe-0.3.6.gem
+Fetching tzinfo-1.2.7.gem
+Fetching activesupport-4.2.11.3.gem
+Fetching fuzzy_match-2.0.4.gem
+Fetching concurrent-ruby-1.1.7.gem
+Fetching i18n-0.9.5.gem
+Fetching nap-1.1.0.gem
+Fetching httpclient-2.8.3.gem
+Fetching ffi-1.13.1.gem
+Fetching algoliasearch-1.27.4.gem
+Fetching ethon-0.12.0.gem
+Fetching typhoeus-1.4.0.gem
+Fetching netrc-0.11.0.gem
+Fetching cocoapods-core-1.9.3.gem
+Fetching claide-1.0.3.gem
+Fetching cocoapods-deintegrate-1.0.4.gem
+Fetching cocoapods-downloader-1.4.0.gem
+Fetching cocoapods-plugins-1.0.0.gem
+Fetching cocoapods-search-1.0.0.gem
+Fetching cocoapods-stats-1.1.0.gem
+Fetching cocoapods-trunk-1.5.0.gem
+Fetching cocoapods-try-1.2.0.gem
+Fetching molinillo-0.6.6.gem
+Fetching atomos-0.1.3.gem
+Fetching CFPropertyList-3.0.2.gem
+Fetching colored2-3.1.2.gem
+Fetching nanaimo-0.3.0.gem
+Fetching xcodeproj-1.18.0.gem
+Fetching escape-0.0.4.gem
+Fetching fourflusher-2.3.1.gem
+Fetching gh_inspector-1.1.3.gem
+Fetching ruby-macho-1.4.0.gem
+Fetching cocoapods-1.9.3.gem
+Successfully installed concurrent-ruby-1.1.7
+Successfully installed i18n-0.9.5
+Successfully installed thread_safe-0.3.6
+Successfully installed tzinfo-1.2.7
+Successfully installed activesupport-4.2.11.3
+Successfully installed nap-1.1.0
+Successfully installed fuzzy_match-2.0.4
+Successfully installed httpclient-2.8.3
+Successfully installed algoliasearch-1.27.4
+Building native extensions. This could take a <span style="color:#66d9ef">while</span>...
+Successfully installed ffi-1.13.1
+Successfully installed ethon-0.12.0
+Successfully installed typhoeus-1.4.0
+Successfully installed netrc-0.11.0
+Successfully installed cocoapods-core-1.9.3
+Successfully installed claide-1.0.3
+Successfully installed cocoapods-deintegrate-1.0.4
+Successfully installed cocoapods-downloader-1.4.0
+Successfully installed cocoapods-plugins-1.0.0
+Successfully installed cocoapods-search-1.0.0
+Successfully installed cocoapods-stats-1.1.0
+Successfully installed cocoapods-trunk-1.5.0
+Successfully installed cocoapods-try-1.2.0
+Successfully installed molinillo-0.6.6
+Successfully installed atomos-0.1.3
+Successfully installed CFPropertyList-3.0.2
+Successfully installed colored2-3.1.2
+Successfully installed nanaimo-0.3.0
+Successfully installed xcodeproj-1.18.0
+Successfully installed escape-0.0.4
+Successfully installed fourflusher-2.3.1
+Successfully installed gh_inspector-1.1.3
+Successfully installed ruby-macho-1.4.0
+Successfully installed cocoapods-1.9.3
+Parsing documentation <span style="color:#66d9ef">for</span> concurrent-ruby-1.1.7
+Installing ri documentation <span style="color:#66d9ef">for</span> concurrent-ruby-1.1.7
+Parsing documentation <span style="color:#66d9ef">for</span> i18n-0.9.5
+Installing ri documentation <span style="color:#66d9ef">for</span> i18n-0.9.5
+Parsing documentation <span style="color:#66d9ef">for</span> thread_safe-0.3.6
+Installing ri documentation <span style="color:#66d9ef">for</span> thread_safe-0.3.6
+Parsing documentation <span style="color:#66d9ef">for</span> tzinfo-1.2.7
+Installing ri documentation <span style="color:#66d9ef">for</span> tzinfo-1.2.7
+Parsing documentation <span style="color:#66d9ef">for</span> activesupport-4.2.11.3
+Installing ri documentation <span style="color:#66d9ef">for</span> activesupport-4.2.11.3
+Parsing documentation <span style="color:#66d9ef">for</span> nap-1.1.0
+Installing ri documentation <span style="color:#66d9ef">for</span> nap-1.1.0
+Parsing documentation <span style="color:#66d9ef">for</span> fuzzy_match-2.0.4
+Installing ri documentation <span style="color:#66d9ef">for</span> fuzzy_match-2.0.4
+Parsing documentation <span style="color:#66d9ef">for</span> httpclient-2.8.3
+Installing ri documentation <span style="color:#66d9ef">for</span> httpclient-2.8.3
+Parsing documentation <span style="color:#66d9ef">for</span> algoliasearch-1.27.4
+Installing ri documentation <span style="color:#66d9ef">for</span> algoliasearch-1.27.4
+Parsing documentation <span style="color:#66d9ef">for</span> ffi-1.13.1
+Installing ri documentation <span style="color:#66d9ef">for</span> ffi-1.13.1
+Parsing documentation <span style="color:#66d9ef">for</span> ethon-0.12.0
+Installing ri documentation <span style="color:#66d9ef">for</span> ethon-0.12.0
+Parsing documentation <span style="color:#66d9ef">for</span> typhoeus-1.4.0
+Installing ri documentation <span style="color:#66d9ef">for</span> typhoeus-1.4.0
+Parsing documentation <span style="color:#66d9ef">for</span> netrc-0.11.0
+Installing ri documentation <span style="color:#66d9ef">for</span> netrc-0.11.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-core-1.9.3
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-core-1.9.3
+Parsing documentation <span style="color:#66d9ef">for</span> claide-1.0.3
+Installing ri documentation <span style="color:#66d9ef">for</span> claide-1.0.3
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-deintegrate-1.0.4
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-deintegrate-1.0.4
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-downloader-1.4.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-downloader-1.4.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-plugins-1.0.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-plugins-1.0.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-search-1.0.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-search-1.0.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-stats-1.1.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-stats-1.1.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-trunk-1.5.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-trunk-1.5.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-try-1.2.0
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-try-1.2.0
+Parsing documentation <span style="color:#66d9ef">for</span> molinillo-0.6.6
+Installing ri documentation <span style="color:#66d9ef">for</span> molinillo-0.6.6
+Parsing documentation <span style="color:#66d9ef">for</span> atomos-0.1.3
+Installing ri documentation <span style="color:#66d9ef">for</span> atomos-0.1.3
+Parsing documentation <span style="color:#66d9ef">for</span> CFPropertyList-3.0.2
+Installing ri documentation <span style="color:#66d9ef">for</span> CFPropertyList-3.0.2
+Parsing documentation <span style="color:#66d9ef">for</span> colored2-3.1.2
+Installing ri documentation <span style="color:#66d9ef">for</span> colored2-3.1.2
+Parsing documentation <span style="color:#66d9ef">for</span> nanaimo-0.3.0
+Installing ri documentation <span style="color:#66d9ef">for</span> nanaimo-0.3.0
+Parsing documentation <span style="color:#66d9ef">for</span> xcodeproj-1.18.0
+Installing ri documentation <span style="color:#66d9ef">for</span> xcodeproj-1.18.0
+Parsing documentation <span style="color:#66d9ef">for</span> escape-0.0.4
+Installing ri documentation <span style="color:#66d9ef">for</span> escape-0.0.4
+Parsing documentation <span style="color:#66d9ef">for</span> fourflusher-2.3.1
+Installing ri documentation <span style="color:#66d9ef">for</span> fourflusher-2.3.1
+Parsing documentation <span style="color:#66d9ef">for</span> gh_inspector-1.1.3
+Installing ri documentation <span style="color:#66d9ef">for</span> gh_inspector-1.1.3
+Parsing documentation <span style="color:#66d9ef">for</span> ruby-macho-1.4.0
+Installing ri documentation <span style="color:#66d9ef">for</span> ruby-macho-1.4.0
+Parsing documentation <span style="color:#66d9ef">for</span> cocoapods-1.9.3
+Installing ri documentation <span style="color:#66d9ef">for</span> cocoapods-1.9.3
+Done installing documentation <span style="color:#66d9ef">for</span> concurrent-ruby, i18n, thread_safe, tzinfo, activesupport, nap, fuzzy_match, httpclient, algoliasearch, ffi, ethon, typhoeus, netrc, cocoapods-core, claide, cocoapods-deintegrate, cocoapods-downloader, cocoapods-plugins, cocoapods-search, cocoapods-stats, cocoapods-trunk, cocoapods-try, molinillo, atomos, CFPropertyList, colored2, nanaimo, xcodeproj, escape, fourflusher, gh_inspector, ruby-macho, cocoapods after <span style="color:#ae81ff">24</span> seconds
+<span style="color:#ae81ff">33</span> gems installed
+
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-09-26T21:38:26&#43;0800 class="date">Saturday, September 26, 2020</time>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

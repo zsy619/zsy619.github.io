@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    02|基础篇--到底应该怎么理解平均负载 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">02|基础篇--到底应该怎么理解平均负载</h2>
+    <div class="post_content">
+      <h3 id="什么是平均负载">什么是平均负载</h3>
+<ul>
+<li>平均负载(Load Average)：单位时间内，系统处于可运行状态和不可中断状态的平均进程数，也就是平均活跃进程数。</li>
+<li>可运行状态的进程：正在使用cpu或等待使用cpu的进程，ps命令查看处于R状态（Running或Runnable）的进程。</li>
+<li>不可中断的状态进程：处于内核态关键流程的状态，且这些流程不可打断，ps命令查看处于D状态（Uninterruptible Sleep，也称为Disk Sleep）的进程。</li>
+<li>不可中断状态实际是系统对进程和硬件设备的一种保护机制。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ uptime 
+14:36  up  5:23, <span style="color:#ae81ff">1</span> user, load averages: 2.19 2.30 2.33
+</code></pre></div><p>解释：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">    14:36       //当前时间
+    up  5:23    //系统运行时间
+    1 user      //正在登录用户数
+    2.19        //过去1分钟平均负载
+    2.30        //过去5分钟平均负载
+    2.33        //过去15分钟平均负载
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ man uptime
+
+UPTIME<span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                 BSD General Commands Manual                UPTIME<span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>
+
+NAME
+     uptime -- show how long system has been running
+
+SYNOPSIS
+     uptime
+
+DESCRIPTION
+     The uptime utility displays the current time, the length of time the system has been up,
+     the number of users, and the load average of the system over the last 1, 5, and <span style="color:#ae81ff">15</span> min-
+     utes.
+
+SEE ALSO
+     w<span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>
+
+HISTORY
+     The uptime command appeared in 3.0BSD.
+
+BSD                             April 18, <span style="color:#ae81ff">1994</span>                             BSD
+
+</code></pre></div><h3 id="平均负载为多少时合适">平均负载为多少时合适</h3>
+<ul>
+<li>平均负载理想情况等于cpu个数</li>
+<li>首先要知道系统有几个cpu，可以通过top命令或/proc/cpuinfo读取</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>zsy@localhost ~<span style="color:#f92672">]</span>$ top
+</code></pre></div><p><img src="../../images/20200527-1747-30.png" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>zsy@localhost ~<span style="color:#f92672">]</span>$ grep <span style="color:#e6db74">&#39;model name&#39;</span> /proc/cpuinfo |wc -l
+<span style="color:#ae81ff">2</span>
+</code></pre></div><p>有了cpu个数，当平均负载比cpu个数大时，表示系统出现了过载。</p>
+<p>根据uptime三个负载值进行核对：</p>
+<ul>
+<li>如果1分钟、5分钟、15分钟平均负载值相差不大，或基本相同，表示负载稳定</li>
+<li>如果1分钟负载值远小于15分钟负载值，说明最近1分钟负载在减少，而过去15分钟负载很大</li>
+<li>反之，如果最近1分钟远大于15分钟负载，说明最近1分钟负载在增加，这种增加有可能是临死时性，有可能是持续性的，要持续观察</li>
+<li>案例分析
+<ul>
+<li>在一个单cpu系统上负载1.73，0.60，7.89</li>
+<li>过去1分钟内，系统有73%超载</li>
+<li>而15分钟内，系统有689%超载</li>
+<li>整体趋势来看，负载在降低</li>
+</ul>
+</li>
+<li>生成环境，负载多高时，需要进行关注？
+<ul>
+<li>当平均负载超过cpu数量的70%</li>
+<li>负载过高，会导致进行响应慢</li>
+<li>70%并不是绝对的，要监控平均负载，根据更多的历史数据，判断负载变化趋势</li>
+</ul>
+</li>
+</ul>
+<p>htop工具：
+<img src="../../images/20200529-1249-48.png" alt=""></p>
+<h3 id="平均负载与cpu使用率">平均负载与CPU使用率</h3>
+<ul>
+<li>cpu密集型进程，使用大量cpu会导致平均负载升高，此时两者是一致的</li>
+<li>I/O密集型进程，等待IO也会是平均负载升高，但cpu使用率不一定高</li>
+<li>大量等待cpu使用的也会造成平均负载升高，此时cpu使用率也比较高</li>
+</ul>
+<p>分析工具：iostat、mpstat、pidstat</p>
+<ul>
+<li>stress是一个linux系统压力测试工具，而sysstat包含了常用的linux性能工具，用来监控和分析系统的性能</li>
+<li>mpstat是一个常用的多核cpu性能分析工具，查看每个cpu的性能指标，及所有cpu的平均指标</li>
+<li>pidstat是一个常用的进程性能分析工具，用来实时查看进程的cpu、内存、io以及上下文切换等性能指标</li>
+</ul>
+<h4 id="场景一cpu密集型进程">场景一：CPU密集型进程</h4>
+<p>第一个终端输入：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zsy@ubuntu:~$ stress --cpu <span style="color:#ae81ff">1</span> --timeout <span style="color:#ae81ff">600</span>
+stress: info: <span style="color:#f92672">[</span>15764<span style="color:#f92672">]</span> dispatching hogs: <span style="color:#ae81ff">1</span> cpu, <span style="color:#ae81ff">0</span> io, <span style="color:#ae81ff">0</span> vm, <span style="color:#ae81ff">0</span> hdd
+</code></pre></div><p>第二个终端输入：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># -d 参数表示高亮显示变化的区域</span>
+$ watch -d uptime
+</code></pre></div><p><img src="../../images/20200528-1001-36.png" alt="">
+第三个终端输入：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># -P ALL表示监控所有的cpu，5表示每5秒输出一组变化</span>
+$ mpstat -P ALL <span style="color:#ae81ff">5</span>
+</code></pre></div><p><img src="../../images/20200528-1003-28.png" alt="">
+监控是哪个进程CPU使用为100%:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 间隔5秒后输出一组数据</span>
+$ pidstat -u <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><p><img src="../../images/20200528-1010-35.png" alt="">
+可以看出stess进程的cpu使用率为100%</p>
+<h4 id="场景二io密集型进程">场景二：I/O密集型进程</h4>
+<p>第一个终端输入，模拟IO密集操作：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zsy@ubuntu:~$ stress -i <span style="color:#ae81ff">1</span> --timeout <span style="color:#ae81ff">600</span>
+stress: info: <span style="color:#f92672">[</span>19057<span style="color:#f92672">]</span> dispatching hogs: <span style="color:#ae81ff">0</span> cpu, <span style="color:#ae81ff">1</span> io, <span style="color:#ae81ff">0</span> vm, <span style="color:#ae81ff">0</span> hdd
+</code></pre></div><p>第二个终端监控平均负载：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ watch -d uptime
+</code></pre></div><p><img src="../../images/20200528-1018-18.png" alt="">
+第三个终端运行mpstat查看cpu变化情况：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mpstat -P ALL <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><p><img src="../../images/20200528-1019-02.png" alt="">
+第四个终端监控哪个进程iowait高：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ pidstat -u <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><p><img src="../../images/20200528-1021-30.png" alt=""></p>
+<h4 id="场景三大量进程的场景">场景三：大量进程的场景</h4>
+<p>第一个终端输入，模拟8个进程：</p>
+<pre><code class="language-basn" data-lang="basn">zsy@ubuntu:~$ stress -c 8 --timeout 600
+stress: info: [21546] dispatching hogs: 8 cpu, 0 io, 0 vm, 0 hdd
+</code></pre><p>第二个终端输入，监控平均负载：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ watch -d uptime
+</code></pre></div><p><img src="../../images/20200528-1027-01.png" alt="">
+第三个终端，使用pidstat查看进程情况：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ pidstat -u <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><p><img src="../../images/20200528-1028-11.png" alt=""></p>
+<h3 id="小结">小结</h3>
+<ul>
+<li>平均负载高有可能是CPU密集型进程导致的</li>
+<li>平均负载高不一定是cpu使用率高，有可能是io更繁忙了</li>
+<li>发现负载高，使用mpstat、pidstat工具进行分析</li>
+</ul>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-05-27T11:40:49&#43;0800 class="date">Wednesday, May 27, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/01%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="prev">01|如何学习Linux性能优化</a>
+      
+      
+      <a href="https://zsy619.github.io/post/03%E5%9F%BA%E7%A1%80%E7%AF%87%E7%BB%8F%E5%B8%B8%E8%AF%B4%E7%9A%84cpu%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D/" class="next">03|基础篇经常说的CPU上下文切换是什么意思</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

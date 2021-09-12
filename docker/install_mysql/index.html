@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    Docker 安装 MySQL | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">Docker 安装 MySQL</h2>
+    <div class="post_content">
+      <p>MySQL 是世界上最受欢迎的开源数据库。凭借其可靠性、易用性和性能，MySQL 已成为 Web 应用程序的数据库优先选择。</p>
+<h3 id="查看可用的-mysql-版本">查看可用的 MySQL 版本</h3>
+<p>访问 MySQL 镜像库地址：<a href="https://hub.docker.com/_/mysql?tab=tags">https://hub.docker.com/_/mysql?tab=tags</a>。</p>
+<p>可以通过 Sort by 查看其他版本的 MySQL，默认是最新版本 mysql:latest。</p>
+<p><img src="../../images/20200912-1411-38.png" alt=""></p>
+<p><img src="../../images/20200912-1411-46.png" alt=""></p>
+<p>还可以用 docker search mysql 命令来查看可用版本：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker search mysql
+NAME                              DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
+mysql                             MySQL is a widely used, open-source relation…   <span style="color:#ae81ff">9954</span>                <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+mariadb                           MariaDB is a community-developed fork of MyS…   <span style="color:#ae81ff">3642</span>                <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+mysql/mysql-server                Optimized MySQL Server Docker images. Create…   <span style="color:#ae81ff">725</span>                                     <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+percona                           Percona Server is a fork of the MySQL relati…   <span style="color:#ae81ff">508</span>                 <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+centos/mysql-57-centos7           MySQL 5.7 SQL database server                   <span style="color:#ae81ff">83</span>
+mysql/mysql-cluster               Experimental MySQL Cluster Docker images. Cr…   <span style="color:#ae81ff">75</span>
+centurylink/mysql                 Image containing mysql. Optimized to be link…   <span style="color:#ae81ff">61</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+bitnami/mysql                     Bitnami MySQL Docker Image                      <span style="color:#ae81ff">44</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+deitch/mysql-backup               REPLACED! Please use http://hub.docker.com/r…   <span style="color:#ae81ff">41</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+tutum/mysql                       Base docker image to run a MySQL database se…   <span style="color:#ae81ff">35</span>
+prom/mysqld-exporter                                                              <span style="color:#ae81ff">31</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+schickling/mysql-backup-s3        Backup MySQL to S3 <span style="color:#f92672">(</span>supports periodic backup…   <span style="color:#ae81ff">30</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+databack/mysql-backup             Back up mysql databases to... anywhere!         <span style="color:#ae81ff">30</span>
+linuxserver/mysql                 A Mysql container, brought to you by LinuxSe…   <span style="color:#ae81ff">25</span>
+centos/mysql-56-centos7           MySQL 5.6 SQL database server                   <span style="color:#ae81ff">20</span>
+circleci/mysql                    MySQL is a widely used, open-source relation…   <span style="color:#ae81ff">19</span>
+mysql/mysql-router                MySQL Router provides transparent routing be…   <span style="color:#ae81ff">16</span>
+arey/mysql-client                 Run a MySQL client from a docker container      <span style="color:#ae81ff">14</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+fradelg/mysql-cron-backup         MySQL/MariaDB database backup using cron tas…   <span style="color:#ae81ff">8</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+openshift/mysql-55-centos7        DEPRECATED: A Centos7 based MySQL v5.5 image…   <span style="color:#ae81ff">6</span>
+devilbox/mysql                    Retagged MySQL, MariaDB and PerconaDB offici…   <span style="color:#ae81ff">3</span>
+ansibleplaybookbundle/mysql-apb   An APB which deploys RHSCL MySQL                <span style="color:#ae81ff">2</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+jelastic/mysql                    An image of the MySQL database server mainta…   <span style="color:#ae81ff">1</span>
+widdpim/mysql-client              Dockerized MySQL Client <span style="color:#f92672">(</span>5.7<span style="color:#f92672">)</span> including Curl…   <span style="color:#ae81ff">1</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+monasca/mysql-init                A minimal decoupled init container <span style="color:#66d9ef">for</span> mysql    <span style="color:#ae81ff">0</span>
+
+</code></pre></div><h3 id="拉取-mysql-镜像">拉取 MySQL 镜像</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker pull mysql:latest
+latest: Pulling from library/mysql
+d121f8d1c412: Already exists
+f3cebc0b4691: Pull complete
+1862755a0b37: Pull complete
+489b44f3dbb4: Pull complete
+690874f836db: Pull complete
+baa8be383ffb: Pull complete
+55356608b4ac: Pull complete
+dd35ceccb6eb: Pull complete
+429b35712b19: Pull complete
+162d8291095c: Pull complete
+5e500ef7181b: Pull complete
+af7528e958b6: Pull complete
+Digest: sha256:e1bfe11693ed2052cb3b4e5fa356c65381129e87e38551c6cd6ec532ebe0e808
+Status: Downloaded newer image <span style="color:#66d9ef">for</span> mysql:latest
+docker.io/library/mysql:latest
+
+</code></pre></div><h3 id="查看本地镜像">查看本地镜像</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+mongo               latest              923803327a36        <span style="color:#ae81ff">8</span> hours ago         493MB
+redis               latest              84c5f6e03bf0        <span style="color:#ae81ff">35</span> hours ago        104MB
+mysql               latest              e1d7dc9731da        <span style="color:#ae81ff">47</span> hours ago        544MB
+
+</code></pre></div><h3 id="运行容器">运行容器</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker run -itd --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD<span style="color:#f92672">=</span><span style="color:#ae81ff">123456</span> mysql
+9dd939121708cf20d98c7596c63190cc27be3ac7c7f6b902cb9beb97aa7b33bd
+
+</code></pre></div><h3 id="安装成功">安装成功</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                 NAMES
+9dd939121708        mysql               <span style="color:#e6db74">&#34;docker-entrypoint.s…&#34;</span>   <span style="color:#ae81ff">24</span> seconds ago      Up <span style="color:#ae81ff">23</span> seconds       0.0.0.0:3306-&gt;3306/tcp, 33060/tcp     mysql
+a9386073261a        redis               <span style="color:#e6db74">&#34;docker-entrypoint.s…&#34;</span>   <span style="color:#ae81ff">37</span> minutes ago      Up <span style="color:#ae81ff">37</span> minutes       0.0.0.0:6379-&gt;6379/tcp                redis
+c36ca6add3c1        mongo               <span style="color:#e6db74">&#34;docker-entrypoint.s…&#34;</span>   <span style="color:#ae81ff">2</span> hours ago         Up <span style="color:#ae81ff">2</span> hours          0.0.0.0:22017-&gt;22017/tcp, 27017/tcp   mongo
+
+</code></pre></div><p>通过 root 和密码 123456 访问 MySQL 服务。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker exec -it mysql /bin/bash
+root@9dd939121708:/# mysql
+ERROR <span style="color:#ae81ff">1045</span> <span style="color:#f92672">(</span>28000<span style="color:#f92672">)</span>: Access denied <span style="color:#66d9ef">for</span> user <span style="color:#e6db74">&#39;root&#39;</span>@<span style="color:#e6db74">&#39;localhost&#39;</span> <span style="color:#f92672">(</span>using password: NO<span style="color:#f92672">)</span>
+root@9dd939121708:/# mysql -h localhost -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or <span style="color:#ae81ff">\g</span>.
+Your MySQL connection id is <span style="color:#ae81ff">9</span>
+Server version: 8.0.21 MySQL Community Server - GPL
+
+Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type <span style="color:#e6db74">&#39;help;&#39;</span> or <span style="color:#e6db74">&#39;\h&#39;</span> <span style="color:#66d9ef">for</span> help. Type <span style="color:#e6db74">&#39;\c&#39;</span> to clear the current input statement.
+
+mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+<span style="color:#ae81ff">4</span> rows in set <span style="color:#f92672">(</span>0.01 sec<span style="color:#f92672">)</span>
+
+mysql&gt;
+
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-09-12T10:57:00&#43;0800 class="date">Saturday, September 12, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/docker">docker</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/mysql">mysql</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/docker/install_mongo/" class="prev">Docker 安装 MongoDB</a>
+      
+      
+      <a href="https://zsy619.github.io/docker/install_clickhouse/" class="next">Docker 安装 ClickHouse</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

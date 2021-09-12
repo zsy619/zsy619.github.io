@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    19|案例篇--为什么系统的Swap变高了（上） | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">19|案例篇--为什么系统的Swap变高了（上）</h2>
+    <div class="post_content">
+      <h3 id="文件页file-backed-page">文件页（File-backed Page）</h3>
+<p>大部分文件页，都可以直接回收，以后有需要时，再从磁盘重新读取就可以了。而那些被应用程序修改过，并且暂时还没写入磁盘的数据（也就是脏页），就得先写入磁盘，然后才能进行内存释放。</p>
+<ul>
+<li>可以在应用程序中，通过系统调用 fsync  ，把脏页同步到磁盘中；</li>
+<li>也可以交给系统，由内核线程 pdflush 负责这些脏页的刷新。</li>
+</ul>
+<h3 id="swap-原理">Swap 原理</h3>
+<p>它包括换出和换入两个过程。</p>
+<ul>
+<li>所谓换出，就是把进程暂时不用的内存数据存储到磁盘中，并释放这些数据占用的内存。</li>
+<li>而换入，则是在进程再次访问这些内存的时候，把它们从磁盘读到内存中来。</li>
+</ul>
+<ul>
+<li>Swap 其实是把系统的可用内存变大了。这样，即使服务器的内存不足，也可以运行大内存的应用程序。</li>
+</ul>
+<ul>
+<li>直接内存回收</li>
+<li>定期回收内存，也就是 kswapd0
+<ul>
+<li>三个内存阈值（watermark，也称为水位</li>
+<li>页最小阈值（pages_min）</li>
+<li>页低阈值（pages_low）</li>
+<li>页高阈值（pages_high）</li>
+<li>剩余内存，则使用 pages_free 表示</li>
+</ul>
+</li>
+</ul>
+<p><img src="../../images/20200609-1116-00.png" alt=""></p>
+<p>kswapd0 定期扫描内存的使用情况，并根据剩余内存落在这三个阈值的空间位置，进行内存的回收操作。</p>
+<ul>
+<li>剩余内存小于页最小阈值，说明进程可用内存都耗尽了，只有内核才可以分配内存。</li>
+<li>剩余内存落在页最小阈值和页低阈值中间，说明内存压力比较大，剩余内存不多了。这时 kswapd0 会执行内存回收，直到剩余内存大于高阈值为止。</li>
+<li>剩余内存落在页低阈值和页高阈值中间，说明内存有一定压力，但还可以满足新内存请求。</li>
+<li>剩余内存大于页高阈值，说明剩余内存比较多，没有内存压力。</li>
+</ul>
+<ul>
+<li>一旦剩余内存小于页低阈值，就会触发内存的回收</li>
+<li>页低阈值，其实可以通过内核选项 /proc/sys/vm/min_free_kbytes 来间接设置</li>
+<li>min_free_kbytes 设置了页最小阈值，而其他两个阈值，都是根据页最小阈值计算生成的，计算方法如下 ：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pages_low <span style="color:#f92672">=</span> pages_min*5/4
+pages_high <span style="color:#f92672">=</span> pages_min*3/2
+</code></pre></div><h3 id="numa-与-swap">NUMA 与 Swap</h3>
+<p>很多情况下，你\明明发现了 Swap 升高，可是在分析系统的内存使用时，却很可能发现，系统剩余内存还多着呢。为什么剩余内存很多的情况下，也会发生 Swap 呢？:::::::正是处理器的 NUMA （Non-Uniform Memory Access）架构导致的。</p>
+<p>在 NUMA 架构下，多个处理器被划分到不同 Node 上，且每个 Node 都拥有自己的本地内存空间。</p>
+<p><img src="../../images/20200609-1126-34.png" alt=""></p>
+<p>工具numactl：查看处理器在 Node 的分布情况，以及每个 Node 的内存使用情况</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zsy@ubuntu:~$ numactl --hardware
+available: <span style="color:#ae81ff">1</span> nodes <span style="color:#f92672">(</span>0<span style="color:#f92672">)</span>
+node <span style="color:#ae81ff">0</span> cpus: <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span>
+node <span style="color:#ae81ff">0</span> size: <span style="color:#ae81ff">1981</span> MB
+node <span style="color:#ae81ff">0</span> free: <span style="color:#ae81ff">190</span> MB
+node distances:
+node   <span style="color:#ae81ff">0</span> 
+  0:  <span style="color:#ae81ff">10</span> 
+</code></pre></div><p>提到的三个内存阈值（页最小阈值、页低阈值和页高阈值），都可以通过内存域在 proc 文件系统中的接口 /proc/zoneinfo 来查看：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zsy@ubuntu:~$ cat /proc/zoneinfo
+Node 0, zone      DMA
+  per-node stats
+      nr_inactive_anon <span style="color:#ae81ff">173802</span>
+      nr_active_anon <span style="color:#ae81ff">133182</span>
+      nr_inactive_file <span style="color:#ae81ff">32771</span>
+      nr_active_file <span style="color:#ae81ff">56062</span>
+      nr_unevictable <span style="color:#ae81ff">0</span>
+      nr_slab_reclaimable <span style="color:#ae81ff">17327</span>
+      nr_slab_unreclaimable <span style="color:#ae81ff">29472</span>
+      nr_isolated_anon <span style="color:#ae81ff">0</span>
+      nr_isolated_file <span style="color:#ae81ff">0</span>
+      workingset_nodes <span style="color:#ae81ff">2058</span>
+      workingset_refault <span style="color:#ae81ff">155937</span>
+      workingset_activate <span style="color:#ae81ff">33796</span>
+      workingset_restore <span style="color:#ae81ff">15995</span>
+      workingset_nodereclaim <span style="color:#ae81ff">945</span>
+      nr_anon_pages <span style="color:#ae81ff">164627</span>
+      nr_mapped    <span style="color:#ae81ff">31095</span>
+      nr_file_pages <span style="color:#ae81ff">232300</span>
+      nr_dirty     <span style="color:#ae81ff">14</span>
+      nr_writeback <span style="color:#ae81ff">0</span>
+      nr_writeback_temp <span style="color:#ae81ff">0</span>
+      nr_shmem     <span style="color:#ae81ff">141403</span>
+      nr_shmem_hugepages <span style="color:#ae81ff">0</span>
+      nr_shmem_pmdmapped <span style="color:#ae81ff">0</span>
+      nr_file_hugepages <span style="color:#ae81ff">0</span>
+      nr_file_pmdmapped <span style="color:#ae81ff">0</span>
+      nr_anon_transparent_hugepages <span style="color:#ae81ff">0</span>
+      nr_unstable  <span style="color:#ae81ff">0</span>
+      nr_vmscan_write <span style="color:#ae81ff">243216</span>
+      nr_vmscan_immediate_reclaim <span style="color:#ae81ff">732</span>
+      nr_dirtied   <span style="color:#ae81ff">413853</span>
+      nr_written   <span style="color:#ae81ff">596735</span>
+      nr_kernel_misc_reclaimable <span style="color:#ae81ff">0</span>
+  pages free     <span style="color:#ae81ff">2018</span>
+        min      <span style="color:#ae81ff">90</span>
+        low      <span style="color:#ae81ff">112</span>
+        high     <span style="color:#ae81ff">134</span>
+        spanned  <span style="color:#ae81ff">4095</span>
+        present  <span style="color:#ae81ff">3998</span>
+        managed  <span style="color:#ae81ff">3977</span>
+        protection: <span style="color:#f92672">(</span>0, 1910, 1910, 1910, 1910<span style="color:#f92672">)</span>
+      nr_free_pages <span style="color:#ae81ff">2018</span>
+      nr_zone_inactive_anon <span style="color:#ae81ff">1943</span>
+      nr_zone_active_anon <span style="color:#ae81ff">0</span>
+      nr_zone_inactive_file <span style="color:#ae81ff">0</span>
+      nr_zone_active_file <span style="color:#ae81ff">0</span>
+      nr_zone_unevictable <span style="color:#ae81ff">0</span>
+      nr_zone_write_pending <span style="color:#ae81ff">0</span>
+      nr_mlock     <span style="color:#ae81ff">0</span>
+      nr_page_table_pages <span style="color:#ae81ff">0</span>
+      nr_kernel_stack <span style="color:#ae81ff">0</span>
+      nr_bounce    <span style="color:#ae81ff">0</span>
+      nr_zspages   <span style="color:#ae81ff">0</span>
+      nr_free_cma  <span style="color:#ae81ff">0</span>
+      numa_hit     <span style="color:#ae81ff">5877</span>
+      numa_miss    <span style="color:#ae81ff">0</span>
+      numa_foreign <span style="color:#ae81ff">0</span>
+      numa_interleave <span style="color:#ae81ff">0</span>
+      numa_local   <span style="color:#ae81ff">5877</span>
+      numa_other   <span style="color:#ae81ff">0</span>
+  pagesets
+    cpu: <span style="color:#ae81ff">0</span>
+              count: <span style="color:#ae81ff">0</span>
+              high:  <span style="color:#ae81ff">0</span>
+              batch: <span style="color:#ae81ff">1</span>
+  vm stats threshold: <span style="color:#ae81ff">4</span>
+    cpu: <span style="color:#ae81ff">1</span>
+              count: <span style="color:#ae81ff">0</span>
+              high:  <span style="color:#ae81ff">0</span>
+              batch: <span style="color:#ae81ff">1</span>
+  vm stats threshold: <span style="color:#ae81ff">4</span>
+  node_unreclaimable:  <span style="color:#ae81ff">0</span>
+  start_pfn:           <span style="color:#ae81ff">1</span>
+Node 0, zone    DMA32
+  pages free     <span style="color:#ae81ff">44994</span>
+        min      <span style="color:#ae81ff">11173</span>
+        low      <span style="color:#ae81ff">13966</span>
+        high     <span style="color:#ae81ff">16759</span>
+        spanned  <span style="color:#ae81ff">520172</span>
+        present  <span style="color:#ae81ff">520172</span>
+        managed  <span style="color:#ae81ff">503219</span>
+        protection: <span style="color:#f92672">(</span>0, 0, 0, 0, 0<span style="color:#f92672">)</span>
+      nr_free_pages <span style="color:#ae81ff">44994</span>
+      nr_zone_inactive_anon <span style="color:#ae81ff">171859</span>
+      nr_zone_active_anon <span style="color:#ae81ff">133182</span>
+      nr_zone_inactive_file <span style="color:#ae81ff">32771</span>
+      nr_zone_active_file <span style="color:#ae81ff">56062</span>
+      nr_zone_unevictable <span style="color:#ae81ff">0</span>
+      nr_zone_write_pending <span style="color:#ae81ff">14</span>
+      nr_mlock     <span style="color:#ae81ff">0</span>
+      nr_page_table_pages <span style="color:#ae81ff">4398</span>
+      nr_kernel_stack <span style="color:#ae81ff">10464</span>
+      nr_bounce    <span style="color:#ae81ff">0</span>
+      nr_zspages   <span style="color:#ae81ff">0</span>
+      nr_free_cma  <span style="color:#ae81ff">0</span>
+      numa_hit     <span style="color:#ae81ff">11427432</span>
+      numa_miss    <span style="color:#ae81ff">0</span>
+      numa_foreign <span style="color:#ae81ff">0</span>
+      numa_interleave <span style="color:#ae81ff">39965</span>
+      numa_local   <span style="color:#ae81ff">11427432</span>
+      numa_other   <span style="color:#ae81ff">0</span>
+  pagesets
+    cpu: <span style="color:#ae81ff">0</span>
+              count: <span style="color:#ae81ff">148</span>
+              high:  <span style="color:#ae81ff">378</span>
+              batch: <span style="color:#ae81ff">63</span>
+  vm stats threshold: <span style="color:#ae81ff">20</span>
+    cpu: <span style="color:#ae81ff">1</span>
+              count: <span style="color:#ae81ff">338</span>
+              high:  <span style="color:#ae81ff">378</span>
+              batch: <span style="color:#ae81ff">63</span>
+  vm stats threshold: <span style="color:#ae81ff">20</span>
+  node_unreclaimable:  <span style="color:#ae81ff">0</span>
+  start_pfn:           <span style="color:#ae81ff">4096</span>
+Node 0, zone   Normal
+  pages free     <span style="color:#ae81ff">0</span>
+        min      <span style="color:#ae81ff">0</span>
+        low      <span style="color:#ae81ff">0</span>
+        high     <span style="color:#ae81ff">0</span>
+        spanned  <span style="color:#ae81ff">0</span>
+        present  <span style="color:#ae81ff">0</span>
+        managed  <span style="color:#ae81ff">0</span>
+        protection: <span style="color:#f92672">(</span>0, 0, 0, 0, 0<span style="color:#f92672">)</span>
+Node 0, zone  Movable
+  pages free     <span style="color:#ae81ff">0</span>
+        min      <span style="color:#ae81ff">0</span>
+        low      <span style="color:#ae81ff">0</span>
+        high     <span style="color:#ae81ff">0</span>
+        spanned  <span style="color:#ae81ff">0</span>
+        present  <span style="color:#ae81ff">0</span>
+        managed  <span style="color:#ae81ff">0</span>
+        protection: <span style="color:#f92672">(</span>0, 0, 0, 0, 0<span style="color:#f92672">)</span>
+Node 0, zone   Device
+  pages free     <span style="color:#ae81ff">0</span>
+        min      <span style="color:#ae81ff">0</span>
+        low      <span style="color:#ae81ff">0</span>
+        high     <span style="color:#ae81ff">0</span>
+        spanned  <span style="color:#ae81ff">0</span>
+        present  <span style="color:#ae81ff">0</span>
+        managed  <span style="color:#ae81ff">0</span>
+        protection: <span style="color:#f92672">(</span>0, 0, 0, 0, 0<span style="color:#f92672">)</span>
+</code></pre></div><ul>
+<li>pages 处的 min、low、high，就是上面提到的三个内存阈值，而 free 是剩余内存页数，它跟后面的 nr_free_pages 相同。</li>
+<li>nr_zone_active_anon 和 nr_zone_inactive_anon，分别是活跃和非活跃的匿名页数。</li>
+<li>nr_zone_active_file 和 nr_zone_inactive_file，分别是活跃和非活跃的文件页数。</li>
+</ul>
+<p>某个 Node 内存不足时，系统可以从其他 Node 寻找空闲内存，也可以从本地内存中回收内存。具体选哪种模式，你可以通过 /proc/sys/vm/zone_reclaim_mode 来调整。它支持以下几个选项：</p>
+<ul>
+<li>默认的 0 ，也表示既可以从其他 Node 寻找空闲内存，也可以从本地回收内存。</li>
+<li>1、2、4 都表示只回收本地内存，2 表示可以回写脏数据回收内存，4 表示可以用 Swap 方式回收内存。</li>
+</ul>
+<h3 id="swappiness">swappiness</h3>
+<ul>
+<li>对文件页的回收，当然就是直接回收缓存，或者把脏页写回磁盘后再回收。</li>
+<li>而对匿名页的回收，其实就是通过 Swap 机制，把它们写入磁盘后再释放内存。</li>
+</ul>
+<p>Linux 提供了一个  /proc/sys/vm/swappiness 选项，用来调整使用 Swap 的积极程度。</p>
+<p>swappiness 的范围是 0-100，数值越大，越积极使用 Swap，也就是更倾向于回收匿名页；数值越小，越消极使用 Swap，也就是更倾向于回收文件页。</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-06-09T10:56:15&#43;0800 class="date">Tuesday, June 9, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/18%E6%A1%88%E4%BE%8B%E7%AF%87%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E4%BA%86%E6%88%91%E8%AF%A5%E5%A6%82%E4%BD%95%E5%AE%9A%E4%BD%8D%E5%92%8C%E5%A4%84%E7%90%86/" class="prev">18|案例篇--内存泄漏了，我该如何定位和处理？</a>
+      
+      
+      <a href="https://zsy619.github.io/post/20%E6%A1%88%E4%BE%8B%E7%AF%87%E4%B8%BA%E4%BB%80%E4%B9%88%E7%B3%BB%E7%BB%9F%E7%9A%84swap%E5%8F%98%E9%AB%98%E4%BA%86%E4%B8%8B/" class="next">20|案例篇--为什么系统的Swap变高了（下）</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

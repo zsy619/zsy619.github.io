@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<meta name="generator" content="Hugo 0.83.1" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+    <link rel="alternate" type="application/rss+xml" href="https://zsy619.github.io/index.xml" title="迪克猪的博客" />
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main" class="index">
+  <div class="post_list container">
+    
+    
+    <article class="post content">
+      <time datetime="2020-07-07T16:57:32&#43;0800" class="date">Tue, Jul 7, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/44%E5%A5%97%E8%B7%AF%E7%AF%87%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E7%9A%84%E5%87%A0%E4%B8%AA%E6%80%9D%E8%B7%AF%E4%B8%8B/" title="44|套路篇：网络性能优化的几个思路（下）">44|套路篇：网络性能优化的几个思路（下）</a>
+      </h3>
+      <div class="post_content summary">
+        网络性能优化 传输层 TCP 提供了面向连接的可靠传输服务。要优化 TCP，我们首先要掌握 TCP 协议的基本原理，比如流量控制、慢启动、拥塞避免、延迟确认以及状态流图（如下图所示）等。
+第一类，在请求数比较大的场景下，你可能会看到大量处于 TIME_WAIT 状态的连接，它们会占用大量内存和端口资源。这时，我们可以优化与 TIME_WAIT 状态相关的内核选项，比如采取下面几种措施。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-07T16:43:11&#43;0800" class="date">Tue, Jul 7, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/43%E5%A5%97%E8%B7%AF%E7%AF%87%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E7%9A%84%E5%87%A0%E4%B8%AA%E6%80%9D%E8%B7%AF%E4%B8%8A/" title="43|套路篇：网络性能优化的几个思路（上）">43|套路篇：网络性能优化的几个思路（上）</a>
+      </h3>
+      <div class="post_content summary">
+        NAT 基于 Linux 内核的连接跟踪机制，实现了 IP 地址及端口号重写的功能，主要被用来解决公网 IP 地址短缺的问题。
+在分析 NAT 性能问题时，可以先从内核连接跟踪模块 conntrack 角度来分析，比如用 systemtap、perf、netstat 等工具，以及 proc 文件系统中的内核选项，来分析网络协议栈的行为；然后，通过内核选项调优、切换到无状态 NAT、使用 DPDK 等方式，进行实际优化。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-07T16:40:20&#43;0800" class="date">Tue, Jul 7, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/42%E6%A1%88%E4%BE%8B%E7%AF%87%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96-nat-%E6%80%A7%E8%83%BD%E4%B8%8B/" title="42|案例篇：如何优化 NAT 性能？（下）">42|案例篇：如何优化 NAT 性能？（下）</a>
+      </h3>
+      <div class="post_content summary">
+        NAT 技术能够重写 IP 数据包的源 IP 或目的 IP，所以普遍用来解决公网 IP 地址短缺的问题。它可以让网络中的多台主机，通过共享同一个公网 IP 地址，来访问外网资源。同时，由于 NAT 屏蔽了内网网络，也为局域网中机器起到安全隔离的作用。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-07T16:26:49&#43;0800" class="date">Tue, Jul 7, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/41%E6%A1%88%E4%BE%8B%E7%AF%87%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96-nat-%E6%80%A7%E8%83%BD%E4%B8%8A/" title="41|案例篇：如何优化 NAT 性能？（上）">41|案例篇：如何优化 NAT 性能？（上）</a>
+      </h3>
+      <div class="post_content summary">
+        另一个可能导致网络延迟的因素，即网络地址转换（Network Address Translation），缩写为 NAT。
+NAT 原理 NAT 技术可以重写 IP 数据包的源 IP 或者目的 IP，被普遍地用来解决公网 IP 地址短缺的问题。它的主要原理就是，网络中的多台主机，通过共享同一个公网 IP 地址，来访问外网资源。同时，由于 NAT 屏蔽了内网网络，自然也就为局域网中的机器提供了安全隔离。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-07T16:18:24&#43;0800" class="date">Tue, Jul 7, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/40%E6%A1%88%E4%BE%8B%E7%AF%87%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E5%BB%B6%E8%BF%9F%E5%8F%98%E5%A4%A7%E4%BA%86%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E/" title="40|案例篇：网络请求延迟变大了，我该怎么办？">40|案例篇：网络请求延迟变大了，我该怎么办？</a>
+      </h3>
+      <div class="post_content summary">
+        除了 DDoS 会带来网络延迟增大外，我想，你肯定见到过不少其他原因导致的网络延迟，比如
+ 网络传输慢，导致延迟； Linux 内核协议栈报文处理慢，导致延迟； 应用程序数据处理慢，导致延迟等等。  网络延迟 网络数据传输所用的时间。不过要注意，这个时间可能是单向的，指从源地址发送到目的地址的单程时间；也可能是双向的，即从源地址发送到目的地址，然后又从目的地址发回响应，这个往返全程所用的时间。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-07T16:02:59&#43;0800" class="date">Tue, Jul 7, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/39%E6%A1%88%E4%BE%8B%E7%AF%87%E6%80%8E%E4%B9%88%E7%BC%93%E8%A7%A3-ddos-%E6%94%BB%E5%87%BB%E5%B8%A6%E6%9D%A5%E7%9A%84%E6%80%A7%E8%83%BD%E4%B8%8B%E9%99%8D%E9%97%AE%E9%A2%98/" title="39|案例篇：怎么缓解 DDoS 攻击带来的性能下降问题？">39|案例篇：怎么缓解 DDoS 攻击带来的性能下降问题？</a>
+      </h3>
+      <div class="post_content summary">
+        DDoS 简介 DDoS 的前身是 DoS（Denail of Service），即拒绝服务攻击，指利用大量的合理请求，来占用过多的目标资源，从而使目标服务无法响应正常请求。
+DDoS（Distributed Denial of Service） 则是在 DoS 的基础上，采用了分布式架构，利用多台主机同时攻击目标主机。这样，即使目标服务部署了网络防御设备，面对大量网络请求时，还是无力应对。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-07T15:38:35&#43;0800" class="date">Tue, Jul 7, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/38%E6%A1%88%E4%BE%8B%E7%AF%87%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8-tcpdump-%E5%92%8C-wireshark-%E5%88%86%E6%9E%90%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F/" title="38|案例篇：怎么使用 tcpdump 和 Wireshark 分析网络流量？">38|案例篇：怎么使用 tcpdump 和 Wireshark 分析网络流量？</a>
+      </h3>
+      <div class="post_content summary">
+        可以借助 nslookup 或者 dig 的调试功能，分析 DNS 的解析过程，再配合 ping 等工具调试 DNS 服务器的延迟，从而定位出性能瓶颈。通常，你可以用缓存、预取、HTTPDNS 等方法，优化 DNS 的性能。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-07T11:25:42&#43;0800" class="date">Tue, Jul 7, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/37%E6%A1%88%E4%BE%8B%E7%AF%87dns-%E8%A7%A3%E6%9E%90%E6%97%B6%E5%BF%AB%E6%97%B6%E6%85%A2%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E/" title="37|案例篇：DNS 解析时快时慢，我该怎么办？">37|案例篇：DNS 解析时快时慢，我该怎么办？</a>
+      </h3>
+      <div class="post_content summary">
+        Linux 网络基于 TCP/IP 协议栈构建，而在协议栈的不同层，我们所关注的网络性能也不尽相同。
+在应用层，我们关注的是应用程序的并发连接数、每秒请求数、处理延迟、错误数等，可以使用 wrk、JMeter 等工具，模拟用户的负载，得到想要的测试结果。
+而在传输层，我们关注的是 TCP、UDP 等传输层协议的工作状况，比如 TCP 连接数、 TCP 重传、TCP 错误数等。此时，你可以使用 iperf、netperf 等，来测试 TCP 或 UDP 的性能。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-07-07T11:13:12&#43;0800" class="date">Tue, Jul 7, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/36%E5%A5%97%E8%B7%AF%E7%AF%87%E6%80%8E%E4%B9%88%E8%AF%84%E4%BC%B0%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD/" title="36|套路篇：怎么评估系统的网络性能？">36|套路篇：怎么评估系统的网络性能？</a>
+      </h3>
+      <div class="post_content summary">
+        要实现 C10M，就不是增加物理资源、调优内核和应用程序可以解决的问题了。这时内核中冗长的网络协议栈就成了最大的负担。
+ 需要用 XDP 方式，在内核协议栈之前，先处理网络包。 或基于 DPDK ，直接跳过网络协议栈，在用户空间通过轮询的方式处理。  性能指标回顾 首先，带宽，表示链路的最大传输速率，单位是 b/s（比特 / 秒）。在你为服务器选购网卡时，带宽就是最核心的参考指标。常用的带宽有 1000M、10G、40G、100G 等。
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    <article class="post content">
+      <time datetime="2020-06-17T09:32:29&#43;0800" class="date">Wed, Jun 17, 2020</time>
+      <h3 class="title">
+        <a href="https://zsy619.github.io/post/32%E7%AD%94%E7%96%91%E5%9B%9B%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E-io-%E4%B8%8E%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5-io-%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/" title="32|答疑（四）--阻塞、非阻塞 I/O 与同步、异步 I/O 的区别和联系">32|答疑（四）--阻塞、非阻塞 I/O 与同步、异步 I/O 的区别和联系</a>
+      </h3>
+      <div class="post_content summary">
+        问题 1：阻塞、非阻塞 I/O 与同步、异步 I/O 的区别和联系  所谓阻塞 I/O，是指应用程序在执行 I/O 操作后，如果没有获得响应，就会阻塞当前线程，不能执行其他任务。 所谓非阻塞 I/O，是指应用程序在执行 I/O 操作后，不会阻塞当前的线程，可以继续执行其他的任务。   所谓同步 I/O，是指收到 I/O 请求后，系统不会立刻响应应用程序；等到处理完成，系统才会通过系统调用的方式，告诉应用程序 I/O 结果。 所谓异步 I/O，是指收到 I/O 请求后，系统会先告诉应用程序 I/O 请求已经收到，随后再去异步处理；等处理完成后，系统再通过事件通知的方式，告诉应用程序结果。  在 Linux I/O 调用中，
+        
+          <span class="hellip">&hellip;</span>
+        
+      </div>
+    </article>
+    
+    
+
+
+<div class="pagination">
+  <ul class="pagination_container">
+      
+        
+          <li class="page-item prev to-left">
+            <a href="/page/4/" aria-label="Previous" class="page-link">
+              <span aria-hidden="true">❮ Prev</span>
+            </a>
+          </li>
+        
+        
+          <li class="page-item next to-right">
+            <a href="/page/6/" aria-label="Next" class="page-link">
+              <span aria-hidden="true">Next ❯</span>
+            </a>
+          </li>
+        
+      
+  </ul>
+</div>
+
+
+  </div>
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

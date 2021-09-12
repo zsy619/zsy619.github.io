@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    46|案例篇：为什么应用容器化后，启动慢了很多？ | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">46|案例篇：为什么应用容器化后，启动慢了很多？</h2>
+    <div class="post_content">
+      <p>随着 Kubernetes、Docker 等技术的普及，越来越多的企业，都已经走上了应用程序容器化的道路。我相信，你在了解学习这些技术的同时，一定也听说过不少，基于 Docker 的微服务架构带来的各种优势，比如：</p>
+<ul>
+<li>使用 Docker ，把应用程序以及相关依赖打包到镜像中后，部署和升级更快捷；</li>
+<li>把传统的单体应用拆分成多个更小的微服务应用后，每个微服务的功能都更简单，并且可以单独管理和维护；</li>
+<li>每个微服务都可以根据需求横向扩展。即使发生故障，也只是局部服务不可用，而不像以前那样，导致整个服务不可用。</li>
+</ul>
+<p>案例 docker 启动 Tomat 应用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#75715e"># -m表示设置内存为512MB</span>
+$ docker run --name tomcat --cpus 0.1 -m 512M -p 8080:8080 -itd feisky/tomcat:8
+Unable to find image <span style="color:#e6db74">&#39;feisky/tomcat:8&#39;</span> locally
+8: Pulling from feisky/tomcat
+741437d97401: Pull complete
+...
+22cd96a25579: Pull complete
+Digest: sha256:71871cff17b9043842c2ec99f370cc9f1de7bc121cd2c02d8e2092c6e268f7e2
+Status: Downloaded newer image <span style="color:#66d9ef">for</span> feisky/tomcat:8
+WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap.
+2df259b752db334d96da26f19166d662a82283057411f6332f3cbdbcab452249
+
+</code></pre></div><p>docker pull 命令，下载镜像：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker pull feisky/tomcat:8
+8: Pulling from feisky/tomcat
+Digest: sha256:71871cff17b9043842c2ec99f370cc9f1de7bc121cd2c02d8e2092c6e268f7e2
+Status: Image is up to date <span style="color:#66d9ef">for</span> feisky/tomcat:8
+
+</code></pre></div><p>访问 Tomcat 监听的 8080 端口，确认案例已经正常启动：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ curl localhost:8080
+curl: <span style="color:#f92672">(</span>56<span style="color:#f92672">)</span> Recv failure: Connection reset by peer
+
+</code></pre></div><p>执行 docker logs 命令，查看容器的日志。这里注意，需要加上 -f 参数，表示跟踪容器的最新日志输出：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker logs -f tomcat
+Using CATALINA_BASE:   /usr/local/tomcat
+Using CATALINA_HOME:   /usr/local/tomcat
+Using CATALINA_TMPDIR: /usr/local/tomcat/temp
+Using JRE_HOME:        /docker-java-home/jre
+Using CLASSPATH:       /usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin/tomcat-juli.jar
+
+</code></pre></div><p>执行下面的命令，查看容器的状态：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                            PORTS               NAMES
+0f2b3fcdd257        feisky/tomcat:8     <span style="color:#e6db74">&#34;catalina.sh run&#34;</span>   <span style="color:#ae81ff">2</span> minutes ago       Exited <span style="color:#f92672">(</span>137<span style="color:#f92672">)</span> About a minute ago                       tomcat
+
+</code></pre></div><p>可以调用 Docker 的 API，查询容器的状态、退出码以及错误信息，然后确定容器退出的原因。这些可以通过 docker inspect 命令来完成，比如，你可以继续执行下面的命令，通过 -f 选项设置只输出容器的状态：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#75715e"># 显示容器状态，jq用来格式化json输出</span>
+$ docker inspect tomcat -f <span style="color:#e6db74">&#39;{{json .State}}&#39;</span> | jq
+<span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#34;Status&#34;</span>: <span style="color:#e6db74">&#34;exited&#34;</span>,
+  <span style="color:#e6db74">&#34;Running&#34;</span>: false,
+  <span style="color:#e6db74">&#34;Paused&#34;</span>: false,
+  <span style="color:#e6db74">&#34;Restarting&#34;</span>: false,
+  <span style="color:#e6db74">&#34;OOMKilled&#34;</span>: true,
+  <span style="color:#e6db74">&#34;Dead&#34;</span>: false,
+  <span style="color:#e6db74">&#34;Pid&#34;</span>: 0,
+  <span style="color:#e6db74">&#34;ExitCode&#34;</span>: 137,
+  <span style="color:#e6db74">&#34;Error&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+  ...
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>执行下面的命令，重新启动 tomcat 容器，并调用 java 命令行来查看堆内存大小：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#75715e"># 重新启动容器</span>
+$ docker rm -f tomcat
+$ docker run --name tomcat --cpus 0.1 -m 512M -p 8080:8080 -itd feisky/tomcat:8
+
+<span style="color:#75715e"># 查看堆内存，注意单位是字节</span>
+$ docker exec tomcat java -XX:+PrintFlagsFinal -version | grep HeapSize
+    uintx ErgoHeapSizeLimit                         <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>                                   <span style="color:#f92672">{</span>product<span style="color:#f92672">}</span>
+    uintx HeapSizePerGCThread                       <span style="color:#f92672">=</span> <span style="color:#ae81ff">87241520</span>                            <span style="color:#f92672">{</span>product<span style="color:#f92672">}</span>
+    uintx InitialHeapSize                          :<span style="color:#f92672">=</span> <span style="color:#ae81ff">132120576</span>                           <span style="color:#f92672">{</span>product<span style="color:#f92672">}</span>
+    uintx LargePageHeapSizeThreshold                <span style="color:#f92672">=</span> <span style="color:#ae81ff">134217728</span>                           <span style="color:#f92672">{</span>product<span style="color:#f92672">}</span>
+    uintx MaxHeapSize                              :<span style="color:#f92672">=</span> <span style="color:#ae81ff">2092957696</span>                          <span style="color:#f92672">{</span>product<span style="color:#f92672">}</span>
+
+</code></pre></div><h3 id="小结">小结</h3>
+<ul>
+<li>容器本身通过 cgroups 进行资源隔离，所以，在分析时要考虑 cgroups 对应用程序的影响。</li>
+<li>容器的文件系统、网络协议栈等跟主机隔离。虽然在容器外面，我们也可以分析容器的行为，不过有时候，进入容器的命名空间内部，可能更为方便。</li>
+<li>容器的运行可能还会依赖于其他组件，比如各种网络插件（比如 CNI）、存储插件（比如 CSI）、设备插件（比如 GPU）等，让容器的性能分析更加复杂。如果你需要分析容器性能，别忘了考虑它们对性能的影响。</li>
+</ul>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-07-09T15:18:53&#43;0800 class="date">Thursday, July 9, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/45%E7%AD%94%E7%96%91%E4%BA%94%E7%BD%91%E7%BB%9C%E6%94%B6%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%BC%93%E5%86%B2%E5%8C%BA%E4%BD%8D%E7%BD%AE%E5%9C%A8%E5%93%AA%E9%87%8C/" class="prev">45|答疑（五）：网络收发过程中，缓冲区位置在哪里？</a>
+      
+      
+      <a href="https://zsy619.github.io/post/47%E6%A1%88%E4%BE%8B%E7%AF%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%BB%E6%98%AF%E6%97%B6%E4%B8%8D%E6%97%B6%E4%B8%A2%E5%8C%85%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E%E4%B8%8A/" class="next">47|案例篇：服务器总是时不时丢包，我该怎么办？（上）</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

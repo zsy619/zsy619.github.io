@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    06|案例篇--系统的CPU使用率很高，但为啥却找不到高CPU的应用？ | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">06|案例篇--系统的CPU使用率很高，但为啥却找不到高CPU的应用？</h2>
+    <div class="post_content">
+      <h3 id="使用工具">使用工具</h3>
+<p>使用top、vmstat、pidstat等</p>
+<p>ap（apache bench）是一个常用的http性能测试工具</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 并发100个请求测试Nginx性能，总共测试1000个请求</span>
+$ ab -c <span style="color:#ae81ff">100</span> -n <span style="color:#ae81ff">1000</span> http://192.168.0.10:10000/
+This is ApacheBench, Version 2.3 &lt;$Revision: <span style="color:#ae81ff">1706008</span> $&gt;
+Copyright <span style="color:#ae81ff">1996</span> Adam Twiss, Zeus Technology Ltd, 
+...
+Requests per second:    87.86 <span style="color:#f92672">[</span><span style="color:#75715e">#/sec] (mean)</span>
+Time per request:       1138.229 <span style="color:#f92672">[</span>ms<span style="color:#f92672">]</span> <span style="color:#f92672">(</span>mean<span style="color:#f92672">)</span>
+...
+</code></pre></div><ul>
+<li>
+<p>第一个原因，进程在不停地崩溃重启，比如因为段错误、配置错误等等，这时，进程在退出后可能又被监控系统自动重启了。</p>
+</li>
+<li>
+<p>第二个原因，这些进程都是短时进程，也就是在其他应用内部通过 exec 调用的外面命令。这些命令一般都只运行很短的时间就会结束，你很难用 top 这种间隔时间比较长的工具发现（上面的案例，我们碰巧发现了）。</p>
+</li>
+<li>
+<p>用 pstree  就可以用树状形式显示所有进程之间的关系：
+<img src="../../images/20200531-1713-08.png" alt=""></p>
+</li>
+</ul>
+<h3 id="execsnoop">execsnoop</h3>
+<p>execsnoop 就是一个专为短时进程设计的工具。它通过 ftrace 实时监控进程的 exec() 行为，并输出短时进程的基本信息，包括进程 PID、父进程 PID、命令行参数以及执行的结果。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">hgo
+<span style="color:#75715e"># 按 Ctrl+C 结束</span>
+$ execsnoop
+PCOMM            PID    PPID   RET ARGS
+sh               <span style="color:#ae81ff">30394</span>  <span style="color:#ae81ff">30393</span>    <span style="color:#ae81ff">0</span>
+stress           <span style="color:#ae81ff">30396</span>  <span style="color:#ae81ff">30394</span>    <span style="color:#ae81ff">0</span> /usr/local/bin/stress -t <span style="color:#ae81ff">1</span> -d <span style="color:#ae81ff">1</span>
+sh               <span style="color:#ae81ff">30398</span>  <span style="color:#ae81ff">30393</span>    <span style="color:#ae81ff">0</span>
+stress           <span style="color:#ae81ff">30399</span>  <span style="color:#ae81ff">30398</span>    <span style="color:#ae81ff">0</span> /usr/local/bin/stress -t <span style="color:#ae81ff">1</span> -d <span style="color:#ae81ff">1</span>
+sh               <span style="color:#ae81ff">30402</span>  <span style="color:#ae81ff">30400</span>    <span style="color:#ae81ff">0</span>
+stress           <span style="color:#ae81ff">30403</span>  <span style="color:#ae81ff">30402</span>    <span style="color:#ae81ff">0</span> /usr/local/bin/stress -t <span style="color:#ae81ff">1</span> -d <span style="color:#ae81ff">1</span>
+sh               <span style="color:#ae81ff">30405</span>  <span style="color:#ae81ff">30393</span>    <span style="color:#ae81ff">0</span>
+stress           <span style="color:#ae81ff">30407</span>  <span style="color:#ae81ff">30405</span>    <span style="color:#ae81ff">0</span> /usr/local/bin/stress -t <span style="color:#ae81ff">1</span> -d <span style="color:#ae81ff">1</span>
+...
+</code></pre></div><h3 id="小结">小结</h3>
+<ul>
+<li>第一，应用里直接调用了其他二进制程序，这些程序通常运行时间比较短，通过 top 等工具也不容易发现。</li>
+<li>第二，应用本身在不停地崩溃重启，而启动过程的资源初始化，很可能会占用相当多的 CPU。</li>
+</ul>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-05-31T12:45:21&#43;0800 class="date">Sunday, May 31, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/05%E5%9F%BA%E7%A1%80%E7%AF%87%E6%9F%90%E4%B8%AA%E5%BA%94%E7%94%A8%E7%9A%84cpu%E4%BD%BF%E7%94%A8%E7%8E%87%E5%B1%85%E7%84%B6%E8%BE%BE%E5%88%B0100%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E/" class="prev">05|基础篇--某个应用的CPU使用率居然达到100%，我该怎么办？</a>
+      
+      
+      <a href="https://zsy619.github.io/post/35%E5%9F%BA%E7%A1%80%E7%AF%87c10k-%E5%92%8C-c1000k-%E5%9B%9E%E9%A1%BE/" class="next">35|基础篇：C10K 和 C1000K 回顾</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

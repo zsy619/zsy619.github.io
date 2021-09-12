@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    官方golang泛型阅读笔记 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">官方golang泛型阅读笔记</h2>
+    <div class="post_content">
+      <h3 id="常量定义">常量定义</h3>
+<p>链接地址：
+<a href="https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/constraints/constraints.go2">https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/constraints/constraints.go2</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// Ordered permits any ordered type: any type that supports
+</span><span style="color:#75715e">// the operations &lt;, &lt;=, &gt;=, &gt;, as well as == and !=.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Ordered</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int8</span>, <span style="color:#66d9ef">int16</span>, <span style="color:#66d9ef">int32</span>, <span style="color:#66d9ef">int64</span>,
+		<span style="color:#66d9ef">uint</span>, <span style="color:#66d9ef">uint8</span>, <span style="color:#66d9ef">uint16</span>, <span style="color:#66d9ef">uint32</span>, <span style="color:#66d9ef">uint64</span>, <span style="color:#66d9ef">uintptr</span>,
+		<span style="color:#66d9ef">float32</span>, <span style="color:#66d9ef">float64</span>,
+		<span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#75715e">// Integer permits any integer type.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Integer</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int8</span>, <span style="color:#66d9ef">int16</span>, <span style="color:#66d9ef">int32</span>, <span style="color:#66d9ef">int64</span>,
+		<span style="color:#66d9ef">uint</span>, <span style="color:#66d9ef">uint8</span>, <span style="color:#66d9ef">uint16</span>, <span style="color:#66d9ef">uint32</span>, <span style="color:#66d9ef">uint64</span>, <span style="color:#66d9ef">uintptr</span>
+}
+
+<span style="color:#75715e">// Signed permits any signed integer type.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Signed</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int8</span>, <span style="color:#66d9ef">int16</span>, <span style="color:#66d9ef">int32</span>, <span style="color:#66d9ef">int64</span>
+}
+
+<span style="color:#75715e">// Unsigned permits any unsigned integer type.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Unsigned</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">uint</span>, <span style="color:#66d9ef">uint8</span>, <span style="color:#66d9ef">uint16</span>, <span style="color:#66d9ef">uint32</span>, <span style="color:#66d9ef">uint64</span>, <span style="color:#66d9ef">uintptr</span>
+}
+
+</code></pre></div><h3 id="any-类型">any 类型</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// A Sender is used to send values to a Receiver.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Sender</span>[<span style="color:#a6e22e">Elem</span> <span style="color:#a6e22e">any</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">values</span> <span style="color:#66d9ef">chan</span><span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">Elem</span>
+	<span style="color:#a6e22e">done</span>   <span style="color:#f92672">&lt;-</span><span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{}
+}
+
+</code></pre></div><p>any：表示任何类型</p>
+<h3 id="泛型结构体与接口">泛型结构体与接口</h3>
+<p>链接地址：<a href="https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/graph/graph.go2">https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/graph/graph.go2</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// A Graph is a collection of nodes. A node may have an arbitrary number
+</span><span style="color:#75715e">// of edges. An edge connects two nodes. Both nodes and edges must be
+</span><span style="color:#75715e">// comparable. This is an undirected simple graph.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Graph</span>[<span style="color:#a6e22e">Node</span> <span style="color:#a6e22e">NodeC</span>[<span style="color:#a6e22e">Edge</span>], <span style="color:#a6e22e">Edge</span> <span style="color:#a6e22e">EdgeC</span>[<span style="color:#a6e22e">Node</span>]] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">nodes</span> []<span style="color:#a6e22e">Node</span>
+}
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// NodeC is the contraints on a node in a graph, given the Edge type.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">NodeC</span>[<span style="color:#a6e22e">Edge</span> <span style="color:#a6e22e">any</span>] <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">comparable</span>
+	<span style="color:#a6e22e">Edges</span>() []<span style="color:#a6e22e">Edge</span>
+}
+
+<span style="color:#75715e">// Edgec is the constraints on an edge in a graph, given the Node type.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">EdgeC</span>[<span style="color:#a6e22e">Node</span> <span style="color:#a6e22e">any</span>] <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">comparable</span>
+	<span style="color:#a6e22e">Nodes</span>() (<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#a6e22e">Node</span>)
+}
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// GraphP is a version of Graph that uses pointers. This is for testing.
+</span><span style="color:#75715e">// I&#39;m not sure which approach will be better in practice, or whether
+</span><span style="color:#75715e">// this indicates a problem with the draft design.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">GraphP</span>[<span style="color:#66d9ef">type</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span> <span style="color:#a6e22e">NodeCP</span>[<span style="color:#a6e22e">Edge</span>], <span style="color:#f92672">*</span><span style="color:#a6e22e">Edge</span> <span style="color:#a6e22e">EdgeCP</span>[<span style="color:#a6e22e">Node</span>]] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">nodes</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>
+}
+
+</code></pre></div><h3 id="slices-中-怪异的-f--f">slices 中 怪异的 f != f</h3>
+<p>链接地址：
+<a href="https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/slices/slices.go2">https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/slices/slices.go2</a></p>
+<p><img src="../../images/20200908-2219-06.png" alt=""></p>
+<p>问题一：为什么 f != f ？</p>
+<pre><code>主要考虑浮点数
+</code></pre>
+<p><img src="../../images/20200909-1422-22.png" alt=""></p>
+<p>问题二：isNaN 函数是否放 for 循环体之外更合适？</p>
+<h3 id="linked-list">linked list</h3>
+<p>链接地址：<a href="https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/list/list.go2">https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/list/list.go2</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// Element is an element of a linked list.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Element</span>[<span style="color:#a6e22e">TElem</span> <span style="color:#a6e22e">any</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#75715e">// Next and previous pointers in the doubly-linked list of elements.
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// To simplify the implementation, internally a list l is implemented
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// as a ring, such that &amp;l.root is both the next element of the last
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// list element (l.Back()) and the previous element of the first list
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// element (l.Front()).
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">next</span>, <span style="color:#a6e22e">prev</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Element</span>[<span style="color:#a6e22e">TElem</span>]
+
+	<span style="color:#75715e">// The list to which this element belongs.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">list</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">List</span>[<span style="color:#a6e22e">TElem</span>]
+
+	<span style="color:#75715e">// The value stored with this element.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Value</span> <span style="color:#a6e22e">TElem</span>
+}
+
+<span style="color:#75715e">// List represents a doubly linked list.
+</span><span style="color:#75715e">// The zero value for List is an empty list ready to use.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">List</span>[<span style="color:#a6e22e">TElem</span> <span style="color:#a6e22e">any</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">root</span> <span style="color:#a6e22e">Element</span>[<span style="color:#a6e22e">TElem</span>] <span style="color:#75715e">// sentinel list element, only &amp;root, root.prev, and root.next are used
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">len</span>  <span style="color:#66d9ef">int</span>     <span style="color:#75715e">// current list length excluding (this) sentinel element
+</span><span style="color:#75715e"></span>}
+
+</code></pre></div><h3 id="maps-结构">maps 结构</h3>
+<p>链接地址：<a href="https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/maps/maps.go2">https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/maps/maps.go2</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// Keys returns the keys of the map m.
+</span><span style="color:#75715e">// The keys will be an indeterminate order.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Keys</span>[<span style="color:#a6e22e">K</span> <span style="color:#a6e22e">comparable</span>, <span style="color:#a6e22e">V</span> <span style="color:#a6e22e">any</span>](<span style="color:#a6e22e">m</span> <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">K</span>]<span style="color:#a6e22e">V</span>) []<span style="color:#a6e22e">K</span> {
+	<span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> make([]<span style="color:#a6e22e">K</span>, <span style="color:#ae81ff">0</span>, len(<span style="color:#a6e22e">m</span>))
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">m</span> {
+		<span style="color:#a6e22e">r</span> = append(<span style="color:#a6e22e">r</span>, <span style="color:#a6e22e">k</span>)
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">r</span>
+}
+
+</code></pre></div><h3 id="metrics">metrics</h3>
+<p>链接地址：<a href="https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/metrics/metrics.go2">https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/metrics/metrics.go2</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// Metric1 tracks metrics of values of some type.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Metric1</span>[<span style="color:#a6e22e">T</span> <span style="color:#a6e22e">comparable</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">mu</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>
+	<span style="color:#a6e22e">m</span>  <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">T</span>]<span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">key2</span>[<span style="color:#a6e22e">T1</span>, <span style="color:#a6e22e">T2</span> <span style="color:#a6e22e">comparable</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">f1</span> <span style="color:#a6e22e">T1</span>
+	<span style="color:#a6e22e">f2</span> <span style="color:#a6e22e">T2</span>
+}
+
+<span style="color:#75715e">// Metric2 tracks metrics of pairs of values.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Metric2</span>[<span style="color:#a6e22e">T1</span>, <span style="color:#a6e22e">T2</span> <span style="color:#a6e22e">comparable</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">mu</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>
+	<span style="color:#a6e22e">m</span>  <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">key2</span>[<span style="color:#a6e22e">T1</span>, <span style="color:#a6e22e">T2</span>]]<span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">key3</span>[<span style="color:#a6e22e">T1</span>, <span style="color:#a6e22e">T2</span>, <span style="color:#a6e22e">T3</span> <span style="color:#a6e22e">comparable</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">f1</span> <span style="color:#a6e22e">T1</span>
+	<span style="color:#a6e22e">f2</span> <span style="color:#a6e22e">T2</span>
+	<span style="color:#a6e22e">f3</span> <span style="color:#a6e22e">T3</span>
+}
+
+<span style="color:#75715e">// Metric3 tracks metrics of triplets of values.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Metric3</span>[<span style="color:#a6e22e">T1</span>, <span style="color:#a6e22e">T2</span>, <span style="color:#a6e22e">T3</span> <span style="color:#a6e22e">comparable</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">mu</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>
+	<span style="color:#a6e22e">m</span>  <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">key3</span>[<span style="color:#a6e22e">T1</span>, <span style="color:#a6e22e">T2</span>, <span style="color:#a6e22e">T3</span>]]<span style="color:#66d9ef">int</span>
+}
+
+</code></pre></div><h3 id="orderedmap">orderedmap</h3>
+<p>链接地址：<a href="https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/orderedmap/orderedmap.go2">https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/orderedmap/orderedmap.go2</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// Map is an ordered map.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Map</span>[<span style="color:#a6e22e">K</span>, <span style="color:#a6e22e">V</span> <span style="color:#a6e22e">any</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">root</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>[<span style="color:#a6e22e">K</span>, <span style="color:#a6e22e">V</span>]
+	<span style="color:#a6e22e">compare</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">K</span>, <span style="color:#a6e22e">K</span>) <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#75715e">// node is the type of a node in the binary tree.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">node</span>[<span style="color:#a6e22e">K</span>, <span style="color:#a6e22e">V</span> <span style="color:#a6e22e">any</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">key</span>         <span style="color:#a6e22e">K</span>
+	<span style="color:#a6e22e">val</span>         <span style="color:#a6e22e">V</span>
+	<span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">node</span>[<span style="color:#a6e22e">K</span>, <span style="color:#a6e22e">V</span>]
+}
+
+</code></pre></div><h3 id="sets">sets</h3>
+<p>链接地址：<a href="https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/sets/sets.go2">https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/sets/sets.go2</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// A Set is a set of elements of some type.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Set</span>[<span style="color:#a6e22e">Elem</span> <span style="color:#a6e22e">comparable</span>] <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">m</span> <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">Elem</span>]<span style="color:#66d9ef">struct</span>{}
+}
+
+<span style="color:#75715e">// Add adds an element to a set.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">Set</span>[<span style="color:#a6e22e">Elem</span>]) <span style="color:#a6e22e">Add</span>(<span style="color:#a6e22e">v</span> <span style="color:#a6e22e">Elem</span>) {
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">m</span>[<span style="color:#a6e22e">v</span>] = <span style="color:#66d9ef">struct</span>{}{}
+}
+
+</code></pre></div><h3 id="slices">slices</h3>
+<p>链接地址：<a href="https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/slices/slices.go2">https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/slices/slices.go2</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#75715e">// Equal reports whether two slices are equal: the same length and all
+</span><span style="color:#75715e">// elements equal. All floating point NaNs are considered equal.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Equal</span>[<span style="color:#a6e22e">Elem</span> <span style="color:#a6e22e">comparable</span>](<span style="color:#a6e22e">s1</span>, <span style="color:#a6e22e">s2</span> []<span style="color:#a6e22e">Elem</span>) <span style="color:#66d9ef">bool</span> {
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">s1</span>) <span style="color:#f92672">!=</span> len(<span style="color:#a6e22e">s2</span>) {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+	}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">v1</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">s1</span> {
+		<span style="color:#a6e22e">v2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s2</span>[<span style="color:#a6e22e">i</span>]
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v1</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">v2</span> {
+			<span style="color:#a6e22e">isNaN</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">f</span> <span style="color:#a6e22e">Elem</span>) <span style="color:#66d9ef">bool</span> { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">f</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">f</span> }
+			<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">isNaN</span>(<span style="color:#a6e22e">v1</span>) <span style="color:#f92672">||</span> !<span style="color:#a6e22e">isNaN</span>(<span style="color:#a6e22e">v2</span>) {
+				<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+			}
+		}
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+}
+
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-09-08T22:17:08&#43;0800 class="date">Tuesday, September 8, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/golang">golang</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/%E6%B3%9B%E5%9E%8B">泛型</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      
+      <a href="https://zsy619.github.io/golang/go2go/" class="next">go2go命令</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

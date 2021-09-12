@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    Docker 安装 Redis | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">Docker 安装 Redis</h2>
+    <div class="post_content">
+      <p>Redis 是一个开源的使用 ANSI C 语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value 的 NoSQL 数据库，并提供多种语言的 API。</p>
+<h3 id="查看可用的-redis-版本">查看可用的 Redis 版本</h3>
+<p>访问 Redis 镜像库地址： <a href="https://hub.docker.com/_/redis?tab=tags">https://hub.docker.com/_/redis?tab=tags</a>。</p>
+<p>可以通过 Sort by 查看其他版本的 Redis，默认是最新版本 redis:latest。</p>
+<p><img src="../../images/20200912-1339-07.png" alt=""></p>
+<p>可以在下拉列表中找到其他你想要的版本：</p>
+<p><img src="../../images/20200912-1339-32.png" alt=""></p>
+<p><img src="../../images/20200912-1339-45.png" alt=""></p>
+<p>可以用 docker search redis 命令来查看可用版本：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker  search redis
+NAME                             DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
+redis                            Redis is an open source key-value store that…   <span style="color:#ae81ff">8564</span>                <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+bitnami/redis                    Bitnami Redis Docker Image                      <span style="color:#ae81ff">161</span>                                     <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+sameersbn/redis                                                                  <span style="color:#ae81ff">81</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+grokzen/redis-cluster            Redis cluster 3.0, 3.2, 4.0, 5.0, 6.0           <span style="color:#ae81ff">70</span>
+rediscommander/redis-commander   Alpine image <span style="color:#66d9ef">for</span> redis-commander - Redis man…   <span style="color:#ae81ff">47</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+kubeguide/redis-master           redis-master with <span style="color:#e6db74">&#34;Hello World!&#34;</span>                <span style="color:#ae81ff">33</span>
+redislabs/redis                  Clustered in-memory database engine compatib…   <span style="color:#ae81ff">26</span>
+redislabs/redisearch             Redis With the RedisSearch module pre-loaded…   <span style="color:#ae81ff">24</span>
+oliver006/redis_exporter          Prometheus Exporter <span style="color:#66d9ef">for</span> Redis Metrics. Supp…   <span style="color:#ae81ff">22</span>
+arm32v7/redis                    Redis is an open source key-value store that…   <span style="color:#ae81ff">21</span>
+redislabs/rejson                 RedisJSON - Enhanced JSON data type processi…   <span style="color:#ae81ff">18</span>
+bitnami/redis-sentinel           Bitnami Docker Image <span style="color:#66d9ef">for</span> Redis Sentinel         <span style="color:#ae81ff">16</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+redislabs/redisinsight           RedisInsight - The GUI <span style="color:#66d9ef">for</span> Redis                <span style="color:#ae81ff">13</span>
+webhippie/redis                  Docker images <span style="color:#66d9ef">for</span> Redis                         <span style="color:#ae81ff">12</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+redislabs/redisgraph             A graph database module <span style="color:#66d9ef">for</span> Redis               <span style="color:#ae81ff">11</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+s7anley/redis-sentinel-docker    Redis Sentinel                                  <span style="color:#ae81ff">10</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+arm64v8/redis                    Redis is an open source key-value store that…   <span style="color:#ae81ff">9</span>
+insready/redis-stat              Docker image <span style="color:#66d9ef">for</span> the real-time Redis monitor…   <span style="color:#ae81ff">9</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+redislabs/redismod               An automated build of redismod - latest Redi…   <span style="color:#ae81ff">7</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+centos/redis-32-centos7          Redis in-memory data structure store, used a…   <span style="color:#ae81ff">5</span>
+circleci/redis                   CircleCI images <span style="color:#66d9ef">for</span> Redis                       <span style="color:#ae81ff">5</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+clearlinux/redis                 Redis key-value data structure server with t…   <span style="color:#ae81ff">2</span>
+tiredofit/redis                  Redis Server w/ Zabbix monitoring and S6 Ove…   <span style="color:#ae81ff">1</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+wodby/redis                      Redis container image with orchestration        <span style="color:#ae81ff">1</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+xetamus/redis-resource           forked redis-resource                           <span style="color:#ae81ff">0</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+
+</code></pre></div><h3 id="取最新版的-redis-镜像">取最新版的 Redis 镜像</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker pull redis:latest
+latest: Pulling from library/redis
+d121f8d1c412: Pull complete
+2f9874741855: Pull complete
+d92da09ebfd4: Pull complete
+bdfa64b72752: Pull complete
+e748e6f663b9: Pull complete
+eb1c8b66e2a1: Pull complete
+Digest: sha256:a05a8a1ebbef72690034a77451e6e83f4d899779190d1c00d8ab1a3a4fbbbd22
+Status: Downloaded newer image <span style="color:#66d9ef">for</span> redis:latest
+docker.io/library/redis:latest
+
+</code></pre></div><h3 id="查看本地镜像">查看本地镜像</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+mongo               latest              923803327a36        <span style="color:#ae81ff">7</span> hours ago         493MB
+redis               latest              84c5f6e03bf0        <span style="color:#ae81ff">34</span> hours ago        104MB
+
+</code></pre></div><h3 id="运行容器">运行容器</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker run -itd --name redis -p 6379:6379 redis
+a9386073261af70ca33346f13c8f7bcb11d365d72671855ea4f562f326c8589d
+
+</code></pre></div><p>参数说明：</p>
+<p>-p 6379:6379：映射容器服务的 6379 端口到宿主机的 6379 端口。外部可以直接通过宿主机 ip:6379 访问到 Redis 的服务。</p>
+<h3 id="安装成功">安装成功</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                 NAMES
+a9386073261a        redis               <span style="color:#e6db74">&#34;docker-entrypoint.s…&#34;</span>   <span style="color:#ae81ff">52</span> seconds ago      Up <span style="color:#ae81ff">50</span> seconds       0.0.0.0:6379-&gt;6379/tcp                redis
+c36ca6add3c1        mongo               <span style="color:#e6db74">&#34;docker-entrypoint.s…&#34;</span>   <span style="color:#ae81ff">2</span> hours ago         Up <span style="color:#ae81ff">2</span> hours          0.0.0.0:22017-&gt;22017/tcp, 27017/tcp   mongo
+
+</code></pre></div><p>通过 redis-cli 连接测试使用 redis 服务。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker exec -it redis /bin/bash
+root@a9386073261a:/data# redis-cli
+127.0.0.1:6379&gt;
+
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-09-12T10:56:06&#43;0800 class="date">Saturday, September 12, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/docker">docker</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/redis">redis</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/docker/install_hive/" class="prev">Docker 安装 Hive</a>
+      
+      
+      <a href="https://zsy619.github.io/docker/install_mongo/" class="next">Docker 安装 MongoDB</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    58|答疑（六）：容器冷启动如何性能分析？ | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">58|答疑（六）：容器冷启动如何性能分析？</h2>
+    <div class="post_content">
+      <h3 id="问题-1容器冷启动性能分析">问题 1：容器冷启动性能分析</h3>
+<p>容器为应用程序的管理带来了巨大的便捷，诸如 Serverless（只关注应用的运行，而无需关注服务器）、FaaS（Function as a Service）等新型的软件架构，也都基于容器技术来构建。不过，虽然容器启动已经很快了，但在启动新容器，也就是冷启动的时候，启动时间相对于应用程序的性能要求来说，还是过长了。</p>
+<p>针对耗时最多的流程，我们可以通过应用程序监控或者动态追踪的方法，定位出耗时最多的字模块，这样也就找出了要优化的瓶颈点。</p>
+<p>比如，镜像拉取流程，可以通过缓存热点镜像来减少镜像拉取时间；网络配置流程，可以通过网络资源预分配进行加速；而资源调度和容器启动，也可以通过复用预先创建好的容器来进行优化。</p>
+<h3 id="问题-2cpu-火焰图和内存火焰图有什么不同">问题 2：CPU 火焰图和内存火焰图有什么不同？</h3>
+<ul>
+<li>对 CPU 火焰图来说，采集的数据主要是消耗 CPU 的函数；</li>
+<li>而对内存火焰图来说，采集的数据主要是内存分配、释放、换页等内存管理函数。</li>
+</ul>
+<h3 id="问题-3perf-probe-失败怎么办">问题 3：perf probe 失败怎么办？</h3>
+<p>使用动态追踪工具时，由于十六进制格式的函数地址并不容易理解，就需要我们借助调试信息，将它们转换为更直观的函数名。对于内核来说，我已经多次提到过，需要安装 debuginfo。</p>
+<p>第一种方法，假如应用程序提供了调试信息软件包，那你就可以直接安装来使用。比如，对于我们案例中的 bash 来说，就可以通过下面的命令，来安装它的调试信息：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#75715e"># Ubuntu</span>
+apt-get install -y bash-dbgsym
+
+<span style="color:#75715e"># Centos</span>
+debuginfo-install bash
+
+</code></pre></div><p>第二种方法，使用源码重新编译应用程序，并开启编译器的调试信息开关，比如可以为 gcc 增加 -g 选项。</p>
+<h3 id="问题-4red-法监控微服务应用">问题 4：RED 法监控微服务应用</h3>
+<p>RED 方法，是 Weave Cloud 在监控微服务性能时，结合 Prometheus 监控，所提出的一种监控思路——即对微服务来说，监控它们的请求数（Rate）、错误数（Errors）以及响应时间（Duration）。所以，RED 方法适用于微服务应用的监控，而 USE 方法适用于系统资源的监控。</p>
+<h3 id="问题-5深入内核的方法">问题 5：深入内核的方法</h3>
+<p>在定位性能问题时，我们通过 perf、ebpf、systemtap 等各种方法排查时，很可能会发现，问题的热点在内核中的某个函数中。而青石和 xfan 的问题，就是如何去了解、深入 Linux 内核的原理，特别是想弄清楚，性能工具展示的内核函数到底是什么含义。</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-07-16T15:50:00&#43;0800 class="date">Thursday, July 16, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/57%E5%A5%97%E8%B7%AF%E7%AF%87linux-%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7%E9%80%9F%E6%9F%A5/" class="prev">57|套路篇：Linux 性能工具速查</a>
+      
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

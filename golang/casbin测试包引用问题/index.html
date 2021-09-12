@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    casbin测试包引用问题解决 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">casbin测试包引用问题解决</h2>
+    <div class="post_content">
+      <h2 id="示例程序">示例程序</h2>
+<p>基于casbin的权限管理示例</p>
+<p>参考:<a href="http://www.topgoer.com/gin%E6%A1%86%E6%9E%B6/%E5%85%B6%E4%BB%96/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.html">http://www.topgoer.com/gin框架/其他/权限管理.html</a></p>
+<p>示例代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;log&#34;</span>
+
+	<span style="color:#e6db74">&#34;github.com/casbin/casbin&#34;</span>
+	<span style="color:#a6e22e">xormadapter</span> <span style="color:#e6db74">&#34;github.com/casbin/xorm-adapter&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
+	<span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;github.com/go-sql-driver/mysql&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#75715e">// 要使用自己定义的数据库rbac_db,最后的true很重要.默认为false,使用缺省的数据库名casbin,不存在则创建
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">xormadapter</span>.<span style="color:#a6e22e">NewAdapter</span>(<span style="color:#e6db74">&#34;mysql&#34;</span>, <span style="color:#e6db74">&#34;root:123456@tcp(127.0.0.1:3306)/goblog?charset=utf8&#34;</span>, <span style="color:#66d9ef">true</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;连接数据库错误: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+		<span style="color:#66d9ef">return</span>
+	}
+	<span style="color:#a6e22e">e</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">casbin</span>.<span style="color:#a6e22e">NewEnforcer</span>(<span style="color:#e6db74">&#34;./rbac_models.conf&#34;</span>, <span style="color:#a6e22e">a</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;初始化casbin错误: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+		<span style="color:#66d9ef">return</span>
+	}
+	<span style="color:#75715e">//从DB加载策略
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">LoadPolicy</span>()
+
+	<span style="color:#75715e">//获取router路由对象
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">New</span>()
+
+	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">POST</span>(<span style="color:#e6db74">&#34;/api/v1/add&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;增加Policy&#34;</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">AddPolicy</span>(<span style="color:#e6db74">&#34;admin&#34;</span>, <span style="color:#e6db74">&#34;/api/v1/hello&#34;</span>, <span style="color:#e6db74">&#34;GET&#34;</span>); !<span style="color:#a6e22e">ok</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Policy已经存在&#34;</span>)
+		} <span style="color:#66d9ef">else</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;增加成功&#34;</span>)
+		}
+	})
+	<span style="color:#75715e">//删除policy
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">DELETE</span>(<span style="color:#e6db74">&#34;/api/v1/delete&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;删除Policy&#34;</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">RemovePolicy</span>(<span style="color:#e6db74">&#34;admin&#34;</span>, <span style="color:#e6db74">&#34;/api/v1/hello&#34;</span>, <span style="color:#e6db74">&#34;GET&#34;</span>); !<span style="color:#a6e22e">ok</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Policy不存在&#34;</span>)
+		} <span style="color:#66d9ef">else</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;删除成功&#34;</span>)
+		}
+	})
+	<span style="color:#75715e">//获取policy
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/api/v1/get&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;查看policy&#34;</span>)
+		<span style="color:#a6e22e">list</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">GetPolicy</span>()
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">vlist</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">list</span> {
+			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">vlist</span> {
+				<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;value: %s, &#34;</span>, <span style="color:#a6e22e">v</span>)
+			}
+		}
+	})
+	<span style="color:#75715e">//使用自定义拦截器中间件
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Use</span>(<span style="color:#a6e22e">Authorize</span>(<span style="color:#a6e22e">e</span>))
+	<span style="color:#75715e">//创建请求
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">GET</span>(<span style="color:#e6db74">&#34;/api/v1/hello&#34;</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Hello 接收到GET请求..&#34;</span>)
+	})
+
+	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#e6db74">&#34;:9000&#34;</span>) <span style="color:#75715e">//参数为空 默认监听8080端口
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">//拦截器
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Authorize</span>(<span style="color:#a6e22e">e</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">casbin</span>.<span style="color:#a6e22e">Enforcer</span>) <span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">HandlerFunc</span> {
+
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">gin</span>.<span style="color:#a6e22e">Context</span>) {
+
+		<span style="color:#75715e">//获取请求的URI
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">obj</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Request</span>.<span style="color:#a6e22e">URL</span>.<span style="color:#a6e22e">RequestURI</span>()
+		<span style="color:#75715e">//获取请求方法
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">act</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Request</span>.<span style="color:#a6e22e">Method</span>
+		<span style="color:#75715e">//获取用户的角色
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">sub</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;admin&#34;</span>
+
+		<span style="color:#75715e">//判断策略中是否存在
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">Enforce</span>(<span style="color:#a6e22e">sub</span>, <span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">act</span>); <span style="color:#a6e22e">ok</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;恭喜您,权限验证通过&#34;</span>)
+			<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Next</span>()
+		} <span style="color:#66d9ef">else</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;很遗憾,权限验证没有通过&#34;</span>)
+			<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Abort</span>()
+		}
+	}
+}
+
+
+</code></pre></div><h2 id="gomod文件">go.mod文件</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#a6e22e">module</span> <span style="color:#a6e22e">haedu</span><span style="color:#f92672">-</span><span style="color:#a6e22e">rbac</span><span style="color:#f92672">/</span><span style="color:#a6e22e">casbin</span><span style="color:#f92672">-</span><span style="color:#a6e22e">test</span>
+
+<span style="color:#66d9ef">go</span> <span style="color:#ae81ff">1.15</span>
+
+
+</code></pre></div><p>使用 go mod tidy 命令：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ go mod tidy
+go: finding module <span style="color:#66d9ef">for</span> package github.com/casbin/casbin
+go: finding module <span style="color:#66d9ef">for</span> package github.com/go-sql-driver/mysql
+go: finding module <span style="color:#66d9ef">for</span> package github.com/casbin/xorm-adapter
+go: finding module <span style="color:#66d9ef">for</span> package github.com/gin-gonic/gin
+go: found github.com/casbin/casbin in github.com/casbin/casbin v1.9.1
+go: found github.com/casbin/xorm-adapter in github.com/casbin/xorm-adapter v1.0.0
+go: found github.com/gin-gonic/gin in github.com/gin-gonic/gin v1.6.3
+go: found github.com/go-sql-driver/mysql in github.com/go-sql-driver/mysql v1.5.0
+go: finding module <span style="color:#66d9ef">for</span> package github.com/lib/pq
+go: finding module <span style="color:#66d9ef">for</span> package github.com/go-xorm/xorm
+go: found github.com/go-xorm/xorm in github.com/go-xorm/xorm v0.7.9
+go: found github.com/lib/pq in github.com/lib/pq v1.8.0
+go: finding module <span style="color:#66d9ef">for</span> package github.com/kr/pretty
+go: found github.com/kr/pretty in github.com/kr/pretty v0.2.1
+
+</code></pre></div><p>执行之后go.mod文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#a6e22e">module</span> <span style="color:#a6e22e">haedu</span><span style="color:#f92672">-</span><span style="color:#a6e22e">rbac</span><span style="color:#f92672">/</span><span style="color:#a6e22e">casbin</span><span style="color:#f92672">-</span><span style="color:#a6e22e">test</span>
+
+<span style="color:#66d9ef">go</span> <span style="color:#ae81ff">1.15</span>
+
+<span style="color:#a6e22e">require</span> (
+	<span style="color:#a6e22e">github</span>.<span style="color:#a6e22e">com</span><span style="color:#f92672">/</span><span style="color:#a6e22e">casbin</span><span style="color:#f92672">/</span><span style="color:#a6e22e">casbin</span> <span style="color:#a6e22e">v1</span><span style="color:#ae81ff">.9.1</span>
+	<span style="color:#a6e22e">github</span>.<span style="color:#a6e22e">com</span><span style="color:#f92672">/</span><span style="color:#a6e22e">casbin</span><span style="color:#f92672">/</span><span style="color:#a6e22e">xorm</span><span style="color:#f92672">-</span><span style="color:#a6e22e">adapter</span> <span style="color:#a6e22e">v1</span><span style="color:#ae81ff">.0.0</span>
+	<span style="color:#a6e22e">github</span>.<span style="color:#a6e22e">com</span><span style="color:#f92672">/</span><span style="color:#a6e22e">gin</span><span style="color:#f92672">-</span><span style="color:#a6e22e">gonic</span><span style="color:#f92672">/</span><span style="color:#a6e22e">gin</span> <span style="color:#a6e22e">v1</span><span style="color:#ae81ff">.6.3</span>
+	<span style="color:#a6e22e">github</span>.<span style="color:#a6e22e">com</span><span style="color:#f92672">/</span><span style="color:#66d9ef">go</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sql</span><span style="color:#f92672">-</span><span style="color:#a6e22e">driver</span><span style="color:#f92672">/</span><span style="color:#a6e22e">mysql</span> <span style="color:#a6e22e">v1</span><span style="color:#ae81ff">.5.0</span>
+	<span style="color:#a6e22e">github</span>.<span style="color:#a6e22e">com</span><span style="color:#f92672">/</span><span style="color:#66d9ef">go</span><span style="color:#f92672">-</span><span style="color:#a6e22e">xorm</span><span style="color:#f92672">/</span><span style="color:#a6e22e">xorm</span> <span style="color:#a6e22e">v0</span><span style="color:#ae81ff">.7.9</span> <span style="color:#75715e">// indirect
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">github</span>.<span style="color:#a6e22e">com</span><span style="color:#f92672">/</span><span style="color:#a6e22e">kr</span><span style="color:#f92672">/</span><span style="color:#a6e22e">pretty</span> <span style="color:#a6e22e">v0</span><span style="color:#ae81ff">.2.1</span> <span style="color:#75715e">// indirect
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">github</span>.<span style="color:#a6e22e">com</span><span style="color:#f92672">/</span><span style="color:#a6e22e">lib</span><span style="color:#f92672">/</span><span style="color:#a6e22e">pq</span> <span style="color:#a6e22e">v1</span><span style="color:#ae81ff">.8.0</span> <span style="color:#75715e">// indirect
+</span><span style="color:#75715e"></span>)
+
+
+</code></pre></div><h2 id="示例程序提示的错误">示例程序提示的错误</h2>
+<p><img src="../../images/20201015-1123-40.png" alt=""></p>
+<p>提示返回参数不正确，查看NewAdapter源码：</p>
+<p><img src="../../images/20201015-1124-51.png" alt=""></p>
+<p>发现此版本的确返回一个参数。对比github的源码，而是返回的两个参数：</p>
+<p><img src="../../images/20201015-1126-16.png" alt=""></p>
+<h2 id="gomod更改xorm-adapter版本">go.mod更改xorm-adapter版本</h2>
+<p>更改：</p>
+<p>github.com/casbin/xorm-adapter v1.0.0</p>
+<p>为：</p>
+<p>github.com/casbin/xorm-adapter master</p>
+<p><img src="../../images/20201015-1127-46.png" alt=""></p>
+<p>执行 go mod tidy 命令，最终显示为：</p>
+<p>github.com/casbin/xorm-adapter v1.0.1-0.20191120030838-267478260350</p>
+<p><img src="../../images/20201015-1128-29.png" alt=""></p>
+<p>【注】其他类库雷同错误也可按照以上步骤解决。</p>
+<p>最终go.mod文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go.mod" data-lang="go.mod">
+module haedu<span style="color:#f92672">-</span>rbac<span style="color:#f92672">/</span>casbin<span style="color:#f92672">-</span>test
+
+go <span style="color:#ae81ff">1.15</span>
+
+require (
+	github.com<span style="color:#f92672">/</span>casbin<span style="color:#f92672">/</span>casbin<span style="color:#f92672">/</span>v2 v2.<span style="color:#ae81ff">14.2</span>
+	github.com<span style="color:#f92672">/</span>casbin<span style="color:#f92672">/</span>xorm<span style="color:#f92672">-</span>adapter v1.<span style="color:#ae81ff">0.1</span><span style="color:#f92672">-</span><span style="color:#ae81ff">0.20191120030838</span><span style="color:#f92672">-</span><span style="color:#ae81ff">267478260350</span>
+	github.com<span style="color:#f92672">/</span>gin<span style="color:#f92672">-</span>gonic<span style="color:#f92672">/</span>gin v1.<span style="color:#ae81ff">6.3</span>
+	github.com<span style="color:#f92672">/</span>go<span style="color:#f92672">-</span>sql<span style="color:#f92672">-</span>driver<span style="color:#f92672">/</span>mysql v1.<span style="color:#ae81ff">5.0</span>
+	github.com<span style="color:#f92672">/</span>kr<span style="color:#f92672">/</span>pretty v0.<span style="color:#ae81ff">2.1</span> <span style="color:#f92672">//</span> indirect
+	github.com<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>pq v1.<span style="color:#ae81ff">8.0</span> <span style="color:#f92672">//</span> indirect
+)
+
+</code></pre></div><h2 id="修改maingo中import包">修改main.go中import包</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;log&#34;</span>
+
+	<span style="color:#a6e22e">casbin</span> <span style="color:#e6db74">&#34;github.com/casbin/casbin/v2&#34;</span>
+	<span style="color:#a6e22e">xormadapter</span> <span style="color:#e6db74">&#34;github.com/casbin/xorm-adapter&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/gin-gonic/gin&#34;</span>
+	<span style="color:#a6e22e">_</span> <span style="color:#e6db74">&#34;github.com/go-sql-driver/mysql&#34;</span>
+)
+
+</code></pre></div><p>casbin加上版本号~~~</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-10-15T11:16:53&#43;0800 class="date">Thursday, October 15, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/golang">golang</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/bug">bug</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/golang/go%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/" class="prev">Go学习网站汇总</a>
+      
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    14|答疑（二）如何用perf工具分析Java程序？ | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">14|答疑（二）如何用perf工具分析Java程序？</h2>
+    <div class="post_content">
+      <h3 id="问题-1-使用-perf-工具时看到的是-16-进制地址而不是函数名">问题 1： 使用 perf 工具时，看到的是 16 进制地址而不是函数名</h3>
+<p><img src="../../images/20200602-1236-03.png" alt=""></p>
+<p>只要你观察一下 perf 界面最下面的那一行，就会发现一个警告信息：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">Failed to open /opt/bitnami/php/lib/php/extensions/opcache.so, continuing without symbols
+</code></pre></div><p>这说明，perf 找不到待分析进程依赖的库。当然，实际上这个案例中有很多依赖库都找不到，只不过，perf 工具本身只在最后一行显示警告信息，所以你只能看到这一条警告。</p>
+<p>这个问题，其实也是在分析 Docker 容器应用时，我们经常碰到的一个问题，因为容器应用依赖的库都在镜像里面。</p>
+<p>四个解决方法:</p>
+<ul>
+<li>第一个方法，在容器外面构建相同路径的依赖库。这种方法从原理上可行，但是我并不推荐，一方面是因为找出这些依赖库比较麻烦，更重要的是，构建这些路径，会污染容器主机的环境。</li>
+<li>第二个方法，在容器内部运行 perf。不过，这需要容器运行在特权模式下，但实际的应用程序往往只以普通容器的方式运行。所以，容器内部一般没有权限执行 perf 分析。</li>
+<li>第三个方法，指定符号路径为容器文件系统的路径。
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mkdir /tmp/foo
+$ PID<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect --format <span style="color:#f92672">{{</span>.State.Pid<span style="color:#f92672">}}</span> phpfpm<span style="color:#66d9ef">)</span>
+$ bindfs /proc/$PID/root /tmp/foo
+$ perf report --symfs /tmp/foo
+
+<span style="color:#75715e"># 使用完成后不要忘记解除绑定</span>
+$ umount /tmp/foo/
+</code></pre></div></li>
+<li>第四个方法，在容器外面把分析纪录保存下来，再去容器里查看结果。这样，库和符号的路径也就都对了。</li>
+</ul>
+<h3 id="问题-2如何用-perf-工具分析-java-程序">问题 2：如何用 perf 工具分析 Java 程序</h3>
+<p><img src="../../images/20200602-1242-33.png" alt=""></p>
+<p><img src="../../images/20200602-1243-15.png" alt=""></p>
+<h3 id="问题-3为什么-perf-的报告中很多符号都不显示调用栈">问题 3：为什么 perf 的报告中，很多符号都不显示调用栈</h3>
+<p><img src="../../images/20200602-1244-06.png" alt=""></p>
+<h3 id="问题-4怎么理解-perf-report-报告">问题 4：怎么理解 perf report 报告</h3>
+<p><img src="../../images/20200602-1245-58.png" alt=""></p>
+<p><img src="../../images/20200602-1246-04.png" alt=""></p>
+<p>工具性能了解：</p>
+<ul>
+<li>perf 这种动态追踪工具，会给系统带来一定的性能损失。</li>
+<li>vmstat、pidstat 这些直接读取 proc 文件系统来获取指标的工具，不会带来性能损失。</li>
+</ul>
+<h3 id="问题-5性能优化书籍和参考资料推荐">问题 5：性能优化书籍和参考资料推荐</h3>
+<p><img src="../../images/20200602-1247-43.png" alt=""></p>
+<p>《性能之巅：洞悉系统、企业与云计算》</p>
+<p><a href="http://www.brendangregg.com/">http://www.brendangregg.com/</a> 特别关注：http://www.brendangregg.com/linuxperf.html</p>
+<ul>
+<li>Linux 性能工具图谱</li>
+<li>性能分析参考资料</li>
+<li>性能优化的演讲视频</li>
+</ul>
+<h3 id="抓住主线不动摇先从最基本的原理开始掌握性能分析的思路然后再逐步深入探究细节不要试图一口吃成个大胖子">抓住主线不动摇，先从最基本的原理开始，掌握性能分析的思路，然后再逐步深入，探究细节，不要试图一口吃成个大胖子。</h3>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-06-02T12:25:48&#43;0800 class="date">Tuesday, June 2, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/13%E7%AD%94%E7%96%91%E4%B8%80%E6%97%A0%E6%B3%95%E6%A8%A1%E6%8B%9F%E5%87%BAres%E4%B8%AD%E6%96%AD%E7%9A%84%E9%97%AE%E9%A2%98%E6%80%8E%E4%B9%88%E5%8A%9E/" class="prev">13|答疑（一）无法模拟出RES中断的问题，怎么办？</a>
+      
+      
+      <a href="https://zsy619.github.io/post/%E7%AC%AC%E4%BA%8C%E5%91%A810-14%E9%98%B6%E6%AE%B5%E5%B0%8F%E7%BB%93/" class="next">第二周10-14阶段小结</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

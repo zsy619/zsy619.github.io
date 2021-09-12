@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    Docker 安装 MongoDB | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">Docker 安装 MongoDB</h2>
+    <div class="post_content">
+      <p>MongoDB 是一个免费的开源跨平台面向文档的 NoSQL 数据库程序。</p>
+<h3 id="查看可用的-mongodb-版本">查看可用的 MongoDB 版本</h3>
+<p>访问 MongoDB 镜像库地址： <a href="https://hub.docker.com/_/mongo?tab=tags&amp;page=1%E3%80%82">https://hub.docker.com/_/mongo?tab=tags&amp;page=1。</a></p>
+<p>可以通过 Sort by 查看其他版本的 MongoDB，默认是最新版本 mongo:latest。</p>
+<p><img src="../../images/20200912-1114-36.png" alt=""></p>
+<p>也可以在下拉列表中找到其他你想要的版本：</p>
+<p><img src="../../images/20200912-1114-59.png" alt=""></p>
+<p><img src="../../images/20200912-1115-14.png" alt=""></p>
+<p>可以用 docker search mongo 命令来查看可用版本：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker search mongo
+NAME                                DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
+mongo                               MongoDB document databases provide high avai…   <span style="color:#ae81ff">7160</span>                <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+mongo-express                       Web-based MongoDB admin interface, written w…   <span style="color:#ae81ff">768</span>                 <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+tutum/mongodb                       MongoDB Docker image – listens in port 27017…   <span style="color:#ae81ff">229</span>                                     <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+bitnami/mongodb                     Bitnami MongoDB Docker Image                    <span style="color:#ae81ff">126</span>                                     <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+mongoclient/mongoclient             Official docker image <span style="color:#66d9ef">for</span> Mongoclient, featu…   <span style="color:#ae81ff">89</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+mongooseim/mongooseim               Small docker image <span style="color:#66d9ef">for</span> MongooseIM - robust a…   <span style="color:#ae81ff">19</span>
+frodenas/mongodb                    A Docker Image <span style="color:#66d9ef">for</span> MongoDB                      <span style="color:#ae81ff">18</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+cvallance/mongo-k8s-sidecar         Kubernetes side car to setup and maintain a …   <span style="color:#ae81ff">17</span>                                      <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+arm64v8/mongo                       MongoDB document databases provide high avai…   <span style="color:#ae81ff">9</span>
+centos/mongodb-32-centos7           MongoDB NoSQL database server                   <span style="color:#ae81ff">8</span>
+circleci/mongo                      CircleCI images <span style="color:#66d9ef">for</span> MongoDB                     <span style="color:#ae81ff">8</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+webhippie/mongodb                   Docker images <span style="color:#66d9ef">for</span> MongoDB                       <span style="color:#ae81ff">7</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+centos/mongodb-36-centos7           MongoDB NoSQL database server                   <span style="color:#ae81ff">6</span>
+istepanov/mongodump                 Docker image with mongodump running as a cro…   <span style="color:#ae81ff">6</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+centos/mongodb-26-centos7           MongoDB NoSQL database server                   <span style="color:#ae81ff">5</span>
+neowaylabs/mongodb-mms-agent        This Docker image with MongoDB Monitoring Ag…   <span style="color:#ae81ff">4</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+eses/mongodb_exporter               mongodb exporter <span style="color:#66d9ef">for</span> prometheus                 <span style="color:#ae81ff">4</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+centos/mongodb-34-centos7           MongoDB NoSQL database server                   <span style="color:#ae81ff">3</span>
+andreasleicher/mongo-azure-backup   a docker container to backup a mongodb using…   <span style="color:#ae81ff">2</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+openshift/mongodb-24-centos7        DEPRECATED: A Centos7 based MongoDB v2.4 ima…   <span style="color:#ae81ff">1</span>
+ansibleplaybookbundle/mongodb-apb   An APB to deploy MongoDB.                       <span style="color:#ae81ff">1</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+ekesken/mongo                       docker image <span style="color:#66d9ef">for</span> mongo that is configurable …   <span style="color:#ae81ff">1</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+martel/mongo-replica-ctrl           A dockerized controller <span style="color:#66d9ef">for</span> a Mongo db repli…   <span style="color:#ae81ff">0</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+phenompeople/mongodb                 MongoDB is an open-source, document databas…   <span style="color:#ae81ff">0</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+targetprocess/mongodb_exporter      MongoDB exporter <span style="color:#66d9ef">for</span> prometheus                 <span style="color:#ae81ff">0</span>                                       <span style="color:#f92672">[</span>OK<span style="color:#f92672">]</span>
+
+</code></pre></div><h3 id="取最新版的-mongodb-镜像">取最新版的 MongoDB 镜像</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker pull mongo:latest
+latest: Pulling from library/mongo
+f08d8e2a3ba1: Pull complete
+3baa9cb2483b: Pull complete
+94e5ff4c0b15: Pull complete
+1860925334f9: Pull complete
+9d42806c06e6: Pull complete
+31a9fd218257: Pull complete
+5bd6e3f73ab9: Pull complete
+f6ae7a64936b: Pull complete
+80fde2cb25c5: Pull complete
+80dd04855bec: Pull complete
+38c0e96de174: Extracting  58.49MB/142.5MB
+b7256055e1ef: Download complete
+23bef11da1da: Download complete
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker pull mongo:latest
+latest: Pulling from library/mongo
+f08d8e2a3ba1: Pull complete
+3baa9cb2483b: Pull complete
+94e5ff4c0b15: Pull complete
+1860925334f9: Pull complete
+9d42806c06e6: Pull complete
+31a9fd218257: Pull complete
+5bd6e3f73ab9: Pull complete
+f6ae7a64936b: Pull complete
+80fde2cb25c5: Pull complete
+80dd04855bec: Pull complete
+38c0e96de174: Pull complete
+b7256055e1ef: Pull complete
+23bef11da1da: Pull complete
+Digest: sha256:f8dcfaa1d5eab1fec5567ef4e7dedab97b9e41876222fba9c0588cdff312fdf8
+Status: Downloaded newer image <span style="color:#66d9ef">for</span> mongo:latest
+docker.io/library/mongo:latest
+
+</code></pre></div><h3 id="查看本地镜像">查看本地镜像</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+mongo               latest              923803327a36        <span style="color:#ae81ff">5</span> hours ago         493MB
+mysql               latest              3646af3dc14a        <span style="color:#ae81ff">7</span> days ago          544MB
+redis               latest              41de2cc0b30e        <span style="color:#ae81ff">10</span> days ago         104MB
+
+</code></pre></div><p>已经安装了最新版本（latest）的 mongo 镜像。</p>
+<h3 id="运行容器">运行容器</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker run -itd --name mongo -p 22017:22017 mongo --auth
+9128b8be7ad068ade8bd585abd244634dd16f61163c2f3780cf0cfabcee13ea0
+
+</code></pre></div><p>参数说明：</p>
+<blockquote>
+<p>-p 27017:27017 ：映射容器服务的 27017 端口到宿主机的 27017 端口。外部可以直接通过 宿主机 ip:27017 访问到 mongo 的服务。<br>
+&ndash;auth：需要密码才能访问容器服务。</p>
+</blockquote>
+<h3 id="安装验证">安装验证</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                                 NAMES
+9128b8be7ad0        mongo               <span style="color:#e6db74">&#34;docker-entrypoint.s…&#34;</span>   About a minute ago   Up About a minute   0.0.0.0:22017-&gt;22017/tcp, 27017/tcp   mongo
+
+</code></pre></div><p>使用以下命令添加用户和设置密码，并且尝试连接。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker exec -it mongo mongo admin
+<span style="color:#75715e"># 创建一个名为 admin，密码为 123456 的用户。</span>
+&gt;  db.createUser<span style="color:#f92672">({</span> user:<span style="color:#e6db74">&#39;admin&#39;</span>,pwd:<span style="color:#e6db74">&#39;123456&#39;</span>,roles:<span style="color:#f92672">[</span> <span style="color:#f92672">{</span> role:<span style="color:#e6db74">&#39;userAdminAnyDatabase&#39;</span>, db: <span style="color:#e6db74">&#39;admin&#39;</span><span style="color:#f92672">}]})</span>;
+<span style="color:#75715e"># 尝试使用上面创建的用户信息进行连接。</span>
+&gt; db.auth<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;admin&#39;</span>, <span style="color:#e6db74">&#39;123456&#39;</span><span style="color:#f92672">)</span>
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker exec -it mongo mongo admin
+MongoDB shell version v4.4.1
+connecting to: mongodb://127.0.0.1:27017/admin?compressors<span style="color:#f92672">=</span>disabled&amp;gssapiServiceName<span style="color:#f92672">=</span>mongodb
+Implicit session: session <span style="color:#f92672">{</span> <span style="color:#e6db74">&#34;id&#34;</span> : UUID<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cb7e2d23-92ce-40d2-b775-4b5e1378ecff&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">}</span>
+MongoDB server version: 4.4.1
+Welcome to the MongoDB shell.
+For interactive help, type <span style="color:#e6db74">&#34;help&#34;</span>.
+For more comprehensive documentation, see
+        https://docs.mongodb.com/
+Questions? Try the MongoDB Developer Community Forums
+        https://community.mongodb.com
+&gt;
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+&gt; db.createUser<span style="color:#f92672">({</span>user:<span style="color:#e6db74">&#39;admin&#39;</span>,pwd:<span style="color:#e6db74">&#39;123456&#39;</span>,roles:<span style="color:#f92672">[{</span>role:<span style="color:#e6db74">&#39;userAdminAnyDatabase&#39;</span>,db:<span style="color:#e6db74">&#39;admin&#39;</span><span style="color:#f92672">}]})</span>;
+Successfully added user: <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;user&#34;</span> : <span style="color:#e6db74">&#34;admin&#34;</span>,
+        <span style="color:#e6db74">&#34;roles&#34;</span> : <span style="color:#f92672">[</span>
+                <span style="color:#f92672">{</span>
+                        <span style="color:#e6db74">&#34;role&#34;</span> : <span style="color:#e6db74">&#34;userAdminAnyDatabase&#34;</span>,
+                        <span style="color:#e6db74">&#34;db&#34;</span> : <span style="color:#e6db74">&#34;admin&#34;</span>
+                <span style="color:#f92672">}</span>
+        <span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+&gt; db.auth<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;admin&#39;</span>,<span style="color:#e6db74">&#39;123456&#39;</span><span style="color:#f92672">)</span>
+<span style="color:#ae81ff">1</span>
+
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-09-12T10:56:44&#43;0800 class="date">Saturday, September 12, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/docker">docker</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/mongo">mongo</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/docker/install_redis/" class="prev">Docker 安装 Redis</a>
+      
+      
+      <a href="https://zsy619.github.io/docker/install_mysql/" class="next">Docker 安装 MySQL</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    51|案例篇：动态追踪怎么用？（下） | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">51|案例篇：动态追踪怎么用？（下）</h2>
+    <div class="post_content">
+      <p>在 Linux 系统中，常见的动态追踪方法包括 ftrace、perf、eBPF 以及 SystemTap 等。上节课，我们具体学习了 ftrace 的使用方法。</p>
+<h3 id="perf">perf</h3>
+<p>我们前面使用 perf record/top 时，都是先对事件进行采样，然后再根据采样数，评估各个函数的调用频率。实际上，perf 的功能远不止于此。比如，</p>
+<ul>
+<li>perf 可以用来分析 CPU cache、CPU 迁移、分支预测、指令周期等各种硬件事件；</li>
+<li>perf 也可以只对感兴趣的事件进行动态追踪。</li>
+</ul>
+<p>同 ftrace 一样，你也可以通过 perf list ，查询所有支持的事件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ perf list
+
+</code></pre></div><p>我们先来看第一个 perf 示例，内核函数 do_sys_open 的例子。你可以执行 perf probe 命令，添加 do_sys_open 探针：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ perf probe --add do_sys_open
+Added new event:
+  probe:do_sys_open    <span style="color:#f92672">(</span>on do_sys_open<span style="color:#f92672">)</span>
+You can now use it in all perf tools, such as:
+    perf record -e probe:do_sys_open -aR sleep <span style="color:#ae81ff">1</span>
+
+</code></pre></div><p>探针添加成功后，就可以在所有的 perf 子命令中使用。比如，上述输出就是一个 perf record 的示例，执行它就可以对 10s 内的 do_sys_open 进行采样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ perf record -e probe:do_sys_open -aR sleep <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span> perf record: Woken up <span style="color:#ae81ff">1</span> times to write data <span style="color:#f92672">]</span>
+<span style="color:#f92672">[</span> perf record: Captured and wrote 0.148 MB perf.data <span style="color:#f92672">(</span><span style="color:#ae81ff">19</span> samples<span style="color:#f92672">)</span> <span style="color:#f92672">]</span>
+
+</code></pre></div><p>而采样成功后，就可以执行 perf script ，来查看采样结果了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ perf script
+            perf <span style="color:#ae81ff">12886</span> <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 89565.879875: probe:do_sys_open: <span style="color:#f92672">(</span>ffffffffa807b290<span style="color:#f92672">)</span>
+           sleep <span style="color:#ae81ff">12889</span> <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 89565.880362: probe:do_sys_open: <span style="color:#f92672">(</span>ffffffffa807b290<span style="color:#f92672">)</span>
+           sleep <span style="color:#ae81ff">12889</span> <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 89565.880382: probe:do_sys_open: <span style="color:#f92672">(</span>ffffffffa807b290<span style="color:#f92672">)</span>
+           sleep <span style="color:#ae81ff">12889</span> <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 89565.880635: probe:do_sys_open: <span style="color:#f92672">(</span>ffffffffa807b290<span style="color:#f92672">)</span>
+           sleep <span style="color:#ae81ff">12889</span> <span style="color:#f92672">[</span>000<span style="color:#f92672">]</span> 89565.880669: probe:do_sys_open: <span style="color:#f92672">(</span>ffffffffa807b290<span style="color:#f92672">)</span>
+
+</code></pre></div><p>strace 基于系统调用 ptrace 实现</p>
+<ul>
+<li>由于 ptrace 是系统调用，就需要在内核态和用户态切换。当事件数量比较多时，繁忙的切换必然会影响原有服务的性能；</li>
+<li>ptrace 需要借助 SIGSTOP 信号挂起目标进程。这种信号控制和进程挂起，会影响目标进程的行为。</li>
+</ul>
+<p>所以，在性能敏感的应用（比如数据库）中，我并不推荐你用 strace （或者其他基于 ptrace 的性能工具）去排查和调试。</p>
+<p>在 strace 的启发下，结合内核中的 utrace 机制， perf 也提供了一个 trace 子命令，是取代 strace 的首选工具。相对于 ptrace 机制来说，perf trace 基于内核事件，自然要比进程跟踪的性能好很多。perf trace 的使用方法如下所示，跟 strace 其实很像：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ perf trace ls
+         ? <span style="color:#f92672">(</span>         <span style="color:#f92672">)</span>: ls/14234  ... <span style="color:#f92672">[</span>continued<span style="color:#f92672">]</span>: execve<span style="color:#f92672">())</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+     0.177 <span style="color:#f92672">(</span> 0.013 ms<span style="color:#f92672">)</span>: ls/14234 brk<span style="color:#f92672">(</span>                                                                  <span style="color:#f92672">)</span> <span style="color:#f92672">=</span> 0x555d96be7000
+     0.224 <span style="color:#f92672">(</span> 0.014 ms<span style="color:#f92672">)</span>: ls/14234 access<span style="color:#f92672">(</span>filename: 0xad98082                                            <span style="color:#f92672">)</span> <span style="color:#f92672">=</span> -1 ENOENT No such file or directory
+     0.248 <span style="color:#f92672">(</span> 0.009 ms<span style="color:#f92672">)</span>: ls/14234 access<span style="color:#f92672">(</span>filename: 0xad9add0, mode: R                                   <span style="color:#f92672">)</span> <span style="color:#f92672">=</span> -1 ENOENT No such file or directory
+     0.267 <span style="color:#f92672">(</span> 0.012 ms<span style="color:#f92672">)</span>: ls/14234 openat<span style="color:#f92672">(</span>dfd: CWD, filename: 0xad98428, flags: CLOEXEC                  <span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+     0.288 <span style="color:#f92672">(</span> 0.009 ms<span style="color:#f92672">)</span>: ls/14234 fstat<span style="color:#f92672">(</span>fd: 3&lt;/usr/lib/locale/C.UTF-8/LC_NAME&gt;, statbuf: 0x7ffd2015f230 <span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+     0.305 <span style="color:#f92672">(</span> 0.011 ms<span style="color:#f92672">)</span>: ls/14234 mmap<span style="color:#f92672">(</span>len: 45560, prot: READ, flags: PRIVATE, fd: <span style="color:#ae81ff">3</span>                    <span style="color:#f92672">)</span> <span style="color:#f92672">=</span> 0x7efe0af92000
+     0.324 Dockerfile  test.sh
+<span style="color:#f92672">(</span> 0.008 ms<span style="color:#f92672">)</span>: ls/14234 close<span style="color:#f92672">(</span>fd: 3&lt;/usr/lib/locale/C.UTF-8/LC_NAME&gt;                          <span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+     ...
+
+</code></pre></div><h3 id="ebpf-和-bcc">eBPF 和 BCC</h3>
+<p>ftrace 和 perf 的功能已经比较丰富了，不过，它们有一个共同的缺陷，那就是不够灵活，没法像 DTrace 那样通过脚本自由扩展。</p>
+<p>而 eBPF 就是 Linux 版的 DTrace，可以通过 C 语言自由扩展（这些扩展通过 LLVM 转换为 BPF 字节码后，加载到内核中执行）。下面这张图，就表示了 eBPF 追踪的工作原理：</p>
+<p><img src="../../images/20200714-1807-11.png" alt=""></p>
+<p>实际上，在 eBPF 执行过程中，编译、加载还有 maps 等操作，对所有的跟踪程序来说都是通用的。把这些过程通过 Python 抽象起来，也就诞生了 BCC（BPF Compiler Collection）。</p>
+<p>BCC 把 eBPF 中的各种事件源（比如 kprobe、uprobe、tracepoint 等）和数据操作（称为 Maps），也都转换成了 Python 接口（也支持 lua）。这样，使用 BCC 进行动态追踪时，编写简单的脚本就可以了。</p>
+<p>不过要注意，因为需要跟内核中的数据结构交互，真正核心的事件处理逻辑，还是需要我们用 C 语言来编写。</p>
+<p>至于 BCC 的安装方法，在内存模块的缓存案例中，我就已经介绍过了。如果你还没有安装过，可以执行下面的命令来安装（其他系统的安装请参考这里）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#75715e"># Ubuntu</span>
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4052245BD4284CDD
+echo <span style="color:#e6db74">&#34;deb https://repo.iovisor.org/apt/</span><span style="color:#66d9ef">$(</span>lsb_release -cs<span style="color:#66d9ef">)</span><span style="color:#e6db74"> </span><span style="color:#66d9ef">$(</span>lsb_release -cs<span style="color:#66d9ef">)</span><span style="color:#e6db74"> main&#34;</span> | sudo tee /etc/apt/sources.list.d/iovisor.list
+sudo apt-get update
+sudo apt-get install bcc-tools libbcc-examples linux-headers-<span style="color:#66d9ef">$(</span>uname -r<span style="color:#66d9ef">)</span>
+
+<span style="color:#75715e"># REHL 7.6</span>
+yum install bcc-tools
+
+</code></pre></div><p>安装后，BCC 会把所有示例（包括 Python 和 lua），放到 /usr/share/bcc/examples 目录中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ ls /usr/share/bcc/examples
+hello_world.py  lua  networking  tracing
+
+</code></pre></div><p>当然，BCC 软件包也内置了很多已经开发好的实用工具，默认安装到 /usr/share/bcc/tools/ 目录中，它们的使用场景如下图所示：</p>
+<p><img src="../../images/20200714-1809-28.png" alt=""></p>
+<p>这些工具，一般都可以直接拿来用。而在编写其他的动态追踪脚本时，它们也是最好的参考资料。不过，有一点需要你特别注意，很多 eBPF 的新特性，都需要比较新的内核版本（如下图所示）。如果某些工具无法运行，很可能就是因为使用了当前内核不支持的特性。</p>
+<p><img src="../../images/20200714-1809-50.png" alt=""></p>
+<h3 id="systemtap-和-sysdig">SystemTap 和 sysdig</h3>
+<p>SystemTap 也是一种可以通过脚本进行自由扩展的动态追踪技术。在 eBPF 出现之前，SystemTap 是 Linux 系统中，功能最接近 DTrace 的动态追踪机制。不过要注意，SystemTap 在很长时间以来都游离于内核之外（而 eBPF 自诞生以来，一直根植在内核中）。</p>
+<p>所以，从稳定性上来说，SystemTap 只在 RHEL 系统中好用，在其他系统中则容易出现各种异常问题。当然，反过来说，支持 3.x 等旧版本的内核，也是 SystemTap 相对于 eBPF 的一个巨大优势。</p>
+<p>sysdig 则是随着容器技术的普及而诞生的，主要用于容器的动态追踪。sysdig 汇集了一些列性能工具的优势，可以说是集百家之所长。我习惯用这个公式来表示 sysdig 的特点： sysdig = strace + tcpdump + htop + iftop + lsof + docker inspect。而在最新的版本中（内核版本 &gt;= 4.14），sysdig 还可以通过 eBPF 来进行扩展，所以，也可以用来追踪内核中的各种函数和事件。</p>
+<h3 id="如何选择追踪工具">如何选择追踪工具</h3>
+<p>可以先自己思考区分一下，不同场景的工具选择问题。比如：</p>
+<ul>
+<li>在不需要很高灵活性的场景中，使用 perf 对性能事件进行采样，然后再配合火焰图辅助分析，就是最常用的一种方法；</li>
+<li>而需要对事件或函数调用进行统计分析（比如观察不同大小的 I/O 分布）时，就要用 SystemTap 或者 eBPF，通过一些自定义的脚本来进行数据处理。</li>
+</ul>
+<p><img src="../../images/20200714-1811-15.png" alt=""></p>
+<h3 id="小结">小结</h3>
+<ul>
+<li>在新版的内核中，eBPF 和 BCC 是最灵活的动态追踪方法；</li>
+<li>而在旧版本内核中，特别是在 RHEL 系统中，由于 eBPF 支持受限，SystemTap 往往是更好的选择。</li>
+</ul>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-07-14T17:52:46&#43;0800 class="date">Tuesday, July 14, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/50%E6%A1%88%E4%BE%8B%E7%AF%87%E5%8A%A8%E6%80%81%E8%BF%BD%E8%B8%AA%E6%80%8E%E4%B9%88%E7%94%A8%E4%B8%8A/" class="prev">50|案例篇：动态追踪怎么用？（上）</a>
+      
+      
+      <a href="https://zsy619.github.io/post/52%E6%A1%88%E4%BE%8B%E7%AF%87%E6%9C%8D%E5%8A%A1%E5%90%9E%E5%90%90%E9%87%8F%E4%B8%8B%E9%99%8D%E5%BE%88%E5%8E%89%E5%AE%B3%E6%80%8E%E4%B9%88%E5%88%86%E6%9E%90/" class="next">52|案例篇：服务吞吐量下降很厉害，怎么分析？</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

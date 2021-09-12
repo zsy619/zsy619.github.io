@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    33|关于 Linux 网络，你必须知道这些（上） | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">33|关于 Linux 网络，你必须知道这些（上）</h2>
+    <div class="post_content">
+      <h3 id="网络模型">网络模型</h3>
+<p>开放式系统互联通信参考模型（Open System Interconnection Reference Model），简称为 OSI 网络模型。</p>
+<p>OSI 模型把网络互联的框架分为应用层、表示层、会话层、传输层、网络层、数据链路层以及物理层等七层，每个层负责不同的功能。其中，</p>
+<ul>
+<li>应用层，负责为应用程序提供统一的接口。</li>
+<li>表示层，负责把数据转换成兼容接收系统的格式。</li>
+<li>会话层，负责维护计算机之间的通信连接。</li>
+<li>传输层，负责为数据加上传输表头，形成数据包。</li>
+<li>网络层，负责数据的路由和转发。</li>
+<li>数据链路层，负责 MAC 寻址、错误侦测和改错。</li>
+<li>物理层，负责在物理网络中传输数据帧。</li>
+</ul>
+<p>在 Linux 中，我们实际上使用的是另一个更实用的四层模型，即 TCP/IP 网络模型。</p>
+<p>TCP/IP 模型，把网络互联的框架分为应用层、传输层、网络层、网络接口层等四层，其中，</p>
+<ul>
+<li>应用层，负责向用户提供一组应用程序，比如 HTTP、FTP、DNS 等。</li>
+<li>传输层，负责端到端的通信，比如 TCP、UDP 等。</li>
+<li>网络层，负责网络包的封装、寻址和路由，比如 IP、ICMP 等。</li>
+<li>网络接口层，负责网络包在物理网络中的传输，比如 MAC 寻址、错误侦测以及通过网卡传输网络帧等。</li>
+</ul>
+<p><img src="../../images/20200707-1021-27.png" alt=""></p>
+<h3 id="linux-网络栈">Linux 网络栈</h3>
+<p>有了 TCP/IP 模型后，在进行网络传输时，数据包就会按照协议栈，对上一层发来的数据进行逐层处理；然后封装上该层的协议头，再发送给下一层。</p>
+<p><img src="../../images/20200707-1023-19.png" alt=""></p>
+<ul>
+<li>传输层在应用程序数据前面增加了 TCP 头；</li>
+<li>网络层在 TCP 数据包前增加了 IP 头；</li>
+<li>而网络接口层，又在 IP 数据包前后分别增加了帧头和帧尾。</li>
+</ul>
+<p>这些新增的头部和尾部，增加了网络包的大小，但我们都知道，物理链路中并不能传输任意大小的数据包。网络接口配置的最大传输单元（MTU），就规定了最大的 IP 包大小。在我们最常用的以太网中，MTU 默认值是 1500（这也是 Linux 的默认值）。</p>
+<p>一旦网络包超过 MTU 的大小，就会在网络层分片，以保证分片后的 IP 包不大于 MTU 值。显然，MTU 越大，需要的分包也就越少，自然，网络吞吐能力就越好。</p>
+<p>理解了 TCP/IP 网络模型和网络包的封装原理后，你很容易能想到，Linux 内核中的网络栈，其实也类似于 TCP/IP 的四层结构。如下图所示，就是 Linux 通用 IP 网络栈的示意图：</p>
+<p><img src="../../images/20200707-1024-54.png" alt=""></p>
+<ul>
+<li>最上层的应用程序，需要通过系统调用，来跟套接字接口进行交互；</li>
+<li>套接字的下面，就是我们前面提到的传输层、网络层和网络接口层；</li>
+<li>最底层，则是网卡驱动程序以及物理网卡设备。</li>
+</ul>
+<h3 id="linux-网络收发流程">Linux 网络收发流程</h3>
+<h4 id="网络包的接收流程">网络包的接收流程</h4>
+<p>内核协议栈从缓冲区中取出网络帧，并通过网络协议栈，从下到上逐层处理这个网络帧。比如，</p>
+<ul>
+<li>在链路层检查报文的合法性，找出上层协议的类型（比如 IPv4 还是 IPv6），再去掉帧头、帧尾，然后交给网络层。</li>
+<li>网络层取出 IP 头，判断网络包下一步的走向，比如是交给上层处理还是转发。当网络层确认这个包是要发送到本机后，就会取出上层协议的类型（比如 TCP 还是 UDP），去掉 IP 头，再交给传输层处理。</li>
+<li>传输层取出 TCP 头或者 UDP 头后，根据 &lt; 源 IP、源端口、目的 IP、目的端口 &gt; 四元组作为标识，找出对应的 Socket，并把数据拷贝到 Socket 的接收缓存中。
+最后，应用程序就可以使用 Socket 接口，读取到新接收到的数据了。</li>
+</ul>
+<p><img src="../../images/20200707-1026-49.png" alt=""></p>
+<h4 id="网络包的发送流程">网络包的发送流程</h4>
+<p>首先，应用程序调用 Socket API（比如 sendmsg）发送网络包。由于这是一个系统调用，所以会陷入到内核态的套接字层中。</p>
+<p>套接字层会把数据包放到 Socket 发送缓冲区中。</p>
+<p>接下来，网络协议栈从 Socket 发送缓冲区中，取出数据包；再按照 TCP/IP 栈，从上到下逐层处理。比如，传输层和网络层，分别为其增加 TCP 头和 IP 头，执行路由查找确认下一跳的 IP，并按照 MTU 大小进行分片。</p>
+<p>分片后的网络包，再送到网络接口层，进行物理地址寻址，以找到下一跳的 MAC 地址。然后添加帧头和帧尾，放到发包队列中。</p>
+<p>这一切完成后，会有软中断通知驱动程序：发包队列中有新的网络帧需要发送。</p>
+<p>最后，驱动程序通过 DMA ，从发包队列中读出网络帧，并通过物理网卡把它发送出去。</p>
+<h3 id="小结">小结</h3>
+<p>TCP/IP 模型，把网络互联的框架，分为应用层、传输层、网络层、网络接口层等四层，这也是 Linux 网络栈最核心的构成部分。</p>
+<p>应用程序通过套接字接口发送数据包，先要在网络协议栈中从上到下进行逐层处理，最终再送到网卡发送出去。而接收时，同样先经过网络栈从下到上的逐层处理，最终才会送到应用程序。</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-05-31T17:16:28&#43;0800 class="date">Sunday, May 31, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/34%E5%85%B3%E4%BA%8E-linux-%E7%BD%91%E7%BB%9C%E4%BD%A0%E5%BF%85%E9%A1%BB%E7%9F%A5%E9%81%93%E8%BF%99%E4%BA%9B%E4%B8%8B/" class="prev">34|关于 Linux 网络，你必须知道这些（下）</a>
+      
+      
+      <a href="https://zsy619.github.io/post/07%E6%A1%88%E4%BE%8B%E7%AF%87%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%87%BA%E7%8E%B0%E5%A4%A7%E9%87%8F%E4%B8%8D%E5%8F%AF%E4%B8%AD%E6%96%AD%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E6%80%8E%E4%B9%88%E5%8A%9E%E4%B8%8A/" class="next">07|案例篇--系统中出现大量不可中断进程和僵尸进程怎么办？（上）</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    stress性能工具使用 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">stress性能工具使用</h2>
+    <div class="post_content">
+      <h3 id="安装">安装</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
+yum install -y epel-release
+yum install stress -y
+
+</code></pre></div><p>在centos系统下，不能安装，则按照如下方法进行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">https://github.com/ColinIanKing/stress-ng.git 直接 clone ，然后 make -j4
+</code></pre></div><h3 id="参数说明">参数说明</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">
+-？
+
+--help 显示帮助信息
+
+--version 显示软件版本信息
+
+-t secs:
+
+--timeout secs指定运行多少秒
+
+--backoff usecs 等待usecs微秒后才开始运行
+
+-c forks:
+
+--cpu forks 产生多个处理sqrt()函数的CPU进程
+
+-m forks
+
+--vm forks:产生多个处理malloc()内存分配
+
+-i forks
+
+--io forks:产生多个处理sync()函数的磁盘I/O进程
+
+--vm-bytes bytes：指定内存的byte数，默认值是1
+
+--vm-hang:表示malloc分配的内存多少时间后在free()释放掉
+
+-d :
+
+--hdd:写进程，写入固定大小，通过mkstemp()函数写入当前目录
+
+--hdd-bytes bytes:指定写的byte数，默认1G
+
+--hdd-noclean:不要将写入随机ascii数据的文件unlink，则写入的文件不删除，会保留在硬盘空间。
+
+</code></pre></div><h3 id="测试场景">测试场景</h3>
+<h4 id="stress--c-4">stress -c 4</h4>
+<p>增加4个cpu进程，处理sqrt()函数函数，以提高系统CPU负荷</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zsy@ubuntu:~$ stress -c <span style="color:#ae81ff">4</span>
+stress: info: <span style="color:#f92672">[</span>7775<span style="color:#f92672">]</span> dispatching hogs: <span style="color:#ae81ff">4</span> cpu, <span style="color:#ae81ff">0</span> io, <span style="color:#ae81ff">0</span> vm, <span style="color:#ae81ff">0</span> hdd
+</code></pre></div><h4 id="内存测试">内存测试</h4>
+<p>stress –i 4 –vm 10 –vm-bytes 1G –vm-hang 100 –timeout 100s</p>
+<p>新增4个io进程，10个内存分配进程，每次分配大小1G，分配后不释放，测试100S</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zsy@ubuntu:~$ stress --io <span style="color:#ae81ff">4</span> --vm <span style="color:#ae81ff">2</span> --vm-bytes 1G --vm-hang <span style="color:#ae81ff">100</span> --timeout 100s
+stress: info: <span style="color:#f92672">[</span>8979<span style="color:#f92672">]</span> dispatching hogs: <span style="color:#ae81ff">0</span> cpu, <span style="color:#ae81ff">4</span> io, <span style="color:#ae81ff">2</span> vm, <span style="color:#ae81ff">0</span> hdd
+stress: info: <span style="color:#f92672">[</span>8979<span style="color:#f92672">]</span> successful run completed in 100s
+</code></pre></div><h4 id="磁盘io测试">磁盘I/O测试</h4>
+<p>stress –d 1 &ndash;hdd-bytes 3G</p>
+<p>新增1个写进程，每次写3G文件块</p>
+<p>输入命令：stress –i 1 –d 10 &ndash;hdd-bytes 3G –hdd-noclean</p>
+<p>新增1个IO进程，10个写进程，每次写入3G文件块，且不清除，会逐步将硬盘耗尽。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zsy@ubuntu:~$ stress -d <span style="color:#ae81ff">1</span> --hdd-bytes 3G
+stress: info: <span style="color:#f92672">[</span>9437<span style="color:#f92672">]</span> dispatching hogs: <span style="color:#ae81ff">0</span> cpu, <span style="color:#ae81ff">0</span> io, <span style="color:#ae81ff">0</span> vm, <span style="color:#ae81ff">1</span> hdd
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-05-27T10:59:53&#43;0800 class="date">Wednesday, May 27, 2020</time>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      
+      <a href="https://zsy619.github.io/post/01%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="next">01|如何学习Linux性能优化</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

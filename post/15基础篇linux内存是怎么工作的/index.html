@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    15|基础篇--Linux内存是怎么工作的？ | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">15|基础篇--Linux内存是怎么工作的？</h2>
+    <div class="post_content">
+      <h3 id="内存定义">内存定义</h3>
+<p>内存主要用来存储系统和应用程序的指令、数据、缓存等。</p>
+<h3 id="内存映射">内存映射</h3>
+<ul>
+<li>虚拟地址空间：是连续的，不同字长的处理器，地址空间范围不同
+<ul>
+<li>内核空间</li>
+<li>用户空间</li>
+</ul>
+</li>
+</ul>
+<p><img src="../../images/20200606-1052-30.png" alt=""></p>
+<ul>
+<li>内存映射：就是将虚拟内存地址映射到物理内存地址</li>
+</ul>
+<p><img src="../../images/20200606-1055-52.png" alt=""></p>
+<ul>
+<li>
+<p>缺页异常：当进程访问的虚拟地址在页表中查不到时，系统会产生一个缺页异</p>
+</li>
+<li>
+<p>页：一个内存映射的最小单位也就是页，通常是 4 KB 大小。这样，每一次内存映射，都需要关联 4 KB 或者 4KB 整数倍的内存空间。</p>
+</li>
+<li>
+<p>多页分级和大页</p>
+<ul>
+<li>页的大小只有 4 KB ，导致的另一个问题就是，整个页表会变得非常大。比方说，仅 32 位系统就需要 100 多万个页表项（4GB/4KB），才可以实现整个地址空间的映射。为了解决页表项过多的问题，Linux 提供了两种机制，也就是多级页表和大页（HugePage）。</li>
+<li>多页分级
+<ul>
+<li>就是把内存分成区块来管理，将原来的映射关系改成区块索引和区块内的偏移。</li>
+<li>由于虚拟内存空间通常只用了很少一部分，那么，多级页表就只保存这些使用中的区块，这样就可以大大地减少页表的项数。</li>
+<li>Linux 用的正是四级页表来管理内存页</li>
+</ul>
+</li>
+<li>大页
+<ul>
+<li>就是比普通页更大的内存块，常见的大小有 2MB 和 1GB。</li>
+<li>大页通常用在使用大量内存的进程上，比如 Oracle、DPDK 等。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="../../images/20200606-1602-54.png" alt=""></p>
+<h3 id="虚拟内存空间分布">虚拟内存空间分布</h3>
+<p><img src="../../images/20200606-1606-50.png" alt=""></p>
+<ul>
+<li>只读段，包括代码和常量等。</li>
+<li>数据段，包括全局变量等。</li>
+<li>堆，包括动态分配的内存，从低地址开始向上增长。</li>
+<li>文件映射段，包括动态库、共享内存等，从高地址开始向下增长。</li>
+<li>栈，包括局部变量和函数调用的上下文等。栈的大小是固定的，一般是 8 MB。</li>
+</ul>
+<h3 id="内存分配与回收">内存分配与回收</h3>
+<p>linux使用伙伴系统来管理内存分配</p>
+<p>发现内存紧张：</p>
+<ul>
+<li>回收缓存</li>
+<li>回收不常访问的内存
+<ul>
+<li>使用交换分区（swap）</li>
+<li>swap就是把其中一块磁盘当内存使用</li>
+<li>换出：把进程暂时不用的数据存储到磁盘中</li>
+<li>换入：当进程访问这些内存时，再从磁盘读取这些数据到内存中</li>
+<li>由于磁盘读写的速度远比内存慢，Swap 会导致严重的内存性能问题。</li>
+</ul>
+</li>
+<li>杀死进程
+<ul>
+<li>oom（out of memory）问题，内核的一种保护机制</li>
+<li>一个进程消耗的内存越大，oom_score 就越大</li>
+<li>一个进程运行占用的 CPU 越多，oom_score 就越小</li>
+<li>进程的 oom_score 越大，代表消耗的内存越多，也就越容易被 OOM 杀死，从而可以更好保护系统</li>
+<li>oom_adj 的范围是 [-17, 15]，数值越大，表示进程越容易被 OOM 杀死；数值越小，表示进程越不容易被 OOM 杀死，其中 -17 表示禁止 OOM。</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何查看内存使用情况">如何查看内存使用情况</h3>
+<ul>
+<li>free</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">## 这两行分别是物理内存 Mem 和交换分区 Swap 的使用情况</span>
+zsy@ubuntu:~$ free
+              total        used        free      shared  buff/cache   available
+Mem:        <span style="color:#ae81ff">2028784</span>      <span style="color:#ae81ff">953944</span>      <span style="color:#ae81ff">434752</span>        <span style="color:#ae81ff">1972</span>      <span style="color:#ae81ff">640088</span>      <span style="color:#ae81ff">911864</span>
+Swap:       <span style="color:#ae81ff">2097148</span>           <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">2097148</span>
+</code></pre></div><ul>
+<li>第一列，total 是总内存大小；</li>
+<li>第二列，used 是已使用内存的大小，包含了共享内存；</li>
+<li>第三列，free 是未使用内存的大小；</li>
+<li>第四列，shared 是共享内存的大小；</li>
+<li>第五列，buff/cache 是缓存和缓冲区的大小；</li>
+<li>最后一列，available 是新进程可用内存的大小。</li>
+</ul>
+<h3 id="小结">小结</h3>
+<p>当进程通过 malloc() 申请内存后，内存并不会立即分配，而是在首次访问时，才通过缺页异常陷入内核中分配内存。</p>
+<p>由于进程的虚拟地址空间比物理内存大很多，Linux 还提供了一系列的机制，应对内存不足的问题，比如缓存的回收、交换分区 Swap 以及 OOM 等。</p>
+<p>了解系统或者进程的内存使用情况时，可以用 free 和 top 、ps 等性能工具。</p>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-06-06T10:04:02&#43;0800 class="date">Saturday, June 6, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/%E7%AC%AC%E4%BA%8C%E5%91%A810-14%E9%98%B6%E6%AE%B5%E5%B0%8F%E7%BB%93/" class="prev">第二周10-14阶段小结</a>
+      
+      
+      <a href="https://zsy619.github.io/post/16%E5%9F%BA%E7%A1%80%E7%AF%87%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84buffer%E5%92%8Ccache/" class="next">16|基础篇怎么理解内存中的Buffer和Cache？</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

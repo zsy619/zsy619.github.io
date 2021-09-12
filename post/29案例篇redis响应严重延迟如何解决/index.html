@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    29|案例篇--Redis响应严重延迟，如何解决？ | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">29|案例篇--Redis响应严重延迟，如何解决？</h2>
+    <div class="post_content">
+      <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+<span style="color:#75715e"># -f表示跟踪子进程和子线程，-T表示显示系统调用的时长，-tt表示显示跟踪时间</span>
+$ strace -f -T -tt -p <span style="color:#ae81ff">9085</span>
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.826131 epoll_pwait<span style="color:#f92672">(</span>5, <span style="color:#f92672">[{</span>EPOLLIN, <span style="color:#f92672">{</span>u32<span style="color:#f92672">=</span>8, u64<span style="color:#f92672">=</span>8<span style="color:#f92672">}}]</span>, 10128, 65, NULL, 8<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> &lt;0.000055&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.826301 read<span style="color:#f92672">(</span>8, <span style="color:#e6db74">&#34;*2\r\n</span>$3<span style="color:#e6db74">\r\nGET\r\n</span>$41<span style="color:#e6db74">\r\nuuid:5b2e76cc-&#34;</span>..., 16384<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">61</span> &lt;0.000071&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.826477 read<span style="color:#f92672">(</span>3, 0x7fff366a5747, 1<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> -1 EAGAIN <span style="color:#f92672">(</span>Resource temporarily unavailable<span style="color:#f92672">)</span> &lt;0.000063&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.826645 write<span style="color:#f92672">(</span>8, <span style="color:#e6db74">&#34;</span>$3<span style="color:#e6db74">\r\nbad\r\n&#34;</span>, 9<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span> &lt;0.000173&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.826907 epoll_pwait<span style="color:#f92672">(</span>5, <span style="color:#f92672">[{</span>EPOLLIN, <span style="color:#f92672">{</span>u32<span style="color:#f92672">=</span>8, u64<span style="color:#f92672">=</span>8<span style="color:#f92672">}}]</span>, 10128, 65, NULL, 8<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> &lt;0.000032&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.827030 read<span style="color:#f92672">(</span>8, <span style="color:#e6db74">&#34;*2\r\n</span>$3<span style="color:#e6db74">\r\nGET\r\n</span>$41<span style="color:#e6db74">\r\nuuid:55862ada-&#34;</span>..., 16384<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">61</span> &lt;0.000044&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.827149 read<span style="color:#f92672">(</span>3, 0x7fff366a5747, 1<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> -1 EAGAIN <span style="color:#f92672">(</span>Resource temporarily unavailable<span style="color:#f92672">)</span> &lt;0.000043&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.827285 write<span style="color:#f92672">(</span>8, <span style="color:#e6db74">&#34;</span>$3<span style="color:#e6db74">\r\nbad\r\n&#34;</span>, 9<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span> &lt;0.000141&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.827514 epoll_pwait<span style="color:#f92672">(</span>5, <span style="color:#f92672">[{</span>EPOLLIN, <span style="color:#f92672">{</span>u32<span style="color:#f92672">=</span>8, u64<span style="color:#f92672">=</span>8<span style="color:#f92672">}}]</span>, 10128, 64, NULL, 8<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> &lt;0.000049&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.827641 read<span style="color:#f92672">(</span>8, <span style="color:#e6db74">&#34;*2\r\n</span>$3<span style="color:#e6db74">\r\nGET\r\n</span>$41<span style="color:#e6db74">\r\nuuid:53522908-&#34;</span>..., 16384<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">61</span> &lt;0.000043&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.827784 read<span style="color:#f92672">(</span>3, 0x7fff366a5747, 1<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> -1 EAGAIN <span style="color:#f92672">(</span>Resource temporarily unavailable<span style="color:#f92672">)</span> &lt;0.000034&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.827945 write<span style="color:#f92672">(</span>8, <span style="color:#e6db74">&#34;</span>$4<span style="color:#e6db74">\r\ngood\r\n&#34;</span>, 10<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span> &lt;0.000288&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.828339 epoll_pwait<span style="color:#f92672">(</span>5, <span style="color:#f92672">[{</span>EPOLLIN, <span style="color:#f92672">{</span>u32<span style="color:#f92672">=</span>8, u64<span style="color:#f92672">=</span>8<span style="color:#f92672">}}]</span>, 10128, 63, NULL, 8<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> &lt;0.000057&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.828486 read<span style="color:#f92672">(</span>8, <span style="color:#e6db74">&#34;*3\r\n</span>$4<span style="color:#e6db74">\r\nSADD\r\n</span>$4<span style="color:#e6db74">\r\ngood\r\n</span>$36<span style="color:#e6db74">\r\n535&#34;</span>..., 16384<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">67</span> &lt;0.000040&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.828623 read<span style="color:#f92672">(</span>3, 0x7fff366a5747, 1<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> -1 EAGAIN <span style="color:#f92672">(</span>Resource temporarily unavailable<span style="color:#f92672">)</span> &lt;0.000052&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.828760 write<span style="color:#f92672">(</span>7, <span style="color:#e6db74">&#34;*3\r\n</span>$4<span style="color:#e6db74">\r\nSADD\r\n</span>$4<span style="color:#e6db74">\r\ngood\r\n</span>$36<span style="color:#e6db74">\r\n535&#34;</span>..., 67<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">67</span> &lt;0.000060&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.828970 fdatasync<span style="color:#f92672">(</span>7<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> &lt;0.005415&gt;
+<span style="color:#f92672">[</span>pid  9085<span style="color:#f92672">]</span> 14:20:16.834493 write<span style="color:#f92672">(</span>8, <span style="color:#e6db74">&#34;:1\r\n&#34;</span>, 4<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span> &lt;0.000250&gt;
+
+</code></pre></div><p>事实上，从系统调用来看， epoll_pwait、read、write、fdatasync 这些系统调用都比较频繁。那么，刚才观察到的写磁盘，应该就是 write 或者 fdatasync 导致的了。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ lsof -p <span style="color:#ae81ff">9085</span>
+redis-ser <span style="color:#ae81ff">9085</span> systemd-network    3r     FIFO   0,12      0t0 <span style="color:#ae81ff">15447970</span> pipe
+redis-ser <span style="color:#ae81ff">9085</span> systemd-network    4w     FIFO   0,12      0t0 <span style="color:#ae81ff">15447970</span> pipe
+redis-ser <span style="color:#ae81ff">9085</span> systemd-network    5u  a_inode   0,13        <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">10179</span> <span style="color:#f92672">[</span>eventpoll<span style="color:#f92672">]</span>
+redis-ser <span style="color:#ae81ff">9085</span> systemd-network    6u     sock    0,9      0t0 <span style="color:#ae81ff">15447972</span> protocol: TCP
+redis-ser <span style="color:#ae81ff">9085</span> systemd-network    7w      REG    8,1  <span style="color:#ae81ff">8830146</span>  <span style="color:#ae81ff">2838532</span> /data/appendonly.aof
+redis-ser <span style="color:#ae81ff">9085</span> systemd-network    8u     sock    0,9      0t0 <span style="color:#ae81ff">15448709</span> protocol: TCP
+
+</code></pre></div><p>Redis 提供了两种数据持久化的方式，分别是快照和追加文件。</p>
+<ul>
+<li>快照方式，会按照指定的时间间隔，生成数据的快照，并且保存到磁盘文件中。为了避免阻塞主进程，Redis 还会 fork 出一个子进程，来负责快照的保存。这种方式的性能好，无论是备份还是恢复，都比追加文件好很多。</li>
+<li>追加文件，则是用在文件末尾追加记录的方式，对 Redis 写入的数据，依次进行持久化，所以它的持久化也更安全。</li>
+</ul>
+<p>此外，它还提供了一个用 appendfsync 选项设置 fsync 的策略，确保写入的数据都落到磁盘中，具体选项包括 always、everysec、no 等。</p>
+<ul>
+<li>always 表示，每个操作都会执行一次 fsync，是最为安全的方式；</li>
+<li>everysec 表示，每秒钟调用一次 fsync ，这样可以保证即使是最坏情况下，也只丢失 1 秒的数据；</li>
+<li>而 no 表示交给操作系统来处理。</li>
+</ul>
+
+    </div>
+    <div class="info post_meta">
+      <time datetime=2020-06-17T09:04:18&#43;0800 class="date">Wednesday, June 17, 2020</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">linux性能优化</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/linux">linux</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/post/28%E6%A1%88%E4%BE%8B%E7%AF%87%E4%B8%80%E4%B8%AAsql%E6%9F%A5%E8%AF%A2%E8%A6%8115%E7%A7%92%E8%BF%99%E6%98%AF%E6%80%8E%E4%B9%88%E5%9B%9E%E4%BA%8B/" class="prev">28|案例篇--一个SQL查询要15秒，这是怎么回事？</a>
+      
+      
+      <a href="https://zsy619.github.io/post/30%E5%A5%97%E8%B7%AF%E7%AF%87%E5%A6%82%E4%BD%95%E8%BF%85%E9%80%9F%E5%88%86%E6%9E%90%E5%87%BA%E7%B3%BB%E7%BB%9Fio%E7%9A%84%E7%93%B6%E9%A2%88%E5%9C%A8%E5%93%AA%E9%87%8C/" class="next">30|套路篇--如何迅速分析出系统I/O的瓶颈在哪里？</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

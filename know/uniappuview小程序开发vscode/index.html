@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    Mac下安装yarn可真难呀 | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">Mac下安装yarn可真难呀</h2>
+    <div class="post_content">
+      <h3 id="工具">工具</h3>
+<p>VSCode</p>
+<h3 id="插件">插件</h3>
+<p>gitignore</p>
+<p>uniapp-snippet</p>
+<p>uview-snippet</p>
+<h3 id="uni-app安装">uni-app安装</h3>
+<p>`</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+全局安装vue-cli
+npm install -g @vue/cli
+
+创建uni-app使用正式版（对应HBuilderX最新正式版）
+vue create -p dcloudio/uni-preset-vue demo
+
+</code></pre></div><p><img src="../../images/20210809-2323-55.png" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ vue create -p dcloudio/uni-preset-vue demo
+
+Fetching remote preset dcloudio/uni-preset-vue...
+?  Your connection to the default yarn registry seems to be slow.
+   Use https://registry.npm.taobao.org <span style="color:#66d9ef">for</span> faster installation? Yes
+
+
+Vue CLI v4.5.13
+✨  Creating project in /Volumes/E/JYW/孔店村平台/programs/demo.
+⚙️  Installing CLI plugins. This might take a <span style="color:#66d9ef">while</span>...
+
+yarn install v1.22.11
+info No lockfile found.
+<span style="color:#f92672">[</span>1/4<span style="color:#f92672">]</span> 🔍  Resolving packages...
+<span style="color:#f92672">[</span>2/4<span style="color:#f92672">]</span> 🚚  Fetching packages...
+info There appears to be trouble with your network connection. Retrying...
+info There appears to be trouble with your network connection. Retrying...
+<span style="color:#f92672">[</span>3/4<span style="color:#f92672">]</span> 🔗  Linking dependencies...
+<span style="color:#f92672">[</span>4/4<span style="color:#f92672">]</span> 🔨  Building fresh packages...
+success Saved lockfile.
+✨  Done in 67.63s.
+🚀  Invoking generators...
+
+Preset options:
+? 请选择 uni-app 模板 默认模板
+📦  Installing additional dependencies...
+
+yarn install v1.22.11
+<span style="color:#f92672">[</span>1/4<span style="color:#f92672">]</span> 🔍  Resolving packages...
+<span style="color:#f92672">[</span>2/4<span style="color:#f92672">]</span> 🚚  Fetching packages...
+<span style="color:#f92672">[</span><span style="color:#75715e">##############################################################################################################################################[##################################################################################################################################[##################################################################################[##################################################################################################[#####################################################################################################-] 1413[#####################################################################################################-] 1415/142[###############################################################################################[3/4] 🔗  Linking dependencies...</span>
+
+success Saved lockfile.
+✨  Done in 55.25s.
+⚓  Running completion hooks...
+
+📄  Generating README.md...
+
+🎉  Successfully created project demo.
+👉  Get started with the following commands:
+
+ $ cd demo
+ $ yarn serve
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ yarn serve
+yarn run v1.22.11
+$ npm run dev:h5
+npm WARN lifecycle The node binary used <span style="color:#66d9ef">for</span> scripts is /var/folders/pm/1qxqkz7n0s5b77dt50h0nzh80000gn/T/yarn--1628522807490-0.7764676363062251/node but npm is using /usr/local/bin/node itself. Use the <span style="color:#e6db74">`</span>--scripts-prepend-node-path<span style="color:#e6db74">`</span> option to include the path <span style="color:#66d9ef">for</span> the node binary npm was executed with.
+
+&gt; demo@0.1.0 dev:h5 /Volumes/E/JYW/孔店村平台/programs/demo
+&gt; cross-env NODE_ENV<span style="color:#f92672">=</span>development UNI_PLATFORM<span style="color:#f92672">=</span>h5 vue-cli-service uni-serve
+
+请注意运行模式下，因日志输出、sourcemap以及未压缩源码等原因，性能和包体积，均不及发行模式。
+ INFO  Starting development server...
+
+
+ DONE  Compiled successfully in 7587ms                                                                                11:26:57 PM
+
+
+  App running at:
+  - Local:   http://localhost:8080/
+  - Network: http://192.168.3.161:8080/
+
+</code></pre></div><h3 id="uview安装">uView安装</h3>
+<pre><code class="language-shel" data-lang="shel">
+安装
+yarn add uview-ui
+
+更新
+yarn update uview-ui
+
+安装其他
+yarn add sass sass-loader@10.1.1 node-sass  -D
+
+</code></pre><p><img src="../../images/20210809-2320-05.png" alt=""></p>
+<h3 id="运行和发布uni-app">运行和发布uni-app</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">运行、发布uni-app
+yarn dev:%PLATFORM%
+yarn build:%PLATFORM%
+
+app-plus	app平台生成打包资源（支持npm run build:app-plus，可用于持续集成。不支持run，运行调试仍需在HBuilderX中操作）
+h5	H5
+mp-alipay	支付宝小程序
+mp-baidu	百度小程序
+mp-weixin	微信小程序
+mp-toutiao	字节跳动小程序
+mp-qq	qq 小程序
+mp-360	<span style="color:#ae81ff">360</span> 小程序
+quickapp-webview	快应用<span style="color:#f92672">(</span>webview<span style="color:#f92672">)</span>
+quickapp-webview-union	快应用联盟
+quickapp-webview-huawei	快应用华为
+————————————————
+版权声明：本文为CSDN博主「香酥蟹」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/zyt807/article/details/119026117
+
+</code></pre></div><h3 id="微信调试">微信调试</h3>
+<p>manifest.json</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">
+<span style="color:#e6db74">&#34;mp-weixin&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> { <span style="color:#960050;background-color:#1e0010">/*</span> <span style="color:#960050;background-color:#1e0010">微信小程序特有相关</span> <span style="color:#960050;background-color:#1e0010">*/</span>
+    <span style="color:#f92672">&#34;appid&#34;</span>: <span style="color:#e6db74">&#34;微信appid&#34;</span>,
+    <span style="color:#f92672">&#34;setting&#34;</span>: {
+    	<span style="color:#f92672">&#34;urlCheck&#34;</span>: <span style="color:#66d9ef">false</span>
+    },
+    <span style="color:#f92672">&#34;usingComponents&#34;</span>: <span style="color:#66d9ef">true</span>
+}<span style="color:#960050;background-color:#1e0010">,</span>
+
+</code></pre></div><p>启动服务</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+yarn dev:mp-weixin
+
+</code></pre></div><p>微信配置</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+项目-&gt;导入项目-&gt;目录
+
+</code></pre></div><p><img src="../../images/20210809-2322-18.png" alt=""></p>
+<h3 id="mac安装node">mac安装node</h3>
+<p>参考pkg安装：</p>
+<p><a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></p>
+<h3 id="mac安装yarn">mac安装yarn</h3>
+<p>安装npm的淘宝镜像</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ npm install -g cnpm --registry<span style="color:#f92672">=</span>https://registry.npm.taobao.org
+npm WARN deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+npm WARN deprecated har-validator@5.1.5: this library is no longer supported
+/usr/local/bin/cnpm -&gt; /usr/local/lib/node_modules/cnpm/bin/cnpm
++ cnpm@7.0.0
+added <span style="color:#ae81ff">708</span> packages from <span style="color:#ae81ff">969</span> contributors in 25.615s
+
+</code></pre></div><p>安装yarn：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ npm install yarn
+npm WARN deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+npm WARN deprecated har-validator@5.1.5: this library is no longer supported
+npm WARN deprecated uuid@3.4.0: Please upgrade  to version <span style="color:#ae81ff">7</span> or higher.  Older versions may use Math.random<span style="color:#f92672">()</span> in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random <span style="color:#66d9ef">for</span> details.
+npm WARN rm not removing /Users/zhushuyan/node_modules/.bin/semver as it wasn<span style="color:#960050;background-color:#1e0010">&#39;</span>t installed by /Users/zhushuyan/node_modules/semver
+
+&gt; yarn@1.22.11 preinstall /Users/zhushuyan/node_modules/yarn
+&gt; :; <span style="color:#f92672">(</span>node ./preinstall.js &gt; /dev/null 2&gt;&amp;<span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> true<span style="color:#f92672">)</span>
+
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN sass-loader@10.1.1 requires a peer of webpack@^4.36.0 <span style="color:#f92672">||</span> ^5.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN @0.0.0 No description
+npm WARN @0.0.0 No repository field.
+npm WARN @0.0.0 No license field.
+
++ yarn@1.22.11
+added <span style="color:#ae81ff">16</span> packages from <span style="color:#ae81ff">1</span> contributor, removed <span style="color:#ae81ff">16</span> packages, updated <span style="color:#ae81ff">218</span> packages and audited <span style="color:#ae81ff">238</span> packages in 214.731s
+
+<span style="color:#ae81ff">15</span> packages are looking <span style="color:#66d9ef">for</span> funding
+  run <span style="color:#e6db74">`</span>npm fund<span style="color:#e6db74">`</span> <span style="color:#66d9ef">for</span> details
+
+found <span style="color:#ae81ff">0</span> vulnerabilities
+
+</code></pre></div><p>验证安装：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ yarn version
+yarn version v1.22.11
+warning package.json: No license field
+warning package.json: No license field
+question New version:
+info New version: 0.0.0
+✨  Done in 1.72s.
+
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2021-08-09T23:38:51&#43;0800 class="date">Monday, August 9, 2021</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/node">node</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/uni-app">uni-app</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/uview">uView</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/know/%E9%93%B6%E6%B2%B3%E9%BA%92%E9%BA%9F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AEjava%E4%B8%8Ego%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/" class="prev">银河麒麟操作系统设置java与go系统环境变量</a>
+      
+      
+      <a href="https://zsy619.github.io/know/failed-to-resolve-loader-sass-loader/" class="next">Failed to resolve loader sass loader</a>
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>

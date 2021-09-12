@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <title>
+    Docker 安装 etcd | 迪克猪的博客
+  </title>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-normalize@0.6.0/modern-normalize.css"
+  />
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://zsy619.github.io/style.min.bd2cee8cbd90a87d0e442d03c16f05be6e30184eb160d1d9013e70e07b8490f4.css" integrity="sha256-vSzujL2QqH0ORC0DwW8Fvm4wGE6xYNHZAT5w4HuEkPQ=" />
+
+  
+  
+    
+  
+</head>
+
+    <body>
+        <header id="header">
+  <div class="header_container">
+    <h1 class="sitetitle">
+      <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a>
+    </h1>
+    <nav class="navbar">
+      <ul>
+        <li><a href="https://zsy619.github.io">Home</a></li>
+        
+          <li>
+            <a href="/post/">
+              
+              <span>LINUX性能优化</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/csapp/">
+              
+              <span>深入理解计算机系统_第三版</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/golang/">
+              
+              <span>golang</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/docker/">
+              
+              <span>容器</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/flutter/">
+              
+              <span>Flutter</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/know/">
+              
+              <span>知识点</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories/">
+              
+              <span>目录</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about/">
+              
+              <span>关于</span>
+            </a>
+          </li>
+        
+        <li class="hide-sm"><a href="https://zsy619.github.io/index.xml" type="application/rss+xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+        
+<section id="main">
+  <article class="post content">
+    <h2 class="title">Docker 安装 etcd</h2>
+    <div class="post_content">
+      <h3 id="说明">说明</h3>
+<p>使用docker-compose搭建etcd集群环境</p>
+<p>etcd是一个集群环境，用来管理微服务架构下面的配置管理功能。
+A distributed, reliable key-value store for the most critical data of a distributed system.</p>
+<p>这篇文章是一个基础步骤如何搭建etcd的docker集群环境。
+我们使用docker-compose来搭建如下的etcd集群环境：</p>
+<h3 id="安装">安装</h3>
+<p>集群包含三个node：etcd1, etcd2, etcd3</p>
+<p>1、下载consul docker image</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+docker pull quay.io/coreos/etcd
+
+</code></pre></div><p>2、编辑docker-compose.yaml文件（在随意目录下创建本文件即可）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2&#39;</span>
+<span style="color:#f92672">networks</span>:
+  <span style="color:#f92672">byfn</span>:
+
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">etcd1</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">quay.io/coreos/etcd</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">etcd1</span>
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">etcd -name etcd1 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster &#34;etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380&#34; -initial-cluster-state new</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">2379</span>
+      - <span style="color:#ae81ff">2380</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">byfn</span>
+
+  <span style="color:#f92672">etcd2</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">quay.io/coreos/etcd</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">etcd2</span>
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">etcd -name etcd2 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster &#34;etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380&#34; -initial-cluster-state new</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">2379</span>
+      - <span style="color:#ae81ff">2380</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">byfn</span>
+
+  <span style="color:#f92672">etcd3</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">quay.io/coreos/etcd</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">etcd3</span>
+    <span style="color:#f92672">command</span>: <span style="color:#ae81ff">etcd -name etcd3 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster &#34;etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380&#34; -initial-cluster-state new</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">2379</span>
+      - <span style="color:#ae81ff">2380</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">byfn</span>
+
+</code></pre></div><p>3、启动服务（在步骤2中docker-compose.yaml文件所在的路径执行如下命令）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+docker-compose up
+
+</code></pre></div><p><img src="../../images/20210411-2253-41.png" alt=""></p>
+<p>4、验证集群的状态</p>
+<p>验证从三个node返回的v2/members数据是一样的值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker ps
+CONTAINER ID   IMAGE                 COMMAND                  CREATED          STATUS          PORTS                                              NAMES
+8d08b178a8cb   quay.io/coreos/etcd   <span style="color:#e6db74">&#34;etcd -name etcd3 -a…&#34;</span>   <span style="color:#ae81ff">51</span> seconds ago   Up <span style="color:#ae81ff">41</span> seconds   0.0.0.0:57858-&gt;2379/tcp, 0.0.0.0:57859-&gt;2380/tcp   etcd3
+dfcef002b206   quay.io/coreos/etcd   <span style="color:#e6db74">&#34;etcd -name etcd2 -a…&#34;</span>   <span style="color:#ae81ff">51</span> seconds ago   Up <span style="color:#ae81ff">46</span> seconds   0.0.0.0:57854-&gt;2379/tcp, 0.0.0.0:57855-&gt;2380/tcp   etcd2
+1b72f43e3426   quay.io/coreos/etcd   <span style="color:#e6db74">&#34;etcd -name etcd1 -a…&#34;</span>   <span style="color:#ae81ff">51</span> seconds ago   Up <span style="color:#ae81ff">42</span> seconds   0.0.0.0:57856-&gt;2379/tcp, 0.0.0.0:57857-&gt;2380/tcp   etcd1
+
+$ curl -L http://127.0.0.1:57858/v2/members
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;members&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;ade526d28b1f92f7&#34;</span>,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;etcd1&#34;</span>,<span style="color:#e6db74">&#34;peerURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://etcd1:2380&#34;</span><span style="color:#f92672">]</span>,<span style="color:#e6db74">&#34;clientURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://0.0.0.0:2379&#34;</span><span style="color:#f92672">]}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;bd388e7810915853&#34;</span>,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;etcd3&#34;</span>,<span style="color:#e6db74">&#34;peerURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://etcd3:2380&#34;</span><span style="color:#f92672">]</span>,<span style="color:#e6db74">&#34;clientURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://0.0.0.0:2379&#34;</span><span style="color:#f92672">]}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;d282ac2ce600c1ce&#34;</span>,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;etcd2&#34;</span>,<span style="color:#e6db74">&#34;peerURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://etcd2:2380&#34;</span><span style="color:#f92672">]</span>,<span style="color:#e6db74">&#34;clientURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://0.0.0.0:2379&#34;</span><span style="color:#f92672">]}]}</span>
+
+$ curl -L http://127.0.0.1:57854/v2/members
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;members&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;ade526d28b1f92f7&#34;</span>,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;etcd1&#34;</span>,<span style="color:#e6db74">&#34;peerURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://etcd1:2380&#34;</span><span style="color:#f92672">]</span>,<span style="color:#e6db74">&#34;clientURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://0.0.0.0:2379&#34;</span><span style="color:#f92672">]}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;bd388e7810915853&#34;</span>,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;etcd3&#34;</span>,<span style="color:#e6db74">&#34;peerURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://etcd3:2380&#34;</span><span style="color:#f92672">]</span>,<span style="color:#e6db74">&#34;clientURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://0.0.0.0:2379&#34;</span><span style="color:#f92672">]}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;d282ac2ce600c1ce&#34;</span>,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;etcd2&#34;</span>,<span style="color:#e6db74">&#34;peerURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://etcd2:2380&#34;</span><span style="color:#f92672">]</span>,<span style="color:#e6db74">&#34;clientURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://0.0.0.0:2379&#34;</span><span style="color:#f92672">]}]}</span>
+
+$ curl -L http://127.0.0.1:57856/v2/members
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;members&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;ade526d28b1f92f7&#34;</span>,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;etcd1&#34;</span>,<span style="color:#e6db74">&#34;peerURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://etcd1:2380&#34;</span><span style="color:#f92672">]</span>,<span style="color:#e6db74">&#34;clientURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://0.0.0.0:2379&#34;</span><span style="color:#f92672">]}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;bd388e7810915853&#34;</span>,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;etcd3&#34;</span>,<span style="color:#e6db74">&#34;peerURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://etcd3:2380&#34;</span><span style="color:#f92672">]</span>,<span style="color:#e6db74">&#34;clientURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://0.0.0.0:2379&#34;</span><span style="color:#f92672">]}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;d282ac2ce600c1ce&#34;</span>,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;etcd2&#34;</span>,<span style="color:#e6db74">&#34;peerURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://etcd2:2380&#34;</span><span style="color:#f92672">]</span>,<span style="color:#e6db74">&#34;clientURLs&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;http://0.0.0.0:2379&#34;</span><span style="color:#f92672">]}]}</span>
+
+</code></pre></div><p>也可以用命令行工具etcdctl：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ docker exec -t etcd1 etcdctl member list
+ade526d28b1f92f7: name<span style="color:#f92672">=</span>etcd1 peerURLs<span style="color:#f92672">=</span>http://etcd1:2380 clientURLs<span style="color:#f92672">=</span>http://0.0.0.0:2379 isLeader<span style="color:#f92672">=</span>false
+bd388e7810915853: name<span style="color:#f92672">=</span>etcd3 peerURLs<span style="color:#f92672">=</span>http://etcd3:2380 clientURLs<span style="color:#f92672">=</span>http://0.0.0.0:2379 isLeader<span style="color:#f92672">=</span>false
+d282ac2ce600c1ce: name<span style="color:#f92672">=</span>etcd2 peerURLs<span style="color:#f92672">=</span>http://etcd2:2380 clientURLs<span style="color:#f92672">=</span>http://0.0.0.0:2379 isLeader<span style="color:#f92672">=</span>true
+
+$ docker exec -t etcd3 etcdctl -C http://etcd1:2379,http://etcd2:2379,http://etcd3:2379 member list
+ade526d28b1f92f7: name<span style="color:#f92672">=</span>etcd1 peerURLs<span style="color:#f92672">=</span>http://etcd1:2380 clientURLs<span style="color:#f92672">=</span>http://0.0.0.0:2379 isLeader<span style="color:#f92672">=</span>false
+bd388e7810915853: name<span style="color:#f92672">=</span>etcd3 peerURLs<span style="color:#f92672">=</span>http://etcd3:2380 clientURLs<span style="color:#f92672">=</span>http://0.0.0.0:2379 isLeader<span style="color:#f92672">=</span>false
+d282ac2ce600c1ce: name<span style="color:#f92672">=</span>etcd2 peerURLs<span style="color:#f92672">=</span>http://etcd2:2380 clientURLs<span style="color:#f92672">=</span>http://0.0.0.0:2379 isLeader<span style="color:#f92672">=</span>true
+
+</code></pre></div><p>4、集群的使用</p>
+<p>我们往一个node上上传数据，在其他node上就能下载到。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">
+$ curl -L http://127.0.0.1:57854/v2/keys/foo -XPUT -d value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Hello foo&#34;</span>
+curl -L http://127.0.0.1:57854/v2/keys/foo1/foo1 -XPUT -d value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Hello foo1&#34;</span>
+curl -L http://127.0.0.1:57854/v2/keys/foo2/foo2 -XPUT -d value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Hello foo2&#34;</span>
+curl -L http://127.0.0.1:57854/v2/keys/foo2/foo21/foo21 -XPUT -d value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Hello foo21&#34;</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;action&#34;</span>:<span style="color:#e6db74">&#34;set&#34;</span>,<span style="color:#e6db74">&#34;node&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:<span style="color:#e6db74">&#34;Hello foo&#34;</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:9,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:9<span style="color:#f92672">}}</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;action&#34;</span>:<span style="color:#e6db74">&#34;set&#34;</span>,<span style="color:#e6db74">&#34;node&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo1/foo1&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:<span style="color:#e6db74">&#34;Hello foo1&#34;</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:10,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:10<span style="color:#f92672">}}</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;action&#34;</span>:<span style="color:#e6db74">&#34;set&#34;</span>,<span style="color:#e6db74">&#34;node&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo2/foo2&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:<span style="color:#e6db74">&#34;Hello foo2&#34;</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:11,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:11<span style="color:#f92672">}}</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;action&#34;</span>:<span style="color:#e6db74">&#34;set&#34;</span>,<span style="color:#e6db74">&#34;node&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo2/foo21/foo21&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:<span style="color:#e6db74">&#34;Hello foo21&#34;</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:12,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:12<span style="color:#f92672">}}</span>
+
+$ curl -L http://127.0.0.1:57856/v2/keys/foo
+curl -L http://127.0.0.1:57856/v2/keys/foo2
+curl -L http://127.0.0.1:57856/v2/keys/foo2<span style="color:#ae81ff">\?</span>recursive<span style="color:#ae81ff">\=</span>true
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;action&#34;</span>:<span style="color:#e6db74">&#34;get&#34;</span>,<span style="color:#e6db74">&#34;node&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:<span style="color:#e6db74">&#34;Hello foo&#34;</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:9,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:9<span style="color:#f92672">}}</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;action&#34;</span>:<span style="color:#e6db74">&#34;get&#34;</span>,<span style="color:#e6db74">&#34;node&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo2&#34;</span>,<span style="color:#e6db74">&#34;dir&#34;</span>:true,<span style="color:#e6db74">&#34;nodes&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo2/foo2&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:<span style="color:#e6db74">&#34;Hello foo2&#34;</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:11,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:11<span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo2/foo21&#34;</span>,<span style="color:#e6db74">&#34;dir&#34;</span>:true,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:12,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:12<span style="color:#f92672">}]</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:11,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:11<span style="color:#f92672">}}</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;action&#34;</span>:<span style="color:#e6db74">&#34;get&#34;</span>,<span style="color:#e6db74">&#34;node&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo2&#34;</span>,<span style="color:#e6db74">&#34;dir&#34;</span>:true,<span style="color:#e6db74">&#34;nodes&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo2/foo21&#34;</span>,<span style="color:#e6db74">&#34;dir&#34;</span>:true,<span style="color:#e6db74">&#34;nodes&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo2/foo21/foo21&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:<span style="color:#e6db74">&#34;Hello foo21&#34;</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:12,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:12<span style="color:#f92672">}]</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:12,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:12<span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;key&#34;</span>:<span style="color:#e6db74">&#34;/foo2/foo2&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:<span style="color:#e6db74">&#34;Hello foo2&#34;</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:11,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:11<span style="color:#f92672">}]</span>,<span style="color:#e6db74">&#34;modifiedIndex&#34;</span>:11,<span style="color:#e6db74">&#34;createdIndex&#34;</span>:11<span style="color:#f92672">}}</span>
+
+</code></pre></div>
+    </div>
+    <div class="info post_meta">
+      <time datetime=2021-04-11T22:51:12&#43;0800 class="date">Sunday, April 11, 2021</time>
+      
+        <ul class="tags">
+        
+          <li> <a href="https://zsy619.github.io/tags/docker">docker</a> </li>
+        
+          <li> <a href="https://zsy619.github.io/tags/etcd">etcd</a> </li>
+        
+        </ul>
+      
+      
+    </div>
+    <div class="clearfix"></div>
+  </article>
+  
+    <div class="other_posts">
+      
+      <a href="https://zsy619.github.io/docker/install_clickhouse/" class="prev">Docker 安装 ClickHouse</a>
+      
+      
+    </div>
+    <aside id="comments">
+</aside>
+
+  
+</section>
+
+        <a id="back_to_top" title="Go To Top" href="#">
+  <span>
+    <svg viewBox="0 0 24 24">
+      <path fill="none" d="M0 0h24v24H0z"></path>
+      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path>
+    </svg>
+  </span>
+</a>
+
+        <footer id="footer">
+  <p>
+    <span>&copy; 2021 <a href="https://zsy619.github.io" title="迪克猪的博客">迪克猪的博客</a> </span>
+    <span>Built with <a rel="nofollow" target="_blank" href="https://gohugo.io">Hugo</a></span>
+    <span>Theme by <a rel="nofollow" target="_blank" href="https://github.com/wayjam/hugo-theme-mixedpaper">WayJam</a></span>
+  </p>
+
+  <script src="https://zsy619.github.io/js/main.min.d36ef68c78feb357a5c05e0c28a47045a10fabf33345f1cb02f91d521272e329.js" integrity="sha256-0272jHj+s1elwF4MKKRwRaEPq/MzRfHLAvkdUhJy4yk=" crossorigin="anonymous" async></script>
+</footer>
+
+    </body>
+</html>
