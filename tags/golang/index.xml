@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Golang on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/tags/golang/</link>
+    <description>Recent content in Golang on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 27 Jul 2024 15:46:50 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go-etl在macos下编译若干问题</title>
+      <link>https://zsy619.github.io/golang/macos_go_etl_build/</link>
+      <pubDate>Sat, 27 Jul 2024 14:47:32 +0800</pubDate>
+      <guid>https://zsy619.github.io/golang/macos_go_etl_build/</guid>
+      <description>一、go-etl简介 1.1 go-etl是什么 go-etl是一个集数据源抽取，转化，加载的工具集，提供强大的数据同步能力。&#xA;1.2 go-etl有什么功能 主流数据库的数据抽取以及数据加载的能力，在storage包中实现 类二维表的数据流的数据抽取以及数据加载的能力，在stream包中实现 类似datax的数据同步能力，在datax包中实现 1.</description>
+    </item>
+    <item>
+      <title>Go交叉编译windows程序</title>
+      <link>https://zsy619.github.io/golang/macos_go_cross_windows/</link>
+      <pubDate>Sat, 27 Jul 2024 15:46:50 +0800</pubDate>
+      <guid>https://zsy619.github.io/golang/macos_go_cross_windows/</guid>
+      <description>在启用CGO_ENABLED的情况下，尝试使用下面命令进行Windows平台的交叉编译：&#xA;CGO_ENABLED=1 GOOS=windows GOARCH=386 go build -x -v -ldflags &amp;#34;-s -w&amp;#34; 出现错误如下：</description>
+    </item>
+    <item>
+      <title>casbin测试包引用问题解决</title>
+      <link>https://zsy619.github.io/golang/casbin%E6%B5%8B%E8%AF%95%E5%8C%85%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Thu, 15 Oct 2020 11:16:53 +0800</pubDate>
+      <guid>https://zsy619.github.io/golang/casbin%E6%B5%8B%E8%AF%95%E5%8C%85%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98/</guid>
+      <description>示例程序 基于casbin的权限管理示例&#xA;参考:http://www.topgoer.com/gin框架/其他/权限管理.html&#xA;示例代码：&#xA;package main import ( &amp;#34;fmt&amp;#34; &amp;#34;log&amp;#34; &amp;#34;github.</description>
+    </item>
+    <item>
+      <title>Go学习网站汇总</title>
+      <link>https://zsy619.github.io/golang/go%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Tue, 22 Sep 2020 14:45:02 +0800</pubDate>
+      <guid>https://zsy619.github.io/golang/go%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%E6%B1%87%E6%80%BB/</guid>
+      <description>基础知识 GolangPrograms：https://www.golangprograms.com/golang-package-examples.html&#xA;The Top 3,364 Golang Open Source Projects：https://awesomeopensource.com/projects/golang</description>
+    </item>
+    <item>
+      <title>Go1.15.2更新记录 (released 2020/09/09) </title>
+      <link>https://zsy619.github.io/golang/go1.15.2%E6%BA%90%E7%A0%81%E5%8F%98%E5%8C%96/</link>
+      <pubDate>Fri, 11 Sep 2020 14:31:47 +0800</pubDate>
+      <guid>https://zsy619.github.io/golang/go1.15.2%E6%BA%90%E7%A0%81%E5%8F%98%E5%8C%96/</guid>
+      <description>更新记录：https://github.com/golang/go/issues?q=milestone%3AGo1.15.2+label%3ACherryPickApproved&#xA;remote: Enumerating objects: 66, done. remote: Counting objects: 100% (66/66), done.</description>
+    </item>
+    <item>
+      <title>go2go命令</title>
+      <link>https://zsy619.github.io/golang/go2go/</link>
+      <pubDate>Wed, 09 Sep 2020 14:48:24 +0800</pubDate>
+      <guid>https://zsy619.github.io/golang/go2go/</guid>
+      <description>链接地址：https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/doc.go&#xA;// go2go is a command for trying out generic Go code.</description>
+    </item>
+    <item>
+      <title>官方golang泛型阅读笔记</title>
+      <link>https://zsy619.github.io/golang/%E5%AE%98%E6%96%B9golang%E6%B3%9B%E5%9E%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 08 Sep 2020 22:17:08 +0800</pubDate>
+      <guid>https://zsy619.github.io/golang/%E5%AE%98%E6%96%B9golang%E6%B3%9B%E5%9E%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
+      <description>常量定义 链接地址： https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/constraints/constraints.go2&#xA;// Ordered permits any ordered type: any type that supports // the operations &amp;lt;, &amp;lt;=, &amp;gt;=, &amp;gt;, as well as == and !</description>
+    </item>
+  </channel>
+</rss>

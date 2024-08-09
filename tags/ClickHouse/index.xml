@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ClickHouse on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/tags/ClickHouse/</link>
+    <description>Recent content in ClickHouse on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 07 Apr 2021 11:51:12 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/tags/ClickHouse/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker 安装 ClickHouse</title>
+      <link>https://zsy619.github.io/docker/install_clickhouse/</link>
+      <pubDate>Wed, 07 Apr 2021 11:51:12 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_clickhouse/</guid>
+      <description>docker docker pull yandex/clickhouse-server docker run -d --name ck-server --ulimit nofile=262144:262144 -p 8123:8123 -p 9000:9000 -p 9009:9009 yandex/clickhouse-server docker exec -it ck-server /bin/bash clickhouse-client #进入数据库 建库、建表、建测试数据（均为本地测试）</description>
+    </item>
+  </channel>
+</rss>

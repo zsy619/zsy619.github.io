@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>flutter on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/flutter/</link>
+    <description>Recent content in flutter on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 26 Sep 2020 21:38:26 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>安装sudo gem install cocoapods</title>
+      <link>https://zsy619.github.io/flutter/%E5%AE%89%E8%A3%85sudo-gem-install-cocoapods/</link>
+      <pubDate>Sat, 26 Sep 2020 21:38:26 +0800</pubDate>
+      <guid>https://zsy619.github.io/flutter/%E5%AE%89%E8%A3%85sudo-gem-install-cocoapods/</guid>
+      <description>安装sudo gem install cocoapods 1 更改源 终端执行命令：&#xA;gem sources --add &amp;lt;https://gems.</description>
+    </item>
+  </channel>
+</rss>

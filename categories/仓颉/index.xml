@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>仓颉 on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/categories/%E4%BB%93%E9%A2%89/</link>
+    <description>Recent content in 仓颉 on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 02 Jul 2024 17:24:58 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/categories/%E4%BB%93%E9%A2%89/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>嘿仓颉</title>
+      <link>https://zsy619.github.io/cangjie/hei_cangjie/</link>
+      <pubDate>Tue, 02 Jul 2024 17:24:58 +0800</pubDate>
+      <guid>https://zsy619.github.io/cangjie/hei_cangjie/</guid>
+      <description>2024年6月21日，华为仓颉正式公开发布。作为一个从业者，仓颉是我第一次接触的第一个国产开发语言。&#xA;内测申请 关注公众号：仓颉编程语言，回复：SDK，即可申请内测。特别提示：申请内测，请先到gitcode.com申请一个账号。&#xA;步骤1：关注公众号 步骤2：回复：SDK 步骤3：点击内测地址，填写信息 注意事项：&#xA;1、需要签名。&#xA;2、请填写正确邮箱，申请通过之后，会发送SDK等相关资料到邮箱。&#xA;步骤4：查看邮箱 环境准备 已macos环境为例。</description>
+    </item>
+  </channel>
+</rss>

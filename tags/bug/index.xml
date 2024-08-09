@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bug on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/tags/bug/</link>
+    <description>Recent content in Bug on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 15 Oct 2020 11:16:53 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/tags/bug/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>casbin测试包引用问题解决</title>
+      <link>https://zsy619.github.io/golang/casbin%E6%B5%8B%E8%AF%95%E5%8C%85%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Thu, 15 Oct 2020 11:16:53 +0800</pubDate>
+      <guid>https://zsy619.github.io/golang/casbin%E6%B5%8B%E8%AF%95%E5%8C%85%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98/</guid>
+      <description>示例程序 基于casbin的权限管理示例&#xA;参考:http://www.topgoer.com/gin框架/其他/权限管理.html&#xA;示例代码：&#xA;package main import ( &amp;#34;fmt&amp;#34; &amp;#34;log&amp;#34; &amp;#34;github.</description>
+    </item>
+  </channel>
+</rss>

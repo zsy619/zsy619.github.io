@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>开源 on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/</link>
+    <description>Recent content in 开源 on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 09 Aug 2024 14:27:12 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>阿里新开源的FunAudioLLM项目</title>
+      <link>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E9%98%BF%E9%87%8C%E6%96%B0%E5%BC%80%E6%BA%90%E7%9A%84FunAudioLLM%E9%A1%B9%E7%9B%AE/</link>
+      <pubDate>Fri, 09 Aug 2024 14:27:12 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E9%98%BF%E9%87%8C%E6%96%B0%E5%BC%80%E6%BA%90%E7%9A%84FunAudioLLM%E9%A1%B9%E7%9B%AE/</guid>
+      <description>描述 如果只有短短几秒的微信语音，如何才能模仿他们的声音？在当时，各种项目不是效果不好，就是无法根据这么短的输入音频进行声音模仿。不过现在，依靠 FunAudioLLM，我们终于可以实现了！&#xA;只需三秒的输入音频，提供输入文本，FunAudioLLM 可以生成具有相同音色的音频。更让人惊喜的是，项目支持跨语言语音翻译！比如你只给出了一段中文的语音，项目可以帮你生成相同音色下，粤语、日语、英语等不同语种的声音，想象一下，哪怕自己日语的五十音图都还没有认全，借助 FunAudioLLM 的 CosyVoice，你甚至可以听到自己的声音说着流利的日语！&#xA;而 FunAudioLLM 的功能远不止如此。如果我们将一本书输入给大模型，让大模型尝试理解书中各个人物的性格、情感，模拟出他们的情绪特点和音色，通过 CosyVoice 的语音合成功能，你可以得到一段旁白，其中不同的人物有不同的音色与情绪。</description>
+    </item>
+    <item>
+      <title> MiniCPM-V 2.6单图多图视频处理</title>
+      <link>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/MiniCPM%E5%8D%95%E5%9B%BE%E5%A4%9A%E5%9B%BE%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/</link>
+      <pubDate>Fri, 09 Aug 2024 09:18:35 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/MiniCPM%E5%8D%95%E5%9B%BE%E5%A4%9A%E5%9B%BE%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/</guid>
+      <description>一、介绍 2024年8月6日，MiniCPM-V 开源项目重磅更新了「小钢炮」 MiniCPM-V 2.6。&#xA;仅 8B 参数，单图、多图、视频理解全面超越GPT-4V，稳坐端侧最强多模态铁王座。&#xA;8B 参数的模型很有意义，这种小模型可以在手机端侧落地。</description>
+    </item>
+    <item>
+      <title>AI生成各种风格人类照片的工具PhotoMaker</title>
+      <link>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/AI%E7%94%9F%E6%88%90%E5%90%84%E7%A7%8D%E9%A3%8E%E6%A0%BC%E4%BA%BA%E7%B1%BB%E7%85%A7%E7%89%87%E7%9A%84%E5%B7%A5%E5%85%B7PhotoMaker/</link>
+      <pubDate>Fri, 02 Aug 2024 13:50:08 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/AI%E7%94%9F%E6%88%90%E5%90%84%E7%A7%8D%E9%A3%8E%E6%A0%BC%E4%BA%BA%E7%B1%BB%E7%85%A7%E7%89%87%E7%9A%84%E5%B7%A5%E5%85%B7PhotoMaker/</guid>
+      <description>描述 主语言python，该项目可以通过上传的人物照片，生成任意风格的人物图像，如写实、卡通、艺术等风格，可用于生成别具一格的头像。&#xA;链接 https://github.com/TencentARC/PhotoMaker</description>
+    </item>
+    <item>
+      <title>利用企业数据定制人工智能的平台mindsdb</title>
+      <link>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E5%88%A9%E7%94%A8%E4%BC%81%E4%B8%9A%E6%95%B0%E6%8D%AE%E5%AE%9A%E5%88%B6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%9A%84%E5%B9%B3%E5%8F%B0mindsdb/</link>
+      <pubDate>Fri, 02 Aug 2024 11:22:50 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E5%88%A9%E7%94%A8%E4%BC%81%E4%B8%9A%E6%95%B0%E6%8D%AE%E5%AE%9A%E5%88%B6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E7%9A%84%E5%B9%B3%E5%8F%B0mindsdb/</guid>
+      <description>描述 该项目把机器学习引入 SQL 数据库，将模型作为虚拟表（AI-table），从而省去了数据准备、预处理等步骤，可以直接用 SQL 查询时间序列、回归、分类预测的结果，实现简化机器学习开发流程的效果。&#xA;链接 http://github.com/mindsdb/mindsdb</description>
+    </item>
+    <item>
+      <title>本地运行各种LLM的工具ollama</title>
+      <link>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8C%E5%90%84%E7%A7%8DLLM%E7%9A%84%E5%B7%A5%E5%85%B7ollama/</link>
+      <pubDate>Fri, 02 Aug 2024 10:41:10 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8C%E5%90%84%E7%A7%8DLLM%E7%9A%84%E5%B7%A5%E5%85%B7ollama/</guid>
+      <description>简介 这是一个用 Go 语言写的工具，用于在本地一条命令安装、启动和管理大型语言模型，支持 Llama 3、Gemma、Mistral 等大模型，适用于 Windows、macOS、Linux 操作系统。</description>
+    </item>
+    <item>
+      <title>开源的AI换脸和增强工具facefusion</title>
+      <link>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E5%BC%80%E6%BA%90%E7%9A%84AI%E6%8D%A2%E8%84%B8%E5%92%8C%E5%A2%9E%E5%BC%BA%E5%B7%A5%E5%85%B7facefusion/</link>
+      <pubDate>Fri, 02 Aug 2024 09:59:32 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E5%BC%80%E6%BA%90%E7%9A%84AI%E6%8D%A2%E8%84%B8%E5%92%8C%E5%A2%9E%E5%BC%BA%E5%B7%A5%E5%85%B7facefusion/</guid>
+      <description>描述 这是一款功能强大的人脸交换和增强工具，支持将图片/视频中的人脸替换成另一个人的脸、改善人脸和背景清晰度等功能，还提供了友好的 Web 界面（WebUI）和低门槛的 CPU 处理选项。&#xA;链接 https://github.com/facefusion/facefusion</description>
+    </item>
+    <item>
+      <title>强大的对话式文本转语音模型ChatTTS</title>
+      <link>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E5%BC%BA%E5%A4%A7%E7%9A%84%E5%AF%B9%E8%AF%9D%E5%BC%8F%E6%96%87%E6%9C%AC%E8%BD%AC%E8%AF%AD%E9%9F%B3%E6%A8%A1%E5%9E%8BChatTTS/</link>
+      <pubDate>Fri, 02 Aug 2024 09:43:23 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E5%BC%BA%E5%A4%A7%E7%9A%84%E5%AF%B9%E8%AF%9D%E5%BC%8F%E6%96%87%E6%9C%AC%E8%BD%AC%E8%AF%AD%E9%9F%B3%E6%A8%A1%E5%9E%8BChatTTS/</guid>
+      <description>描述 该项目是专门为对话场景设计的文本转语音模型，支持中、英双语。它不仅能够生成自然、流畅的语音，还能控制和添加笑声、停顿和语气词等。ChatTTS 生成较短的语音效果很好，几乎听不出 AI “味”。&#xA;地址 https://github.com/2noise/ChatTTS&#xA;import ChatTTS from IPython.</description>
+    </item>
+    <item>
+      <title>简化大模型API调用的工具LiteLLM</title>
+      <link>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E7%AE%80%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8BAPI%E8%B0%83%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7LiteLLM/</link>
+      <pubDate>Fri, 02 Aug 2024 09:25:36 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E7%AE%80%E5%8C%96%E5%A4%A7%E6%A8%A1%E5%9E%8BAPI%E8%B0%83%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7LiteLLM/</guid>
+      <description>描述 该项目能够将各种 AI 大模型和服务的接口，统一转换成 OpenAI 的格式，简化了在不同 AI 服务/大模型切换和管理的工作。此外，它还支持设置预算、限制请求频率、管理 API Key 和配置 OpenAI 代理服务器等功能。</description>
+    </item>
+    <item>
+      <title>让静态图片开口说话hallo</title>
+      <link>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E8%AE%A9%E9%9D%99%E6%80%81%E5%9B%BE%E7%89%87%E5%BC%80%E5%8F%A3%E8%AF%B4%E8%AF%9Dhallo/</link>
+      <pubDate>Fri, 02 Aug 2024 09:16:59 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/%E5%BC%80%E6%BA%90/%E8%AE%A9%E9%9D%99%E6%80%81%E5%9B%BE%E7%89%87%E5%BC%80%E5%8F%A3%E8%AF%B4%E8%AF%9Dhallo/</guid>
+      <description>描述 主语言：Python&#xA;这是一个音频驱动的视觉合成系统，可以根据输入的音频和图像生成肖像动画。它可以让静态的肖像图像，根据音频中的声音变化动起来，就像真人说话一样。&#xA;地址 https://github.com/fudan-generative-vision/hallo</description>
+    </item>
+  </channel>
+</rss>

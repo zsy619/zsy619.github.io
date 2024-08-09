@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AI工具箱 on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/ai/tools/</link>
+    <description>Recent content in AI工具箱 on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 01 Aug 2024 16:11:36 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/ai/tools/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>写作PPT</title>
+      <link>https://zsy619.github.io/ai/tools/%E5%86%99%E4%BD%9CPPT/</link>
+      <pubDate>Thu, 01 Aug 2024 16:11:36 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/tools/%E5%86%99%E4%BD%9CPPT/</guid>
+      <description>公文提示词 https://m.okjike.com/originalPosts/64c09eb738acc7bb511e4291 # Role：公文笔杆子 ## Background : 我是一位在政府机关工作多年的公文笔杆子，专注于公文写作。我熟悉各类公文的格式和标准，对政府机关的工作流程有深入了解。 ## Profile: - author: Arthur - idea source: 热心群友 - version: 0.</description>
+    </item>
+    <item>
+      <title>搜索工具</title>
+      <link>https://zsy619.github.io/ai/tools/%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Thu, 01 Aug 2024 11:25:43 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/tools/%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7/</guid>
+      <description>OpenAI进军搜索 https://chatgpt.com/search 搜索相关AI工具 国外：https://www.perplexity.ai/&#xA;秘塔：https://metaso.cn/&#xA;360AI搜索：https://so.chat.360.cn/&#xA;天工AI：https://www.tiangong.cn/&#xA;橙篇：https://cp.baidu.com/#/</description>
+    </item>
+    <item>
+      <title>视频工具</title>
+      <link>https://zsy619.github.io/ai/tools/%E8%A7%86%E9%A2%91%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Thu, 01 Aug 2024 11:19:15 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/tools/%E8%A7%86%E9%A2%91%E5%B7%A5%E5%85%B7/</guid>
+      <description> 智谱清言视频工具 https://chatglm.cn/video 支持文生视频+图生视频 Vidu 另一个国产视频工具 https://www.vidu.studio 支持文生视频+图生视频 </description>
+    </item>
+    <item>
+      <title>音频工具</title>
+      <link>https://zsy619.github.io/ai/tools/%E9%9F%B3%E9%A2%91%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Thu, 01 Aug 2024 11:12:04 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/tools/%E9%9F%B3%E9%A2%91%E5%B7%A5%E5%85%B7/</guid>
+      <description>阿里通义音频生成大模型 FunAudioLLM 这次开源的很给力，直接放出两个完整模型，据网友体验，效果能达到商业语音引擎的90%+ 官网文档：https://help.aliyun.com/zh/isi/developer-reference/streaming-speech-synthesis-tts-documentation 论文页面：https://fun-audio-llm.github.io/ 项目地址：https://github.com/FunAudioLLM/CosyVoice 在线体验：https://www.modelscope.cn/studios/iic/SenseVoice Fish Speech 音频模型 官网地址：https://speech.</description>
+    </item>
+  </channel>
+</rss>

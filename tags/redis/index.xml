@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redis on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/tags/redis/</link>
+    <description>Recent content in Redis on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 12 Sep 2020 10:56:06 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker 安装 Redis</title>
+      <link>https://zsy619.github.io/docker/install_redis/</link>
+      <pubDate>Sat, 12 Sep 2020 10:56:06 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_redis/</guid>
+      <description>Redis 是一个开源的使用 ANSI C 语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value 的 NoSQL 数据库，并提供多种语言的 API。&#xA;查看可用的 Redis 版本 访问 Redis 镜像库地址： https://hub.</description>
+    </item>
+  </channel>
+</rss>

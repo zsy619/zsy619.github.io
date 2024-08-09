@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>读书笔记 on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/csapp/</link>
+    <description>Recent content in 读书笔记 on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 15 Nov 2020 21:37:46 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/csapp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>20201109到20201115日读书汇总--第八周</title>
+      <link>https://zsy619.github.io/csapp/20201109%E5%88%B020201115%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E5%85%AB%E5%91%A8/</link>
+      <pubDate>Sun, 15 Nov 2020 21:37:46 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/20201109%E5%88%B020201115%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E5%85%AB%E5%91%A8/</guid>
+      <description>虚拟内存9.6 第 1 步：处理器生成一个虚拟地址，并把它传送给 MMU。 第 2 步：MMU 生成 PTE 地址，并从高速缓存/主存请求得到它。 第 3 步：高速缓存/主存向 MMU 返回 PTE。 第 4 步：MMU 构造物理地址，并把它传送给高速缓存/主存。 第 5 步：高速缓存/主存返回所请求的数据字给处理器。</description>
+    </item>
+    <item>
+      <title>020201102到20201108日读书汇总--第七周</title>
+      <link>https://zsy619.github.io/csapp/20201102%E5%88%B020201108%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E4%B8%83%E5%91%A8/</link>
+      <pubDate>Sun, 08 Nov 2020 18:12:16 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/20201102%E5%88%B020201108%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E4%B8%83%E5%91%A8/</guid>
+      <description>第八章 异常控制流(8.5信号) 一种更高层次的软件形式的异常，称为unix信号，它允许进程中断其他进程。&#xA;低层的硬件异常是由内核异常处理程序处理的，正常情况下，对用户进程而言是不可见的。信号提供了一种机制，通知用户进程发生了这些异常。&#xA;8.5.2发送信号 进程组：每个进程都只属于一个进程组，进程组是由一个进程组ID来标识的。默认的，一个子进程和它的父进程同属于一个进程组。 在任何时刻，至多只有一个前台作业和0个或多个后台作业。外壳为每个作业创建一个独立的进程组，一个作业对应一个进程组。&#xA;8.5.3接收信号 进程可以通过使用signal函数来修改和信号相关的默认行为。唯一的例外是SIGSTOP和SIGKILL，它们的默认行为不能被修改。</description>
+    </item>
+    <item>
+      <title>20201026到20201101日读书汇总--第六周</title>
+      <link>https://zsy619.github.io/csapp/20201026%E5%88%B020201101%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E5%85%AD%E5%91%A8/</link>
+      <pubDate>Sun, 01 Nov 2020 17:34:00 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/20201026%E5%88%B020201101%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E5%85%AD%E5%91%A8/</guid>
+      <description>第七章 链接 链接是将各种代码和数据片段搜集并组合成为一个单一文件的过程。 链接器使得分离编译成为可能。&#xA;学习链接的目的&#xA;理解链接器将帮助你构造大型程序 理解链接器将帮助你避免一些危险的编程错误 理解链接器将帮助你理解语言的作用域规则是如何实现的 理解链接器将帮助你理解其他重要的系统概念 理解链接器将使你能够利用共享库 7.</description>
+    </item>
+    <item>
+      <title>20201019到20201025日读书汇总--第五周</title>
+      <link>https://zsy619.github.io/csapp/20201019%E5%88%B020201025%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E4%BA%94%E5%91%A8/</link>
+      <pubDate>Sun, 25 Oct 2020 17:52:41 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/20201019%E5%88%B020201025%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E4%BA%94%E5%91%A8/</guid>
+      <description>存储器系统是一个具有不同容量、成本和访问时间的存储设备的层次结构。CPU寄存器保存着最常用的数据。靠近CPU的小的、快速的高速缓存（SRAM）作为一部分存储在相对慢速的主存储器（DRAM）中数据和指令的缓冲区域。主存储器（DRAM）缓存存储在容量较大的、慢速磁盘（本地磁盘）上的数据，而这些磁盘常常又作为存储在通过网络连接的其他机器的磁盘或磁带（分布式文件系统，Web服务器）上的数据的缓存区域。&#xA;局部性是计算机程序的一个基本属性。具有良好局部性的程序倾向于一次又一次地访问相同的数据项集合，或是倾向于访问邻近的数据项集合。具有良好局部性的程序比局部性差的程序更多地倾向于从存储器层次结构中较高层次处访问数据项，因此运行得更快。&#xA;一、存储技术 1.1、随机访问存储器 随机访问存储器（RAM）分为两类：静态RAM（SRAM）和动态RAM（DRAM）。&#xA;1、静态RAM SRAM将每个位存储在一个双稳态的存储器单元里，每个单元用六个晶体管电路实现（成本相对高）。双稳态就是电路可以无限期地保持在两个不同的电压配置或状态之一。其他任何状态都是不稳定的——从不稳定状态开始，电路会迅速地转移到两个稳定状态中的一个。&#xA;由于双稳态特性，SRAM只要有电，它就会永远保持它的值（抗干扰性强）。&#xA;2、动态RAM DRAM将每个位存储为对一个电容的充电，每个单元由一个电容和一个访问晶体管组成（成本相对低）。与SRAM不同，DRAM存储器单元对干扰非常敏感（抗干扰性弱）。当电容的电压被扰乱之后，它就永远不会恢复了。暴露在光线下会导致电容电压改变。</description>
+    </item>
+    <item>
+      <title>第四周20201012到20201018日读书汇总</title>
+      <link>https://zsy619.github.io/csapp/20201012%E5%88%B020201018%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E5%9B%9B%E5%91%A8/</link>
+      <pubDate>Sun, 18 Oct 2020 10:30:21 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/20201012%E5%88%B020201018%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E5%9B%9B%E5%91%A8/</guid>
+      <description>读书内容 程序的机器表示 章节 3.8~3.12&#xA;3.8 数组访问与分配 数组定义 数组是某种基本数据类型数据的集合 对于数据类型 T 和整型常数 N，数组的声明如下：</description>
+    </item>
+    <item>
+      <title>第三周20200928到20201011日读书汇总</title>
+      <link>https://zsy619.github.io/csapp/20200928%E5%88%B020201011%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E4%B8%89%E5%91%A8/</link>
+      <pubDate>Sun, 11 Oct 2020 20:16:21 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/20200928%E5%88%B020201011%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E4%B8%89%E5%91%A8/</guid>
+      <description>3.1 到 3.7 总结 1、 x86 与 x64 的发展历程 2、摩尔定律（Moore 定律）</description>
+    </item>
+    <item>
+      <title>第三章程序的机器表示</title>
+      <link>https://zsy619.github.io/csapp/%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E8%A1%A8%E7%A4%BA/</link>
+      <pubDate>Sat, 03 Oct 2020 21:55:42 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E8%A1%A8%E7%A4%BA/</guid>
+      <description>1、历史观点 晶体管数量表示 K 表示 1,000 M 表示 1,000,000 G 表示 1,000,000,000</description>
+    </item>
+    <item>
+      <title>第二周20200921到20200927日读书汇总</title>
+      <link>https://zsy619.github.io/csapp/20200921%E5%88%B020200927%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E4%BA%8C%E5%91%A8/</link>
+      <pubDate>Mon, 21 Sep 2020 11:01:06 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/20200921%E5%88%B020200927%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E4%BA%8C%E5%91%A8/</guid>
+      <description>整数表示 用位来编码整数&#xA;- 函数：二进制转补码、二进制转无符号数、无符号数转二进制、无符号转补码、补码转二进制、补码转无符号数 - 常数：最小补码值、最大补码值、最大无符号数 - 操作：补码加法、无符号数加法、补码乘法、无符号数乘法、补码取反、无符号数取反 整型数据类型 32位与64位机器取值范围不同 大多数64位机器使用8个字节表示，比32位机器上使用4个字节表示取值范围大 建议安装64位的操作系统 不同语言对有符号与无符号支持也不同，如c支持有符号与无符号数。而java只支持有符号数。</description>
+    </item>
+    <item>
+      <title>第一周20200914到20200920日读书汇总</title>
+      <link>https://zsy619.github.io/csapp/20200914%E5%88%B020200920%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E4%B8%80%E5%91%A8/</link>
+      <pubDate>Sun, 20 Sep 2020 11:48:06 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/20200914%E5%88%B020200920%E6%97%A5%E8%AF%BB%E4%B9%A6%E6%B1%87%E6%80%BB--%E7%AC%AC%E4%B8%80%E5%91%A8/</guid>
+      <description>第一章 计算机系统漫游 基本概念： 信息就是位+上下文：字符编码 程序翻译的不同阶段：预处理阶段、编译阶段、汇编阶段、链接阶段 系统硬件的组成：总线、I/O设备、主存、处理器 高速缓存：了解是在cpu上进行设置的 进程、线程、虚拟内存、文件 系统间的通信方式：网络 重要章节：amdahl定律（阿姆达尔定律） 核心要了解公式各参数含义 系统性能提升，主要决定是并行处理的地方 通过本定律，了解程序优化的重点方向 在并行计算中用多处理器的应用加速受限于程序所需的串行时间百分比。譬如说，你的程序50%是串行的，其他一半可以并行，那么，最大的加速比就是2。不管你用多少处理器并行，这个加速比不可能提高。在这种情况下，改进串行算法可能比多核处理器并行更有效。</description>
+    </item>
+    <item>
+      <title>第二章信息的表示和处理  浮点数</title>
+      <link>https://zsy619.github.io/csapp/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86--%E6%B5%AE%E7%82%B9%E6%95%B0/</link>
+      <pubDate>Fri, 11 Sep 2020 13:43:38 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86--%E6%B5%AE%E7%82%B9%E6%95%B0/</guid>
+      <description>定义 二进制小数*** IEEE 浮点表示 IEEE 二进制浮点数算术标准（IEEE 754）是 20 世纪 80 年代以来最广泛使用的浮点数运算标准，为许多 CPU 与浮点运算器所采用。这个标准定义了表示浮点数的格式（包括负零-0）与反常值（denormal number）），一些特殊数值（无穷（Inf）与非数值（NaN）），以及这些数值的“浮点数运算符”；它也指明了四种数值舍入规则和五种例外状况（包括例外发生的时机与处理方式）。</description>
+    </item>
+    <item>
+      <title>第二章信息的表示和处理  整数运算</title>
+      <link>https://zsy619.github.io/csapp/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86--%E6%95%B4%E6%95%B0%E8%BF%90%E7%AE%97/</link>
+      <pubDate>Fri, 11 Sep 2020 11:39:38 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86--%E6%95%B4%E6%95%B0%E8%BF%90%E7%AE%97/</guid>
+      <description>整数表示 用位来编码整数，两种不同方式：一种只能表示非负数，而另一种能够表示负数、零和正数。&#xA;整型数据类型 32位与64位机器取值范围不同 大多数64位机器使用8个字节表示，比32位机器上使用4个字节表示取值范围大 取值范围不对称，负数比正数的范围大1&#xA;无符号数编码 向量定义法 最小值0，最大值二的N次方减一 无符号数编码具有唯一性 补码（two’s-complement）编码 用补码表示有符号的数 将字的最高有效位解释为负权（negative weight） 符号位设置为1表示值为负、0表示值为正 补码编码的唯一性，双射 补码范围不对称：|TMin| = |TMax| + 1 UMax = 2TMax + 1 long类型：不同机器有不同的取值范围 有符号数的其他表示方法：反码、原码</description>
+    </item>
+    <item>
+      <title>第二章信息的表示和处理</title>
+      <link>https://zsy619.github.io/csapp/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/</link>
+      <pubDate>Fri, 11 Sep 2020 09:33:30 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/</guid>
+      <description>位 bit 二进制数字：0、1&#xA;无符号编码基于基于传统的二进制表示法&#xA;补码编码是表示有符号整数最常见的方式&#xA;浮点数编码表示实数的科学计数法的以 2 为基数的版本&#xA;溢出 overflow 用有限数量的位为一个数编码，会产生某些计算溢出 信息存储 大多数计算机用 8 位的块，表示一个字节（byte），作为最小的可寻址的内存单位，而不是访问内存中单独的位。</description>
+    </item>
+    <item>
+      <title>第一章计算机系统漫游 Amdahl定律</title>
+      <link>https://zsy619.github.io/csapp/%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8-Amdahl%E5%AE%9A%E5%BE%8B/</link>
+      <pubDate>Thu, 10 Sep 2020 11:28:17 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8-Amdahl%E5%AE%9A%E5%BE%8B/</guid>
+      <description>定义 Amdahl 定律：阿姆达尔定律&#xA;阿姆达尔定律是计算机系统设计的重要定量原理之一，于 1967 年由 IBM360 系列机的主要设计者阿姆达尔首先提出。该定律是指：系统中对某一部件采用更快执行方式所能获得的系统性能改进程度，取决于这种执行方式被使用的频率，或所占总执行时间的比例。阿姆达尔定律实际上定义了采取增强（加速）某部分功能处理的措施后可获得的性能改进或执行时间的加速比。简单来说是通过更快的处理器来获得加速是由慢的系统组件所限制。、&#xA;出发点 基本出发点：</description>
+    </item>
+    <item>
+      <title>第一章 计算机系统漫游</title>
+      <link>https://zsy619.github.io/csapp/%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/</link>
+      <pubDate>Thu, 10 Sep 2020 10:43:28 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/</guid>
+      <description>信息就是位+上下文 位一样，在不同上下文中表示不同； 比如，人际关系，你就是位，在家里你是父亲或母亲，到单位你是老总或下属&#xA;比如，在不同的上下文中，一个同样的字节序列可能表示 一个整数、浮点数、字符串或者机器指令。&#xA;系统中所有信息都是由一串比特表示的 文本文件 与 二进制文件 程序被其他程序翻译成不同的格式 注意：是翻译而不是编译 编译系统构成的四部分：预处理器、编译器、汇编器和链接器 预处理阶段：预处理器 编译阶段：编译器 汇编阶段：汇编器翻译成机器语言指令，把这些指令打包成一种叫做可重定位目标程序&amp;lt;的格式。 链接阶段：链接器负责合并，生成一个可执行目标文件（简称：可执行文件）。 了解编译系统 优化程序性能 理解链接时出现的错误 避免安全漏洞 处理器读取并解释存储在内存中的指令 系统的硬件组成 总线 IO 设备 主存： 从物理上来说，主存是由一组动态随机存取存储器(DRAM)芯片组成的。 从逻辑上来说，存储器是一个线性的字节数组，每个字节都有其唯一的地址数组索 引），这些地址是从零开始的。 处理器 高速缓存至关重要 看图知道 高速缓存存储器 所处的位置吗？</description>
+    </item>
+    <item>
+      <title>序言</title>
+      <link>https://zsy619.github.io/csapp/%E5%BA%8F%E8%A8%80/</link>
+      <pubDate>Tue, 08 Sep 2020 22:02:06 +0800</pubDate>
+      <guid>https://zsy619.github.io/csapp/%E5%BA%8F%E8%A8%80/</guid>
+      <description>内容概述 第一章 计算机系统漫游&#xA;第二章 信息的表示和处理&#xA;第三章 程序的机器级表示&#xA;第四章 处理器体系结构</description>
+    </item>
+  </channel>
+</rss>

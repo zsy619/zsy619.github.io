@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/categories/docker/</link>
+    <description>Recent content in Docker on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 12 Jul 2024 09:22:30 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PostgreSQL数据库——Docker版本的postgres安装</title>
+      <link>https://zsy619.github.io/docker/install_postgres/</link>
+      <pubDate>Fri, 12 Jul 2024 09:22:30 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_postgres/</guid>
+      <description>一、介绍 PostgreSQL是一种非常先进的开源对象-关系型数据库管理系统（ORDBMS），它以其可靠性、健壮性、灵活性和支持标准SQL的能力而著称。以下是PostgreSQL的一些主要特点：&#xA;历史与发展 PostgreSQL项目起源于1986年的POSTGRES项目，该项目是由加州大学伯克利分校的Michael Stonebraker教授领导的。 1996年，PostgreSQL项目从POSTGRES项目演进而来，并增加了SQL语言的支持。 PostgreSQL是自由软件，用户可以免费使用、修改和分发它。 核心特性 扩展性：PostgreSQL允许用户自定义数据类型、函数和存储过程。它还支持编写外部插件来扩展数据库功能。 事务性：它完全支持事务，并遵守ACID原则（原子性、一致性、隔离性、持久性）。 可靠性：具有强大的故障恢复功能，可以在系统崩溃后快速恢复数据。 支持标准：PostgreSQL支持大量的SQL标准，包括子查询、事务、联合、视图、外键和触发器等。 多版本并发控制（MVCC）：这允许高并发性，不会因为锁定而阻塞读操作。 存储过程语言：支持多种程序设计语言，包括PL/pgSQL、C、Python、Java等。 复制和分区：支持数据复制和分区，可以提高性能和可用性。 应用场景 Web应用：由于其强大的功能和灵活性，PostgreSQL常被用作Web应用的数据库后端。 移动应用：适用于需要后端存储解决方案的移动应用。 数据仓库：可以处理复杂的数据分析任务。 地理信息系统（GIS）：PostgreSQL通过PostGIS插件支持地理空间数据。 社区和支持 PostgreSQL拥有一个非常活跃的全球社区，不断开发和改进数据库。 有许多公司和组织提供专业的支持服务。 安全性 支持数据加密、用户身份验证、角色和权限管理，确保数据安全。 性能 PostgreSQL具有高效的查询优化器，能够处理大量数据。 兼容性 与许多操作系统兼容，包括Linux、Windows、macOS等。 由于这些特点，PostgreSQL被广泛应用于各种规模的组织，从小的创业公司到大型企业，甚至是政府机构。它的开源性质也意味着任何人都可以自由地使用、修改和分发它，这极大地促进了其功能的丰富和社区的活跃。 二、Docker版本的postgres安装 查询 docker search postgres 拉取 docker pull postgres 查看本地镜像 docker images 恭喜，拉取成功~~</description>
+    </item>
+    <item>
+      <title>Docker 安装 etcd</title>
+      <link>https://zsy619.github.io/docker/install_etcd/</link>
+      <pubDate>Sun, 11 Apr 2021 22:51:12 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_etcd/</guid>
+      <description>说明 使用docker-compose搭建etcd集群环境&#xA;etcd是一个集群环境，用来管理微服务架构下面的配置管理功能。 A distributed, reliable key-value store for the most critical data of a distributed system.</description>
+    </item>
+    <item>
+      <title>Docker 安装 ClickHouse</title>
+      <link>https://zsy619.github.io/docker/install_clickhouse/</link>
+      <pubDate>Wed, 07 Apr 2021 11:51:12 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_clickhouse/</guid>
+      <description>docker docker pull yandex/clickhouse-server docker run -d --name ck-server --ulimit nofile=262144:262144 -p 8123:8123 -p 9000:9000 -p 9009:9009 yandex/clickhouse-server docker exec -it ck-server /bin/bash clickhouse-client #进入数据库 建库、建表、建测试数据（均为本地测试）</description>
+    </item>
+    <item>
+      <title>Docker 安装 MySQL</title>
+      <link>https://zsy619.github.io/docker/install_mysql/</link>
+      <pubDate>Sat, 12 Sep 2020 10:57:00 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_mysql/</guid>
+      <description>MySQL 是世界上最受欢迎的开源数据库。凭借其可靠性、易用性和性能，MySQL 已成为 Web 应用程序的数据库优先选择。&#xA;查看可用的 MySQL 版本 访问 MySQL 镜像库地址：https://hub.</description>
+    </item>
+    <item>
+      <title>Docker 安装 MongoDB</title>
+      <link>https://zsy619.github.io/docker/install_mongo/</link>
+      <pubDate>Sat, 12 Sep 2020 10:56:44 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_mongo/</guid>
+      <description>MongoDB 是一个免费的开源跨平台面向文档的 NoSQL 数据库程序。&#xA;查看可用的 MongoDB 版本 访问 MongoDB 镜像库地址： https://hub.</description>
+    </item>
+    <item>
+      <title>Docker 安装 Redis</title>
+      <link>https://zsy619.github.io/docker/install_redis/</link>
+      <pubDate>Sat, 12 Sep 2020 10:56:06 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_redis/</guid>
+      <description>Redis 是一个开源的使用 ANSI C 语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value 的 NoSQL 数据库，并提供多种语言的 API。&#xA;查看可用的 Redis 版本 访问 Redis 镜像库地址： https://hub.</description>
+    </item>
+    <item>
+      <title>Docker 安装 Hive</title>
+      <link>https://zsy619.github.io/docker/install_hive/</link>
+      <pubDate>Fri, 11 Sep 2020 20:51:12 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_hive/</guid>
+      <description>Hive 是什么 Hive 是一个数据仓库基础工具在 Hadoop 中用来处理结构化数据。它架构在 Hadoop 之上，总归为大数据，并使得查询和分析方便。&#xA;最初，Hive 是由 Facebook 开发，后来由 Apache 软件基金会开发，并作为进一步将它作为名义下 Apache Hive 为一个开源项目。它用在好多不同的公司。例如，亚马逊使用它在 Amazon Elastic MapReduce。</description>
+    </item>
+  </channel>
+</rss>

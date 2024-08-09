@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Etcd on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/tags/etcd/</link>
+    <description>Recent content in Etcd on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 11 Apr 2021 22:51:12 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/tags/etcd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker 安装 etcd</title>
+      <link>https://zsy619.github.io/docker/install_etcd/</link>
+      <pubDate>Sun, 11 Apr 2021 22:51:12 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_etcd/</guid>
+      <description>说明 使用docker-compose搭建etcd集群环境&#xA;etcd是一个集群环境，用来管理微服务架构下面的配置管理功能。 A distributed, reliable key-value store for the most critical data of a distributed system.</description>
+    </item>
+  </channel>
+</rss>

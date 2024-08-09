@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hive on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/tags/Hive/</link>
+    <description>Recent content in Hive on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 11 Sep 2020 20:51:12 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/tags/Hive/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker 安装 Hive</title>
+      <link>https://zsy619.github.io/docker/install_hive/</link>
+      <pubDate>Fri, 11 Sep 2020 20:51:12 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_hive/</guid>
+      <description>Hive 是什么 Hive 是一个数据仓库基础工具在 Hadoop 中用来处理结构化数据。它架构在 Hadoop 之上，总归为大数据，并使得查询和分析方便。&#xA;最初，Hive 是由 Facebook 开发，后来由 Apache 软件基金会开发，并作为进一步将它作为名义下 Apache Hive 为一个开源项目。它用在好多不同的公司。例如，亚马逊使用它在 Amazon Elastic MapReduce。</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>开发 on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/ai/%E5%BC%80%E5%8F%91/</link>
+    <description>Recent content in 开发 on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 01 Aug 2024 16:41:39 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/ai/%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ollama部署</title>
+      <link>https://zsy619.github.io/ai/%E5%BC%80%E5%8F%91/Ollama%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Thu, 01 Aug 2024 16:41:39 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/%E5%BC%80%E5%8F%91/Ollama%E9%83%A8%E7%BD%B2/</guid>
+      <description>ollama下载地址 https://ollama.com/download 运行：&#xA;ollama run llama3.1 使用kimi写python代码 我要用本地已经部署的ollama工具提供的API，批量的处理一个excel中的内容，请你帮我完成python程序 1）读取excel中每一行的[回答]列的数据 2）用准备好的提示词和接口地址，处理单元格数据，收到包含两个字段的json数据，【得分】【评价】 3）将【得分】【评价】，保存到原有的excel中 要完成这个任务，我们将需要使用 Python 的几个库：pandas 用于读取和写入 Excel 文件，requests 用于发送 HTTP 请求到 API，以及 json 用于处理 JSON 数据。</description>
+    </item>
+  </channel>
+</rss>

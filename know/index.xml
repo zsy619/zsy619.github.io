@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>知识点 on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/know/</link>
+    <description>Recent content in 知识点 on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 12 Sep 2021 11:58:53 +0000</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/know/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mac 配置java环境</title>
+      <link>https://zsy619.github.io/know/Mac-%E9%85%8D%E7%BD%AEjava%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Sun, 12 Sep 2021 11:58:53 +0000</pubDate>
+      <guid>https://zsy619.github.io/know/Mac-%E9%85%8D%E7%BD%AEjava%E7%8E%AF%E5%A2%83/</guid>
+      <description>关于mac下如何配置java环境，请看以下步骤： 1.首先查看mac上是否安装了JDK，在终端输入指令 java -version,如果输出为No Java runtime present, requesting install.那么就说明你过没有安装JDK，需要先安装JDK。下载jdk的网址是http://www.oracle.com/technetwork/java/javase/downloads。</description>
+    </item>
+    <item>
+      <title>MySQL数据插入：1292 - Incorrect datetime value: &#39;0000-00-00 00:00:00&#39; for column &#39;start_time&#39; at row 1, Time: 0.003000s</title>
+      <link>https://zsy619.github.io/know/Incorrect-datetime-value-0000-00-00-000000-for-column/</link>
+      <pubDate>Sat, 11 Sep 2021 09:58:08 +0000</pubDate>
+      <guid>https://zsy619.github.io/know/Incorrect-datetime-value-0000-00-00-000000-for-column/</guid>
+      <description>问题 执行如何sql语句：&#xA;INSERT INTO `airkeynote` ( `company_id`, `subject`, `start_time`, `end_time`, `contacts`, `phone`, `email`, `cover_img`, `detail`, `ppt_name`, `ppt_url`, `state`, `create_time`, `follow_count`, `watch_count`, `play_count`, `channel`, `is_close`, `replay_url`, `chatroom_id`, `resourceid`, `sid`, `type`, `school_code`, `show_hide`, `air_type` ) VALUES ( 10, &amp;#39;测试&amp;#39;, &amp;#39;0000-00-00 00:00:00&amp;#39;, &amp;#39;0000-00-00 00:00:00&amp;#39;, &amp;#39;&amp;#39;, &amp;#39;&amp;#39;, &amp;#39;&amp;#39;, &amp;#39;http://localhost:8888/Uploads/banner/19878bf3a109bfa5dba3f664dcec7c81.</description>
+    </item>
+    <item>
+      <title>Failed to resolve loader sass loader</title>
+      <link>https://zsy619.github.io/know/Failed-to-resolve-loader-sass-loader/</link>
+      <pubDate>Mon, 09 Aug 2021 23:38:51 +0800</pubDate>
+      <guid>https://zsy619.github.io/know/Failed-to-resolve-loader-sass-loader/</guid>
+      <description>问题描述： $ yarn run build:mp-weixin Debugger attached. yarn run v1.</description>
+    </item>
+    <item>
+      <title>Mac下安装yarn可真难呀</title>
+      <link>https://zsy619.github.io/know/UniappuView%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91VSCode/</link>
+      <pubDate>Mon, 09 Aug 2021 23:38:51 +0800</pubDate>
+      <guid>https://zsy619.github.io/know/UniappuView%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91VSCode/</guid>
+      <description>工具 VSCode&#xA;插件 gitignore&#xA;uniapp-snippet&#xA;uview-snippet&#xA;uni-app安装 `&#xA;全局安装vue-cli npm install -g @vue/cli 创建uni-app使用正式版（对应HBuilderX最新正式版） vue create -p dcloudio/uni-preset-vue demo $ vue create -p dcloudio/uni-preset-vue demo Fetching remote preset dcloudio/uni-preset-vue.</description>
+    </item>
+    <item>
+      <title>银河麒麟操作系统设置java与go系统环境变量</title>
+      <link>https://zsy619.github.io/know/%E9%93%B6%E6%B2%B3%E9%BA%92%E9%BA%9F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AEjava%E4%B8%8Ego%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/</link>
+      <pubDate>Sat, 17 Apr 2021 09:14:30 +0800</pubDate>
+      <guid>https://zsy619.github.io/know/%E9%93%B6%E6%B2%B3%E9%BA%92%E9%BA%9F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AEjava%E4%B8%8Ego%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/</guid>
+      <description>环境变量设置位置 打开环境变量文件： sudo vim /etc/profile 或者（系统环境变量） sudo vim /etc/enviornment 设置java环境变量 export JAVA_HOME=/usr/java/jdk1.</description>
+    </item>
+    <item>
+      <title>Mac OS 安装 etcd</title>
+      <link>https://zsy619.github.io/know/Mac-OS-%E5%AE%89%E8%A3%85-etcd/</link>
+      <pubDate>Sat, 10 Oct 2020 09:10:21 +0800</pubDate>
+      <guid>https://zsy619.github.io/know/Mac-OS-%E5%AE%89%E8%A3%85-etcd/</guid>
+      <description>使用 brew 安装 第一步： 确定 brew 是否有 etcd 包：</description>
+    </item>
+    <item>
+      <title>brew update error</title>
+      <link>https://zsy619.github.io/know/brew-update-error/</link>
+      <pubDate>Sun, 27 Sep 2020 07:02:01 +0800</pubDate>
+      <guid>https://zsy619.github.io/know/brew-update-error/</guid>
+      <description>$ brew update error: Not a valid ref: refs/remotes/origin/master fatal: ambiguous argument &amp;#39;refs/remotes/origin/master&amp;#39;: unknown revision or path not in the working tree.</description>
+    </item>
+    <item>
+      <title>Git Stats安装</title>
+      <link>https://zsy619.github.io/know/git-stats%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Tue, 22 Sep 2020 16:41:50 +0800</pubDate>
+      <guid>https://zsy619.github.io/know/git-stats%E5%AE%89%E8%A3%85/</guid>
+      <description>git-stats Local git statistics including GitHub-like contributions calendars.&#xA;remark：https://www.npmjs.com/package/git-stats#what-about-the-github-contributions-calendar</description>
+    </item>
+    <item>
+      <title>Mac下安装yarn可真难呀</title>
+      <link>https://zsy619.github.io/know/mac%E4%B8%8B%E5%AE%89%E8%A3%85yarn%E5%8F%AF%E7%9C%9F%E9%9A%BE%E5%91%80/</link>
+      <pubDate>Tue, 22 Sep 2020 16:38:51 +0800</pubDate>
+      <guid>https://zsy619.github.io/know/mac%E4%B8%8B%E5%AE%89%E8%A3%85yarn%E5%8F%AF%E7%9C%9F%E9%9A%BE%E5%91%80/</guid>
+      <description>shell命令行安装 $ brew install yarn Updating Homebrew... Warning: You are using macOS 11.</description>
+    </item>
+    <item>
+      <title>JWT和Oauth2的区别和联系</title>
+      <link>https://zsy619.github.io/know/JWT%E5%92%8COauth2%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/</link>
+      <pubDate>Mon, 21 Sep 2020 17:10:50 +0800</pubDate>
+      <guid>https://zsy619.github.io/know/JWT%E5%92%8COauth2%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/</guid>
+      <description>JWT和Oauth2的区别和联系 Oauth2 是一种安全的授权框架，提供了一套详细的授权机制。用户或应用可以通过公开的或私有的设置，授权第三方应用访问特定资源。它详细描述了系统中不同角色、用户、服务前端应用（比如API），以及客户端（比如网站或移动App）之间怎么实现相互认证。&#xA;Oauth2定义了一组想当复杂的规范。涉及到：Roles角色、Client Types客户端类型、Client Profile客户端描述、Authorization Grants认证授权、Endpoints终端等。&#xA;JWT 提供了一种用于发布接入令牌（Access Token), 并对发布的签名接入令牌进行验证的方法。 令牌（Token）本身包含了一系列声明，应用程序可以根据这些声明限制用户对资源的访问。</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/tags/</link>
+    <description>Recent content in Tags on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 27 Jul 2024 15:46:50 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang</title>
+      <link>https://zsy619.github.io/tags/golang/</link>
+      <pubDate>Sat, 27 Jul 2024 15:46:50 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Docker</title>
+      <link>https://zsy619.github.io/tags/docker/</link>
+      <pubDate>Fri, 12 Jul 2024 09:22:30 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Postgres</title>
+      <link>https://zsy619.github.io/tags/postgres/</link>
+      <pubDate>Fri, 12 Jul 2024 09:22:30 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/postgres/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>仓颉</title>
+      <link>https://zsy619.github.io/tags/%E4%BB%93%E9%A2%89/</link>
+      <pubDate>Tue, 02 Jul 2024 17:24:58 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/%E4%BB%93%E9%A2%89/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Node</title>
+      <link>https://zsy619.github.io/tags/node/</link>
+      <pubDate>Mon, 09 Aug 2021 23:38:51 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/node/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Uni-App</title>
+      <link>https://zsy619.github.io/tags/uni-app/</link>
+      <pubDate>Mon, 09 Aug 2021 23:38:51 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/uni-app/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>UView</title>
+      <link>https://zsy619.github.io/tags/uView/</link>
+      <pubDate>Mon, 09 Aug 2021 23:38:51 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/uView/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Etcd</title>
+      <link>https://zsy619.github.io/tags/etcd/</link>
+      <pubDate>Sun, 11 Apr 2021 22:51:12 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/etcd/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ClickHouse</title>
+      <link>https://zsy619.github.io/tags/ClickHouse/</link>
+      <pubDate>Wed, 07 Apr 2021 11:51:12 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/ClickHouse/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Index</title>
+      <link>https://zsy619.github.io/tags/index/</link>
+      <pubDate>Sun, 15 Nov 2020 21:37:46 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/index/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>深入理解计算机系统</title>
+      <link>https://zsy619.github.io/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Sun, 15 Nov 2020 21:37:46 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bug</title>
+      <link>https://zsy619.github.io/tags/bug/</link>
+      <pubDate>Thu, 15 Oct 2020 11:16:53 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/bug/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>知识点</title>
+      <link>https://zsy619.github.io/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+      <pubDate>Mon, 21 Sep 2020 17:10:50 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>认证</title>
+      <link>https://zsy619.github.io/tags/%E8%AE%A4%E8%AF%81/</link>
+      <pubDate>Mon, 21 Sep 2020 17:10:50 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/%E8%AE%A4%E8%AF%81/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mysql</title>
+      <link>https://zsy619.github.io/tags/mysql/</link>
+      <pubDate>Sat, 12 Sep 2020 10:57:00 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/mysql/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mongo</title>
+      <link>https://zsy619.github.io/tags/mongo/</link>
+      <pubDate>Sat, 12 Sep 2020 10:56:44 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/mongo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Redis</title>
+      <link>https://zsy619.github.io/tags/redis/</link>
+      <pubDate>Sat, 12 Sep 2020 10:56:06 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/redis/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hive</title>
+      <link>https://zsy619.github.io/tags/Hive/</link>
+      <pubDate>Fri, 11 Sep 2020 20:51:12 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/Hive/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>源码</title>
+      <link>https://zsy619.github.io/tags/%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Fri, 11 Sep 2020 14:31:47 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/%E6%BA%90%E7%A0%81/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>泛型</title>
+      <link>https://zsy619.github.io/tags/%E6%B3%9B%E5%9E%8B/</link>
+      <pubDate>Wed, 09 Sep 2020 14:48:24 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/%E6%B3%9B%E5%9E%8B/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux</title>
+      <link>https://zsy619.github.io/tags/linux/</link>
+      <pubDate>Thu, 16 Jul 2020 15:50:00 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux性能优化</title>
+      <link>https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Thu, 16 Jul 2020 15:50:00 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>性能优化</title>
+      <link>https://zsy619.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Wed, 27 May 2020 12:25:08 +0800</pubDate>
+      <guid>https://zsy619.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

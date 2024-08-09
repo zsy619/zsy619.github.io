@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mysql on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/tags/mysql/</link>
+    <description>Recent content in Mysql on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 12 Sep 2020 10:57:00 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker 安装 MySQL</title>
+      <link>https://zsy619.github.io/docker/install_mysql/</link>
+      <pubDate>Sat, 12 Sep 2020 10:57:00 +0800</pubDate>
+      <guid>https://zsy619.github.io/docker/install_mysql/</guid>
+      <description>MySQL 是世界上最受欢迎的开源数据库。凭借其可靠性、易用性和性能，MySQL 已成为 Web 应用程序的数据库优先选择。&#xA;查看可用的 MySQL 版本 访问 MySQL 镜像库地址：https://hub.</description>
+    </item>
+  </channel>
+</rss>

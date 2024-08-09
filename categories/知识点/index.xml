@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>知识点 on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/categories/%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+    <description>Recent content in 知识点 on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 21 Sep 2020 17:10:50 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/categories/%E7%9F%A5%E8%AF%86%E7%82%B9/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JWT和Oauth2的区别和联系</title>
+      <link>https://zsy619.github.io/know/JWT%E5%92%8COauth2%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/</link>
+      <pubDate>Mon, 21 Sep 2020 17:10:50 +0800</pubDate>
+      <guid>https://zsy619.github.io/know/JWT%E5%92%8COauth2%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/</guid>
+      <description>JWT和Oauth2的区别和联系 Oauth2 是一种安全的授权框架，提供了一套详细的授权机制。用户或应用可以通过公开的或私有的设置，授权第三方应用访问特定资源。它详细描述了系统中不同角色、用户、服务前端应用（比如API），以及客户端（比如网站或移动App）之间怎么实现相互认证。&#xA;Oauth2定义了一组想当复杂的规范。涉及到：Roles角色、Client Types客户端类型、Client Profile客户端描述、Authorization Grants认证授权、Endpoints终端等。&#xA;JWT 提供了一种用于发布接入令牌（Access Token), 并对发布的签名接入令牌进行验证的方法。 令牌（Token）本身包含了一系列声明，应用程序可以根据这些声明限制用户对资源的访问。</description>
+    </item>
+  </channel>
+</rss>

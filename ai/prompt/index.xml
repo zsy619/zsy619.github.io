@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>提示词 on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/ai/prompt/</link>
+    <description>Recent content in 提示词 on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 01 Aug 2024 09:56:18 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/ai/prompt/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>伟人记录员Prompt</title>
+      <link>https://zsy619.github.io/ai/prompt/%E4%BC%9F%E4%BA%BA%E8%AE%B0%E5%BD%95%E5%91%98Prompt/</link>
+      <pubDate>Thu, 01 Aug 2024 09:56:18 +0800</pubDate>
+      <guid>https://zsy619.github.io/ai/prompt/%E4%BC%9F%E4%BA%BA%E8%AE%B0%E5%BD%95%E5%91%98Prompt/</guid>
+      <description>- Name： 伟人小跟班 - Role: 时间线分析专家和历史情境重建师 - Background: 用户希望通过时间线框架来深入理解特定人物的关键事件、历史情境以及决策分析，并从中提炼出值得学习和启发的部分。 - Profile: 你是一位时间线分析专家和历史情境重建师，专注于通过时间线的视角来揭示个人成长和决策的历程，并从中提炼出普遍适用的成功原则和启示。 - Skills: 时间线构建、历史情境分析、决策心理学、案例研究、叙事技巧、成功学。 - Goals: 设计一个以时间线为基础的分析框架，帮助用户理解特定人物在不同时间节点上的关键事件、历史情境、决策分析，并提炼出启示。 - Workflow: 1.</description>
+    </item>
+    <item>
+      <title>如何训练一个AI帮你写MV剧本</title>
+      <link>https://zsy619.github.io/ai/prompt/%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAAI%E5%B8%AE%E4%BD%A0%E5%86%99MV%E5%89%A7%E6%9C%AC/</link>
+      <pubDate>Fri, 17 May 2024 16:15:25 +0000</pubDate>
+      <guid>https://zsy619.github.io/ai/prompt/%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AAAI%E5%B8%AE%E4%BD%A0%E5%86%99MV%E5%89%A7%E6%9C%AC/</guid>
+      <description>一、训练AI 想一想，我们要做一个MV，那我需要有一个分镜头脚本、要关于画面（视频、图片）的呈现、歌词的表达等诸多要素。首先我们要训练出一个优秀的MV分镜头剧本专家。&#xA;二、提问模式 1、打开kimi输入如下咒语 一个优秀的歌曲MV分镜头的剧本是什么样子的？&#xA;回复：&#xA;一个优秀的歌曲MV（Music Video）分镜头剧本需要综合考虑音乐、视觉、情感和叙事等多个方面。以下是构成一个优秀MV分镜头剧本的关键要素： 1. **故事线**：MV剧本应该有一个清晰的故事线，无论是直接的叙事还是通过象征和隐喻来传达情感。 2.</description>
+    </item>
+    <item>
+      <title>电影电视剧解说的剧本</title>
+      <link>https://zsy619.github.io/ai/prompt/%E7%94%B5%E5%BD%B1%E7%94%B5%E8%A7%86%E5%89%A7%E8%A7%A3%E8%AF%B4%E7%9A%84%E5%89%A7%E6%9C%AC/</link>
+      <pubDate>Sat, 26 Jun 2021 18:27:58 +0100</pubDate>
+      <guid>https://zsy619.github.io/ai/prompt/%E7%94%B5%E5%BD%B1%E7%94%B5%E8%A7%86%E5%89%A7%E8%A7%A3%E8%AF%B4%E7%9A%84%E5%89%A7%E6%9C%AC/</guid>
+      <description>1.打开一个国产免费的AI大模型KIMI https://kimi.moonshot.cn/&#xA;2.然后在输入栏输入：你知道《XXXXX》吗？&#xA;3.等待回复后，再输入：我现在要做一个抖音短视频，要想做好抖音短视频，做出爆款短视频，需要怎么做呢？&#xA;4.等待回复后，再输入：我现在要做一系列关于《XXXXX》的短视频，你按照上边说的抖音短视频爆款的策略，帮我写每一集的标题和解说台词吗？&#xA;5.等待回复后，再输入：我们就用 &amp;ldquo;XXXXX！&amp;ldquo;来作为标题，现在我要做第一集的解说，你先搜集获得第一集的剧情内容，然后根据上边所说的爆款视频制作策略，写出第一集的解说脚本，总体控制在300字左右。</description>
+    </item>
+  </channel>
+</rss>

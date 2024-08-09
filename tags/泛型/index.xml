@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>泛型 on 迪克猪的博客</title>
+    <link>https://zsy619.github.io/tags/%E6%B3%9B%E5%9E%8B/</link>
+    <description>Recent content in 泛型 on 迪克猪的博客</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 09 Sep 2020 14:48:24 +0800</lastBuildDate>
+    <atom:link href="https://zsy619.github.io/tags/%E6%B3%9B%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go2go命令</title>
+      <link>https://zsy619.github.io/golang/go2go/</link>
+      <pubDate>Wed, 09 Sep 2020 14:48:24 +0800</pubDate>
+      <guid>https://zsy619.github.io/golang/go2go/</guid>
+      <description>链接地址：https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/doc.go&#xA;// go2go is a command for trying out generic Go code.</description>
+    </item>
+    <item>
+      <title>官方golang泛型阅读笔记</title>
+      <link>https://zsy619.github.io/golang/%E5%AE%98%E6%96%B9golang%E6%B3%9B%E5%9E%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 08 Sep 2020 22:17:08 +0800</pubDate>
+      <guid>https://zsy619.github.io/golang/%E5%AE%98%E6%96%B9golang%E6%B3%9B%E5%9E%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
+      <description>常量定义 链接地址： https://github.com/golang/go/blob/dev.go2go/src/cmd/go2go/testdata/go2path/src/constraints/constraints.go2&#xA;// Ordered permits any ordered type: any type that supports // the operations &amp;lt;, &amp;lt;=, &amp;gt;=, &amp;gt;, as well as == and !</description>
+    </item>
+  </channel>
+</rss>
